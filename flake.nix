@@ -10,34 +10,30 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        
-        # Define a Python environment with specific packages
-        # 'lxml' is added here as an example (it's faster than built-in xml)
         pythonEnv = pkgs.python311.withPackages (ps: with ps; [
-          lxml 
-          # You can add others here later, e.g., numpy, pandas, etc.
+          lxml
         ]);
       in
       {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
-            # Core Tooling
             ocamlPackages.sail
             z3
-            
-            # The Custom Python Environment
+
             pythonEnv
             
-            # Helper Tools
+            # C & Make Tooling
             gnumake
             zlib
             gmp
-            which
             
             # OCaml tooling
             ocaml
             dune_3
             ocamlPackages.ocaml-lsp
+
+            # QoL
+            which
           ];
 
           shellHook = ''
