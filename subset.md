@@ -1,5 +1,11 @@
 # RDNA3 Subset
 
+## Base Implementation
+
+**VGPRs:** 
+**SGPRs:** 
+
+
 ## Litmus Test-Based Subset
 
 ### add_one.asm

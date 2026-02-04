@@ -1,1 +1,8 @@
+# Symlink
 sail_lib
+
+# C artifacts
+c_build/*
+
+# Z3 artifacts
+z3_problems

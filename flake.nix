@@ -30,6 +30,8 @@
             
             # Helper Tools
             gnumake
+            zlib
+            gmp
             which
             
             # OCaml tooling
@@ -39,7 +41,7 @@
           ];
 
           shellHook = ''
-            echo "⛵ Sail Environment Loaded"
+            echo "Sail Environment Loaded"
             echo "Sail version: $(sail --version)"
             echo "Z3 version:   $(z3 --version)"
             echo "Python:       $(python --version)"
