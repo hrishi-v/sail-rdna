@@ -1,10 +1,10 @@
 # RDNA3 Subset
 
-## Base Implementation
+## Summary
 
-**VGPRs:** 32-bit, 32-wide, 32 registers []
-**SGPRs:** 32-bit,
-**LDS (Local Data Store):** 32-bank scratch memory allocated to waves. (128kB)
+- **VGPRs:** 32-bit, 32-wide, 32 registers
+- **SGPRs:** 32-bit
+- **LDS (Local Data Store):** 32-bank scratch memory allocated to waves. (128kB)
 
 SIMD Unit = Vector ALU (processes instructions for a single wave(front))
 
@@ -17,10 +17,42 @@ memory address and supplies or receives unique data. These instructions are also
 
 Initally we don't support 64-wide vector instructions, only 32-wide ones.
 
+### Data Types
+
+- DWORD = 32-bit data
+- SHORT = 16-bit data
+- BYTE = 8-bit data
+
+### Instruction Suffixes
+
+![alt text](media/inst_suffixes.png)
+![alt text](media/inst_suffixes-2.png)
+
+
 ## Wave State
 
-PC = Program Counter (48 bits), 2 LSBs are forced to 0.
-V0-V255 (VGPRs)
+- PC (48 bits), 2 LSBs are forced to 0.
+- V0-V255 (VGPRs) (32 bits) - 32 bits per work-item, with 32 work-items per wave.
+- S0-S105 (SGPRs) (32 bits) - All waves are allocated 106 SGPRs and 16 TTMPs (Trap Temporary SGPRs).
+- EXEC Mask (64 bits) - one bit per thread, applied to vector instructions.
+- VCC (Vector Condition Code, 64 bits) one per thread, to hold the result of a vector compare operation or integer carry out.
+- SCC (Scalar Condition Code, 1 bit) - Result from a scalar ALU comparison inst.
+
+SCC set when:
+  - Compare Operations: 1 = true
+  - Arithmetic Operations: 1 = carry out
+  - Bit/Logical Operation: 1 = result was not zero
+  - Move: No effect on SCC
+
+## SGPRs
+
+![alt text](media/scalar_regs.png)
+
+## VGPRs
+
+![alt text](media/vector_regs.png)
+
+
 
 ## Litmus Test-Based Subset
 

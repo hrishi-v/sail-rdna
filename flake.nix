@@ -9,7 +9,20 @@
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = import nixpkgs { inherit system; };
+        # 1. Define an overlay to patch Z3
+        overlayZ3 = final: prev: {
+          z3 = prev.z3.overrideAttrs (old: {
+            # Disable tests to fix "Trace/BPT trap: 5" on M1 Macs
+            doCheck = false;
+          });
+        };
+
+        # 2. Import pkgs WITH the overlay
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ overlayZ3 ];
+        };
+
         pythonEnv = pkgs.python311.withPackages (ps: with ps; [
           lxml
         ]);
@@ -18,7 +31,7 @@
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
             ocamlPackages.sail
-            z3
+            z3  # This will now use the patched version
 
             pythonEnv
             
