@@ -58,7 +58,7 @@ def generate_files(ast_lines):
     # Sort for deterministic output
     ast_lines.sort()
     
-    output_path = "generated/rdna3_ast.sail"
+    output_path = "generated/rdna3_ast_full.sail"
     try:
         with open(output_path, "w") as f:
             f.write("union ast = {\n")

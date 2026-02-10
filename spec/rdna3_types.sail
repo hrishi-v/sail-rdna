@@ -1,4 +1,3 @@
-default Order dec
 $include <prelude.sail>
 
 type SHORT_LENGTH : Int = 16
