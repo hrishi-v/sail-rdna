@@ -6,6 +6,9 @@ $include "rdna3_types.sail"
 $include "rdna3_regs.sail"
 $include "rdna3_imem.sail"
 $include "rdna3_ast.sail"
+$include "decode/rdna3_s_decode.sail"
+$include "decode/rdna3_decode.sail"
+
 
 val main : unit -> unit
 function main() = {

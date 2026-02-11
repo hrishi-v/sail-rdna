@@ -9,10 +9,6 @@ type SHORT = bits(SHORT_LENGTH)
 type DWORD = bits(DWORD_LENGTH)
 type QWORD = bits(QWORD_LENGTH)
  
-// Register Addressing
 type reg_id = bits(8)
-
-union operand = {
-    Op_Reg : reg_id,
-    Op_Imm32 : DWORD
-}
+type scalar_dst = bits(7)
+type scalar_src = bits(8)
