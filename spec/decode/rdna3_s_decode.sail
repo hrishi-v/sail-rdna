@@ -10,3 +10,14 @@ function sop2_decode(instr) = {
         _ => Inst_INVALID()
     }
 }
+
+val sop1_decode : bits(32) -> ast
+function sop1_decode(instr) = {
+    let sdst = instr[22..16];
+    let opc = instr[15..8];
+    let ssrc0 = instr[7..0];
+    match opc {
+        0b00000000 => Inst_S_MOV_B32(sdst, ssrc0),
+        _ => Inst_INVALID()
+    }
+}

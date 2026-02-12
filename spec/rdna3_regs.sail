@@ -3,7 +3,7 @@ register SGPR : vector(108, dec, DWORD)
 register SCC : bits(1)
 
 // Read SGPR registers
-val rSGPR : reg_id -> DWORD
+val rSGPR : scalar_src -> DWORD
 function rSGPR(id) = {
     let idx = unsigned(id); 
     if (idx <= 105) then {
@@ -15,7 +15,7 @@ function rSGPR(id) = {
 }
 
 // Write SGPR registers
-val wSGPR : (reg_id, DWORD) -> unit
+val wSGPR : (scalar_dst, DWORD) -> unit
   function wSGPR(id, value) = {
     let idx = unsigned(id);
     if idx <= 107 then {
@@ -34,4 +34,14 @@ val wVCC : QWORD -> unit
 function wVCC(value) = {
   SGPR[107] = value[63..32];
   SGPR[106] = value[31..0];
+}
+
+val rSCC : unit -> bit
+function rSCC() = {
+  SCC[0]
+}
+
+val wSCC : bit -> unit
+function wSCC(value) = {
+  SCC[0] = value
 }

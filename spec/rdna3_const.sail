@@ -1,0 +1,1 @@
+let MAX_UINT32 : int = 4294967295
