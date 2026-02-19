@@ -3,6 +3,8 @@ union ast = {
     Inst_S_ADD_I32 : (scalar_dst, scalar_src, scalar_src),
     Inst_S_SUB_U32 : (scalar_dst, scalar_src, scalar_src),
     Inst_S_ADD_U32 : (scalar_dst, scalar_src, scalar_src),
+    Inst_S_CSELECT_B32 : (scalar_dst, scalar_src, scalar_src),
+    Inst_S_LSHR_B64 : (scalar_dst, scalar_src, scalar_src),
 
     // SOP1 Instructions 
     Inst_S_MOV_B32 : (scalar_dst, scalar_src),

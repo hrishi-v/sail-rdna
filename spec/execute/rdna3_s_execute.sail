@@ -25,6 +25,31 @@ function s_sub_u32(sdst, ssrc0, ssrc1) = {
     wSCC(carry);
 }
 
+val s_lshr_b64 : (scalar_dst, scalar_src, scalar_src) -> unit
+function s_lshr_b64(sdst, ssrc0, ssrc1) = {
+    let val0 : QWORD = read_scalar_source64(ssrc0);
+    let val1 : DWORD = read_scalar_source(ssrc1);
+    
+    let shift_amt : int = unsigned(val1[5..0]);
+    let val0_int : int = unsigned(val0);
+    
+    let shifted_int : int = shr_int(val0_int, shift_amt);
+    let result : QWORD = get_slice_int(64, shifted_int, 0);
+    
+    let scc_val : bit = if result != 0x0000000000000000 then bitone else bitzero;
+    
+    write_scalar_dst64(sdst, result);
+    wSCC(scc_val);
+}
+
+
+
+val s_cselect_b32 : (scalar_dst, scalar_src, scalar_src) -> unit
+function s_cselect_b32(sdst, ssrc0, ssrc1) = {
+    let value = if rSCC() == bitone then read_scalar_source(ssrc0) else read_scalar_source(ssrc1);
+    wSGPR(sdst, value)
+}
+
 // SOP1 Instructions
 
 val s_mov_b32 : (scalar_dst, scalar_src) -> unit

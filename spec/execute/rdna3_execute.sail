@@ -4,6 +4,8 @@ function execute(inst) = {
         // SOP2
         Inst_S_ADD_U32(d, s0, s1) => s_add_u32(d, s0, s1),
         Inst_S_SUB_U32(d, s0, s1) => s_sub_u32(d, s0, s1),
+        Inst_S_CSELECT_B32(d, s0, s1) => s_cselect_b32(d, s0, s1),
+        Inst_S_LSHR_B64(d, s0, s1) => s_lshr_b64(d, s0, s1),
 
         // SOP1
         Inst_S_MOV_B32(d, s0) => s_mov_b32(d, s0),
