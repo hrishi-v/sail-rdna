@@ -32,3 +32,27 @@ function s_mov_b32(sdst, ssrc0) = {
     wSGPR(sdst, read_scalar_source(ssrc0))
     // doesn't affect SCC
 }
+
+val s_mov_b64 : (scalar_dst, scalar_src) -> unit
+function s_mov_b64(sdst, ssrc0) = {
+    write_scalar_dst64(sdst, read_scalar_source64(ssrc0))
+}
+
+// SOPC Instructions
+
+val s_cmp_eq_i32 : (scalar_src, scalar_src) -> unit
+function s_cmp_eq_i32(ssrc0, ssrc1) = {
+    let val0 = read_scalar_source(ssrc0);
+    let val1 = read_scalar_source(ssrc1);
+
+    if val0 == val1 then wSCC(bitone) else wSCC(bitzero)
+}
+
+
+val s_cmp_lg_i32 : (scalar_src, scalar_src) -> unit
+function s_cmp_lg_i32(ssrc0, ssrc1) = {
+    let val0 = read_scalar_source(ssrc0);
+    let val1 = read_scalar_source(ssrc1);
+
+    if val0 != val1 then wSCC(bitone) else wSCC(bitzero)
+}

@@ -7,6 +7,13 @@ function execute(inst) = {
 
         // SOP1
         Inst_S_MOV_B32(d, s0) => s_mov_b32(d, s0),
+        Inst_S_MOV_B64(d, s0) => s_mov_b64(d, s0),
+       
+        // SOPC
+        Inst_S_CMP_EQ_I32(s0, s1) => s_cmp_eq_i32(s0, s1),
+        Inst_S_CMP_LG_I32(s0, s1) => s_cmp_lg_i32(s0, s1),
+
+        // General
         Inst_INVALID() => print("Error: Executing invalid instruction"),
         _ => print("Error: Unimplemented instruction execution")
     }

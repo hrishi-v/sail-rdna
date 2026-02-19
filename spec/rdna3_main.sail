@@ -23,6 +23,6 @@ function main() = {
     // SELECT YOUR TEST HERE
     // ------------------------------------------------
     load_test_add();
-    // load_test_sub();
+    load_test_sub();
     // ------------------------------------------------
 }

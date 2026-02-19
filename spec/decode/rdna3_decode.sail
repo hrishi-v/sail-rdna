@@ -5,7 +5,7 @@ function decode(instr) = {
             sop1_decode(instr)
         } 
         else if (instr[29..23] == 0b1111110) then {
-            Inst_INVALID() // SOPC not implemented yet
+            sopc_decode(instr) // SOPC not implemented yet
         } 
         else if (instr[29..23] == 0b1111111) then {
             Inst_INVALID() // SOPP not implemented yet

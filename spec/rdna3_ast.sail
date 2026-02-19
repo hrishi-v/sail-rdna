@@ -1,13 +1,16 @@
 union ast = {
-    // Signed Scalar ALU Instructions
+    // SOP2 Instructions
     Inst_S_ADD_I32 : (scalar_dst, scalar_src, scalar_src),
-
-    // Binary Scalar ALU Instructions 
-    Inst_S_MOV_B32 : (scalar_dst, scalar_src),
-    
-    // Unsigned Scalar ALU Instructions
     Inst_S_SUB_U32 : (scalar_dst, scalar_src, scalar_src),
     Inst_S_ADD_U32 : (scalar_dst, scalar_src, scalar_src),
+
+    // SOP1 Instructions 
+    Inst_S_MOV_B32 : (scalar_dst, scalar_src),
+    Inst_S_MOV_B64 : (scalar_dst, scalar_src),
+    
+    // SOPC Instructions
+    Inst_S_CMP_EQ_I32 : (scalar_src, scalar_src),
+    Inst_S_CMP_LG_I32 : (scalar_src, scalar_src),
 
     // Vector ALU Instructions
     // Inst_V_MOV_B32 : (, operand),

@@ -18,6 +18,19 @@ function sop1_decode(instr) = {
     let ssrc0 = instr[7..0];
     match opc {
         0b00000000 => Inst_S_MOV_B32(sdst, ssrc0),
+        0b00000001 => Inst_S_MOV_B64(sdst, ssrc0),
+        _ => Inst_INVALID()
+    }
+}
+
+val sopc_decode : bits(32) -> ast
+function sopc_decode(instr) = {
+    let opc = instr[22..16];
+    let ssrc1 = instr[15..8];
+    let ssrc0 = instr[7..0];
+    match opc {
+        0b0000000 => Inst_S_CMP_EQ_I32(ssrc0, ssrc1),
+        0b0000001 => Inst_S_CMP_LG_I32(ssrc0, ssrc1),
         _ => Inst_INVALID()
     }
 }
