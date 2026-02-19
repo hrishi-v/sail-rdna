@@ -22,7 +22,7 @@ function load_test_add() = {
     PC = 0x0000000000000100;
     step();
     
-    let res = rSGPR(0b00000000);
+    let res = read_scalar_source(0b00000000);
     
     if (res == 0x0000001E) then {
         print_bits("[PASS] Result: ", res);
@@ -47,7 +47,7 @@ function load_test_sub() = {
     PC = 0x0000000000000100;
     step();
     
-    let res = rSGPR(0b00000011);
+    let res = read_scalar_source(0b00000011);
     
     if (res == 0x0000000A) then {
         print_bits("[PASS] Result: ", res);

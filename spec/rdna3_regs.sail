@@ -6,7 +6,7 @@ register SCC : bits(1)
 val rSGPR : scalar_src -> DWORD
 function rSGPR(id) = {
     let idx = unsigned(id); 
-    if (idx <= 105) then {
+    if (idx <= 107) then {
         SGPR[idx]
     }
     else {
@@ -23,6 +23,24 @@ val wSGPR : (scalar_dst, DWORD) -> unit
     }
   }
 
+val read_scalar_source : scalar_src -> DWORD
+function read_scalar_source(id) = {
+  let idx = unsigned(id);
+
+  // SGPR Registers
+  if idx <= 107 then {
+    rSGPR(id);
+  // Integer Literal Constants (128-192)
+  } else if idx >= 128 & idx <= 192 then {
+    let val_int = idx - 128;
+    get_slice_int(32, val_int, 0);
+  } else {
+    0x00000000
+  }
+}
+
+// Special Registers
+
 // Read VCC register, specific SGPRs 106 and 107, return QWORD
 val rVCC : unit -> QWORD
 function rVCC() = {
@@ -35,6 +53,7 @@ function wVCC(value) = {
   SGPR[107] = value[63..32];
   SGPR[106] = value[31..0];
 }
+
 
 val rSCC : unit -> bit
 function rSCC() = {
