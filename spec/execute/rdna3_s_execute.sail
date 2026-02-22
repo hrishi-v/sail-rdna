@@ -87,4 +87,5 @@ function s_cmp_lg_i32(ssrc0, ssrc1) = {
 val s_endpgm : unit -> unit
 function s_endpgm() = {
     print(">>> S_ENDPGM REACHED: Halting Wavefront <<<\n");
+    set_halt_flag();
 }

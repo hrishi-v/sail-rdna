@@ -1,6 +1,7 @@
 register PC : QWORD // 48-bits used, 2 LSBs 0
 register SGPR : vector(108, dec, DWORD)
 register SCC : bits(1)
+register halt_flag : bits(1)
 
 // Read SGPR registers
 val rSGPR : scalar_src -> DWORD
@@ -70,8 +71,6 @@ function write_scalar_dst64(id, value) = {
   wSGPR(id_plus_1, upper32);
 }
 
-
-
 // Special Registers
 
 // Read VCC register, specific SGPRs 106 and 107, return QWORD
@@ -95,4 +94,19 @@ function rSCC() = {
 val wSCC : bit -> unit
 function wSCC(value) = {
   SCC[0] = value
+}
+
+val set_pc : QWORD -> unit
+function set_pc(start_addr) = {
+    PC = start_addr
+}
+
+val get_halt_flag : unit -> bool
+function get_halt_flag() = {
+  halt_flag == 0b1
+}
+
+val set_halt_flag : unit -> unit
+function set_halt_flag() = {
+    halt_flag = 0b1
 }

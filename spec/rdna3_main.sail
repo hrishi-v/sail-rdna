@@ -15,8 +15,16 @@ $include "execute/rdna3_execute.sail"
 
 $include "rdna3_tests.sail"
 
-val main : unit -> unit
-function main() = {
+val sail_test_main : unit -> unit
+function sail_test_main() = {
+    // --- C++ HOOK EXPORTS ---
+    // These harmless calls force Sail to compile these functions into C
+    // so our C++ motherboard can link to them without DCE destroying them.
+    set_pc(PC); 
+    write_mem_8(0x0000000000000000, 0x00);
+    let _dummy = get_halt_flag();
+    // ------------------------
+
     print("RDNA3 Emulator Starting...\n");
 
     // ------------------------------------------------
@@ -28,4 +36,9 @@ function main() = {
     load_test_shift64();
     load_end_pgm();
     // ------------------------------------------------
+}
+
+val main : unit -> unit
+function main() = {
+    sail_test_main()
 }

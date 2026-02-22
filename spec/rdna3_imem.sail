@@ -24,3 +24,13 @@ function write_mem_32(addr, data) = {
         MEM[a+3] = data[31..24];
     }
 }
+
+val write_mem_8 : (QWORD, bits(8)) -> unit
+function write_mem_8(addr, data) = {
+    let a_bits = addr[15..0];
+    let a = unsigned(a_bits);
+
+    if (a < 65536) then {
+        MEM[a] = data
+    }
+}
