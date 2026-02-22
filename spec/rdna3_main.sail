@@ -24,5 +24,8 @@ function main() = {
     // ------------------------------------------------
     load_test_add();
     load_test_sub();
+    load_test_cmp_select();
+    load_test_shift64();
+    load_end_pgm();
     // ------------------------------------------------
 }

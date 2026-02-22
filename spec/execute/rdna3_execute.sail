@@ -15,6 +15,9 @@ function execute(inst) = {
         Inst_S_CMP_EQ_I32(s0, s1) => s_cmp_eq_i32(s0, s1),
         Inst_S_CMP_LG_I32(s0, s1) => s_cmp_lg_i32(s0, s1),
 
+        // SOPP
+        Inst_S_ENDPGM() => s_endpgm(),
+
         // General
         Inst_INVALID() => print("Error: Executing invalid instruction"),
         _ => print("Error: Unimplemented instruction execution")

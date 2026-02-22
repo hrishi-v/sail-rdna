@@ -81,3 +81,10 @@ function s_cmp_lg_i32(ssrc0, ssrc1) = {
 
     if val0 != val1 then wSCC(bitone) else wSCC(bitzero)
 }
+
+// SOPP Instructions
+
+val s_endpgm : unit -> unit
+function s_endpgm() = {
+    print(">>> S_ENDPGM REACHED: Halting Wavefront <<<\n");
+}

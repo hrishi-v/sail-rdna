@@ -14,6 +14,8 @@ union ast = {
     Inst_S_CMP_EQ_I32 : (scalar_src, scalar_src),
     Inst_S_CMP_LG_I32 : (scalar_src, scalar_src),
 
+    // SOPP Instructions
+    Inst_S_ENDPGM : unit,
     // Vector ALU Instructions
     // Inst_V_MOV_B32 : (, operand),
     // Inst_V_ADD_U32 : (, operand, operand),

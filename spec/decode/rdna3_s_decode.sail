@@ -39,3 +39,14 @@ function sopc_decode(instr) = {
         _ => Inst_INVALID()
     }
 }
+
+val sopp_decode : bits(32) -> ast
+function sopp_decode(instr) = {
+    let opc = instr[22..16];
+    let simm16 = instr[15..0];
+    
+    match opc {
+        0b0110000 => Inst_S_ENDPGM(), 
+        _ => Inst_INVALID()
+    }
+}
