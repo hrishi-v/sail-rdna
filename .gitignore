@@ -12,3 +12,4 @@ generated/*
 
 # Environment files
 .direnv
+.nix-bin/

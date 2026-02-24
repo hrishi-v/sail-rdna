@@ -29,33 +29,48 @@
       in
       {
         devShells.default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            ocamlPackages.sail
-            z3  # This will now use the patched version
-
-            pythonEnv
-            
-            # C & Make Tooling
+          # Tools that run on the host (the compiler, make, etc.)
+          nativeBuildInputs = with pkgs; [
+            stdenv.cc
             gnumake
+            ocamlPackages.sail
+            git
+            which
+            llvmPackages.llvm
+            llvmPackages.lld
+          ];
+
+          # Libraries and language runtimes
+          buildInputs = with pkgs; [
+            z3
+            pythonEnv
             zlib
             gmp
-            
-            # OCaml tooling
             ocaml
             dune_3
             ocamlPackages.ocaml-lsp
-
-            # QoL
-            which
           ];
 
           shellHook = ''
-            echo "Sail Environment Loaded"
-            echo "Sail version: $(sail --version)"
+            # --- MacOS GCC Workaround ---
+            # Create a local bin and symlink the Nix compiler to 'gcc' 
+            # to bypass the broken Apple shim in /usr/bin/gcc
+            mkdir -p .nix-bin
+            ln -sf $(which cc) .nix-bin/gcc
+            ln -sf $(which c++) .nix-bin/g++
+            export PATH="$PWD/.nix-bin:$PATH"
+
+            # Export include and library paths so the compiler finds GMP and Zlib
+            export NIX_CFLAGS_COMPILE="-I${pkgs.gmp.dev}/include -I${pkgs.zlib.dev}/include $NIX_CFLAGS_COMPILE"
+            export NIX_LDFLAGS="-L${pkgs.gmp.out}/lib -L${pkgs.zlib.out}/lib $NIX_LDFLAGS"
+
+            # --- Status Output ---
+            echo "Sail Environment Loaded (Imperial EIE RDNA3 Config)"
+            echo "Sail version: $(sail --version | head -n 1)"
             echo "Z3 version:   $(z3 --version)"
-            echo "Python:       $(python --version)"
-            # Create a local symlink to the standard library for easy reference
-            # -s = symlink, -n = treat existing link as file, -f = force overwrite
+            echo "Compiler:     $(gcc --version | head -n 1)"
+            
+            # Create local symlink to Sail StdLib
             ln -snf "$(sail --dir)/lib" ./sail_lib
             echo "Linked Sail StdLib to ./sail_lib"
           '';

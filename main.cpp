@@ -10,19 +10,21 @@ extern "C" {
     #include "out.h" 
     
     void model_init(void);
-    unit zsail_test_main(unit);
+    unit zsail_test_main(unit); // Wraps internal functions
     unit zwrite_mem_8(uint64_t addr, uint64_t data);
     unit zset_pc(uint64_t start_addr);
     bool zget_halt_flag(unit);
     unit zstep(unit);
 }
 
+// Usage: Pass in the path to a binary file (.bin) to load and execute on the SailGPU simulator. If no file is provided, it will run the internal test suite.
+
 int main(int argc, char** argv) {
-    model_init(); 
+    model_init(); // initialize the model
 
     if (argc < 2) {
         std::cout << "[Emulator] No binary provided. Booting internal test suite...\n";
-        zsail_test_main(UNIT);
+        zsail_test_main(UNIT); // default, in Sail test suite
         return 0;
     }
 

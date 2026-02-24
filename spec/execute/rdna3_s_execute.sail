@@ -86,6 +86,8 @@ function s_cmp_lg_i32(ssrc0, ssrc1) = {
 
 val s_endpgm : unit -> unit
 function s_endpgm() = {
+  // TODO: Hardware implicitly executes S_WAITCNT 0 and S_WAITCNT_VSCNT 0 here.
+  // Currently omitted.
     print(">>> S_ENDPGM REACHED: Halting Wavefront <<<\n");
     set_halt_flag();
 }
