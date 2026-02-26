@@ -4,12 +4,20 @@ $include <prelude.sail>
 
 $include "rdna3_types.sail"
 $include "rdna3_const.sail"
-$include "rdna3_regs.sail"
+
+$include "rdna3_scalar_regs.sail"
+$include "rdna3_scalar_reg_ops.sail"
+
+$include "rdna3_vector_regs.sail"
+$include "rdna3_vector_reg_ops.sail"
+
+
 $include "rdna3_imem.sail"
 $include "rdna3_ast.sail"
 
 $include "decode/rdna3_s_decode.sail"
 $include "decode/rdna3_decode.sail"
+
 $include "execute/rdna3_s_execute.sail"
 $include "execute/rdna3_execute.sail"
 

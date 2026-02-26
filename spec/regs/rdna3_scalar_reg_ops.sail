@@ -1,9 +1,3 @@
-register PC : QWORD // 48-bits used, 2 LSBs 0
-register SGPR : vector(108, dec, DWORD)
-register SCC : bits(1)
-
-register halt_flag : bits(1)
-
 // Read SGPR registers
 val rSGPR : scalar_src -> DWORD
 function rSGPR(id) = {
@@ -41,6 +35,20 @@ function read_scalar_source(id) = {
   }
 }
 
+val write_scalar_dst64 : (scalar_dst, QWORD) -> unit
+function write_scalar_dst64(id, value) = {
+  let idx = unsigned(id);
+  
+  let lower32 = value[31..0];
+  let upper32 = value[63..32];
+
+  let id_plus_1 : scalar_dst = get_slice_int(7, idx + 1, 0);
+
+  wSGPR(id, lower32);
+  wSGPR(id_plus_1, upper32);
+}
+
+
 val read_scalar_source64 : scalar_src -> QWORD
 function read_scalar_source64(id) = {
   let idx = unsigned(id);
@@ -57,34 +65,6 @@ function read_scalar_source64(id) = {
   else {
     0x0000000000000000 
   }
-}
-
-val write_scalar_dst64 : (scalar_dst, QWORD) -> unit
-function write_scalar_dst64(id, value) = {
-  let idx = unsigned(id);
-  
-  let lower32 = value[31..0];
-  let upper32 = value[63..32];
-
-  let id_plus_1 : scalar_dst = get_slice_int(7, idx + 1, 0);
-
-  wSGPR(id, lower32);
-  wSGPR(id_plus_1, upper32);
-}
-
-// Special Registers
-
-// Read VCC register, specific SGPRs 106 and 107, return QWORD
-val rVCC : unit -> QWORD
-function rVCC() = {
-  SGPR[107] @ SGPR[106]
-}
-
-// Write VCC register, specific SGPRs 106 and 107
-val wVCC : QWORD -> unit
-function wVCC(value) = {
-  SGPR[107] = value[63..32];
-  SGPR[106] = value[31..0];
 }
 
 val rSCC : unit -> bit

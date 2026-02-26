@@ -3,6 +3,7 @@ sail_lib
 
 # C artifacts
 c_build/*
+rdna3_emu
 
 # Z3 artifacts
 z3_problems
@@ -13,3 +14,7 @@ generated/*
 # Environment files
 .direnv
 .nix-bin/
+
+# ASM files
+tests/bin
+tests/elf

@@ -4,6 +4,18 @@ C_BUILD_FILES = c_build/out
 SRCS = $(wildcard spec/*.sail) $(wildcard spec/*/*.sail)
 EMU = rdna3_emu
 
+ASM_DIR = tests/asm
+ELF_DIR = tests/elf
+BIN_DIR = tests/bin
+
+ASM_SRCS = $(wildcard $(ASM_DIR)/*.asm)
+ASM_ELFS = $(patsubst $(ASM_DIR)/%.asm, $(ELF_DIR)/%.elf, $(ASM_SRCS))
+RAW_BINS = $(patsubst $(ASM_DIR)/%.asm, $(BIN_DIR)/%.bin, $(ASM_SRCS))
+
+OBJCOPY = llvm-objcopy
+AS = clang
+ASFLAGS = -target amdgcn-amd-amdhsa -mcpu=gfx1100 -c
+
 type:
 	sail spec/rdna3_main.sail
 
@@ -40,4 +52,15 @@ test: emu
 	fi
 
 clean:
-	rm -rf c_build test_output.log $(EMU) *.o
+	rm -rf c_build test_output.log $(EMU) *.o $(BIN_DIR) $(ELF_DIR)
+
+assemble: $(ASM_ELFS) $(RAW_BINS)
+
+$(ELF_DIR)/%.elf: $(ASM_DIR)/%.asm | $(ELF_DIR)
+	$(AS) $(ASFLAGS) $< -o $@
+
+$(BIN_DIR)/%.bin: $(ELF_DIR)/%.elf | $(BIN_DIR)
+	$(OBJCOPY) -O binary -j .text $< $@
+
+$(ELF_DIR) $(BIN_DIR):
+	mkdir -p $@

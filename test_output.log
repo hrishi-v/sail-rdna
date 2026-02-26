@@ -1,0 +1,21 @@
+[Emulator] No binary provided. Booting internal test suite...
+RDNA3 Emulator Starting...
+
+s_add_u32 s0, s1, s2 test!
+[PASS] Result: 0x0000001E
+
+
+s_sub_u32 s3, s4, s5 test!
+[PASS] Result: 0x0000000A
+
+
+s_cmp_eq_i32 + s_cselect_b32 test!
+[PASS] CSELECT picked True (99): 0x00000063
+
+
+s_mov_b64 + s_lshr_b64 test!
+[PASS] LSHR result correct: 0x00000010
+
+
+end_pgm test!
+>>> S_ENDPGM REACHED: Halting Wavefront <<<

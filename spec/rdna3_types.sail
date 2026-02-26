@@ -9,6 +9,8 @@ type SHORT = bits(SHORT_LENGTH)
 type DWORD = bits(DWORD_LENGTH)
 type QWORD = bits(QWORD_LENGTH)
  
-type reg_id = bits(8)
 type scalar_dst = bits(7)
 type scalar_src = bits(8)
+
+type vector_dst = bits(8)
+type vector_lane_id = bits(5)

@@ -13,13 +13,16 @@ union ast = {
     // SOPC Instructions
     Inst_S_CMP_EQ_I32 : (scalar_src, scalar_src),
     Inst_S_CMP_LG_I32 : (scalar_src, scalar_src),
-
     // SOPP Instructions
     Inst_S_ENDPGM : unit,
+
+    // VOP2 Instructions
+    Inst_V_ADD_NC_U32_E32 : (),
+
     // Vector ALU Instructions
     // Inst_V_MOV_B32 : (, operand),
     // Inst_V_ADD_U32 : (, operand, operand),
-    // Inst_V_ADD_U32 : (),
+    // Inst_V_ADD_U32 : (),    
 
     Inst_INVALID : unit // Not specified
 }
