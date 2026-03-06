@@ -18,6 +18,24 @@ function execute(inst) = {
         // SOPP
         Inst_S_ENDPGM() => s_endpgm(),
 
+        // VOP2
+        Inst_V_ADD_NC_U32(vd, vs, s) => v_add_nc_u32(vd, vs, s),
+
+        // VOP1
+        Inst_V_MOV_B32(vd, s) => v_mov_b32(vd, s),
+
+        // FLAT
+        Inst_FLAT_LOAD_B32(offset, dlc, glc, 
+                          slc, seg, op, addr, 
+                          data, saddr, sve, vdst) => flat_load_b32(offset, dlc, glc, 
+                          slc, seg, op, addr, 
+                          data, saddr, sve, vdst),
+        Inst_FLAT_STORE_B32(offset, dlc, glc, 
+                          slc, seg, op, addr, 
+                          data, saddr, sve, vdst) => flat_store_b32(offset, dlc, glc, 
+                          slc, seg, op, addr, 
+                          data, saddr, sve, vdst),
+
         // General
         Inst_INVALID() => print("Error: Executing invalid instruction"),
         _ => print("Error: Unimplemented instruction execution")

@@ -37,3 +37,20 @@ function wVGPR(reg_id, lane_id, value) = {
     VGPR[reg_idx][lane_idx] = value
   }
 }
+
+// Route the VGPR Instructions
+val read_vector_source : (bits(9), vector_lane_id) -> DWORD
+function read_vector_source(src, lane_id) = {
+  let idx = unsigned(src);
+  
+  if (idx < 256) then {
+    read_common_source(idx)
+  } 
+  else if (idx >= 256 & idx <= 511) then {
+    let v_reg = get_slice_int(8, idx - 256, 0); 
+    rVGPR(v_reg, lane_id)
+  } 
+  else {
+    0x00000000
+  }
+}

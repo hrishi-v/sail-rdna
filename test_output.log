@@ -19,3 +19,15 @@ s_mov_b64 + s_lshr_b64 test!
 
 end_pgm test!
 >>> S_ENDPGM REACHED: Halting Wavefront <<<
+
+flat_load_b32 v2, v[0:1] test!
+
+[PASS] FLAT Load successful!
+Data: 0xDEADBEEF
+VMCNT correctly incremented to 1 for Global Memory.
+
+flat_store_b32 v[0:1], v2 test!
+Error: Executing invalid instruction
+[FAIL] FLAT Store failed.Expected Memory 0xCAFEBABE, Got: 0x00000000
+Expected LGKMCNT 1, Got: 0b000000
+

@@ -17,12 +17,18 @@ union ast = {
     Inst_S_ENDPGM : unit,
 
     // VOP2 Instructions
-    Inst_V_ADD_NC_U32_E32 : (),
+    Inst_V_ADD_NC_U32 : (vector_dst, vector_src, vop_src),
 
-    // Vector ALU Instructions
-    // Inst_V_MOV_B32 : (, operand),
-    // Inst_V_ADD_U32 : (, operand, operand),
-    // Inst_V_ADD_U32 : (),    
+    // VOP1 Instructions
+    Inst_V_MOV_B32 : (vector_dst, vop_src),
+
+    // FLAT Instructions
+    Inst_FLAT_LOAD_B32 : (flat_offset, flat_dlc_bit, flat_glc_bit, 
+                          flat_slc_bit, flat_seg, flat_op, flat_addr, 
+                          flat_data, flat_saddr, flat_sve_bit, flat_vdst),
+    Inst_FLAT_STORE_B32 : (flat_offset, flat_dlc_bit, flat_glc_bit, 
+                          flat_slc_bit, flat_seg, flat_op, flat_addr, 
+                          flat_data, flat_saddr, flat_sve_bit, flat_vdst),
 
     Inst_INVALID : unit // Not specified
 }

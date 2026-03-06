@@ -18,3 +18,6 @@ generated/*
 # ASM files
 tests/bin
 tests/elf
+
+# Generated logs
+outputs/

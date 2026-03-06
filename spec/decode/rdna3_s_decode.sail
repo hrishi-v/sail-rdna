@@ -1,4 +1,4 @@
-val sop2_decode : bits(32) -> ast
+val sop2_decode : DWORD -> ast
 function sop2_decode(instr) = {
     let opc = instr[29..23];
     let sdst = instr[22..16];
@@ -16,7 +16,7 @@ function sop2_decode(instr) = {
     }
 }
 
-val sop1_decode : bits(32) -> ast
+val sop1_decode : DWORD -> ast
 function sop1_decode(instr) = {
     let sdst = instr[22..16];
     let opc = instr[15..8];
@@ -28,7 +28,7 @@ function sop1_decode(instr) = {
     }
 }
 
-val sopc_decode : bits(32) -> ast
+val sopc_decode : DWORD -> ast
 function sopc_decode(instr) = {
     let opc = instr[22..16];
     let ssrc1 = instr[15..8];
@@ -40,7 +40,7 @@ function sopc_decode(instr) = {
     }
 }
 
-val sopp_decode : bits(32) -> ast
+val sopp_decode : DWORD -> ast
 function sopp_decode(instr) = {
     let opc = instr[22..16];
     let simm16 = instr[15..0];

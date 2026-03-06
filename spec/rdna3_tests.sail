@@ -1,14 +1,17 @@
 val step : unit -> unit
 function step() = {
-    let inst_bits : bits(32) = fetch_inst(PC);
+    let current_pc = PC; 
     
-    let inst_ast : ast = decode(inst_bits);
+    let first_dword = fetch_inst(current_pc);
+    let is_flat = (first_dword[31..26] == 0b110111);
+    let inst_length : QWORD = if is_flat then 0x0000000000000008 else 0x0000000000000004;
     
-    execute(inst_ast);
+    let ast_node = decode(first_dword, current_pc);
     
-    PC = PC + 4;
+    PC = current_pc + inst_length;
+    
+    execute(ast_node);
 }
-
 
 val load_test_add : unit -> unit
 function load_test_add() = {
@@ -36,7 +39,7 @@ function load_test_add() = {
 val load_test_sub : unit -> unit
 function load_test_sub() = {
     // Hex: 10(Prefix) 11111(SOP2) ...
-    // Let's say s_sub_u32 s3, s4, s5 -> 0x80010504
+    // s_sub_u32 s3, s4, s5 -> 0x80010504
     print("\ns_sub_u32 s3, s4, s5 test!\n");
     write_mem_32(0x0000000000000100, 0x80830504);
 
@@ -132,4 +135,89 @@ function load_end_pgm() = {
     write_mem_32(0x0000000000000100, 0xBFB00000);
     PC = 0x0000000000000100;
     step();
+}
+
+val load_test_flat_load : unit -> unit
+function load_test_flat_load() = {
+    print("\nflat_load_b32 v2, v[0:1] test!\n");
+    
+    SHARED_BASE  = 0x00001000; 
+    SHARED_LIMIT = 0x00001FFF;
+    
+    wVGPR(0b00000000, 0b00000, 0x00002000); // v0 = 0x2000
+    wVGPR(0b00000001, 0b00000, 0x00000000); // v1 = 0x0000
+    
+    EXEC_LO = 0x00000001; 
+    
+    VMCNT = 0b000000;
+    LGKMCNT = 0b000000;
+
+    write_mem_32(0x0000000000002000, 0xDEADBEEF);
+    
+    // Instruction: flat_load_b32 v2, v[0:1]
+    // Low DWORD: 0xDC500000 (Prefix: 110111, OP: 0010100, SEG: 0)
+    // High DWORD: 0x02000000 (VDST: 2, ADDR: 0)
+    write_mem_32(0x0000000000000100, 0xDC500000); // First 32 bits
+    write_mem_32(0x0000000000000104, 0x02000000); // Second 32 bits
+
+    PC = 0x0000000000000100;
+    step();
+    
+    let res = rVGPR(0b00000010, 0b00000); // Read v2, Lane 0
+    
+    if (res == 0xDEADBEEF & VMCNT == 0b000001 & LGKMCNT == 0b000000) then {
+        print("\n[PASS] FLAT Load successful!\n");
+        print_bits("Data: ", res);
+        print("VMCNT correctly incremented to 1 for Global Memory.");
+    } else {
+        print("\n[FAIL] FLAT Load failed.");
+        print_bits("Expected 0xDEADBEEF, Got: ", res);
+        print_bits("Expected VMCNT 1, Got: ", VMCNT);
+    };
+
+    print("\n");
+}
+
+val load_test_flat_store : unit -> unit
+function load_test_flat_store() = {
+    print("\nflat_store_b32 v[0:1], v2 test!\n");
+    SHARED_BASE  = 0x00001000; 
+    SHARED_LIMIT = 0x00001FFF; 
+    
+    // Pointing to 0x00001008 (Falls inside the SHARED aperture!)
+    wVGPR(0b00000000, 0b00000, 0x00001008); // v0 = 0x1008
+    wVGPR(0b00000001, 0b00000, 0x00000000); // v1 = 0x0000
+    
+    wVGPR(0b00000010, 0b00000, 0xCAFEBABE); // v2 = 0xCAFEBABE
+    
+    EXEC_LO = 0x00000001; 
+    
+    // Reset counters before the test
+    VMCNT = 0b000000;
+    LGKMCNT = 0b000000;
+    write_mem_32(0x0000000000001008, 0x00000000);
+
+    // Instruction: flat_store_b32 v[0:1], v2
+    // Low DWORD: 0xDCE00000 (Prefix: 110111, OP: Let's assume 0011100 for store, SEG: 0)
+    // High DWORD: 0x00000200 (DATA: 2, ADDR: 0, VDST: 0)
+    write_mem_32(0x0000000000000100, 0xDCE00000);
+    write_mem_32(0x0000000000000104, 0x00000200); 
+
+    PC = 0x0000000000000100;
+    
+    step();
+    
+    let mem_res = read_mem_32(0x0000000000001008);
+    
+    if (mem_res == 0xCAFEBABE & LGKMCNT == 0b000001 & VMCNT == 0b000000) then {
+        print("\n[PASS] FLAT Store successful!");
+        print_bits("Memory at 0x1008: ", mem_res);
+        print("LGKMCNT correctly incremented to 1 for Shared Memory.");
+    } else {
+        print("\n[FAIL] FLAT Store failed.");
+        print_bits("Expected Memory 0xCAFEBABE, Got: ", mem_res);
+        print_bits("Expected LGKMCNT 1, Got: ", LGKMCNT);
+    };
+
+    print("\n");
 }
