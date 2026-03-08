@@ -38,6 +38,7 @@
             which
             llvmPackages.llvm
             llvmPackages.lld
+            llvmPackages.bintools
           ];
 
           # Libraries and language runtimes

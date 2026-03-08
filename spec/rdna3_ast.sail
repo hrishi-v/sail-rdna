@@ -32,3 +32,17 @@ union ast = {
 
     Inst_INVALID : unit // Not specified
 }
+
+val inst_size : ast -> int
+function inst_size(inst) = {
+  match inst {
+    Inst_FLAT_LOAD_B32(_, _, _, _, _, _, _, _, _, _, _)  => 8,
+    Inst_FLAT_STORE_B32(_, _, _, _, _, _, _, _, _, _, _) => 8,
+
+    Inst_V_MOV_B32(_, src0) => 
+        if (unsigned(src0) == 255) then 8 else 4,
+    Inst_V_ADD_NC_U32(_, _, src0) => 
+        if (unsigned(src0) == 255) then 8 else 4,
+    _ => 4
+  }
+}

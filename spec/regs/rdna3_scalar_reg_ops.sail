@@ -57,7 +57,7 @@ function read_common_source(idx) = {
   else if (idx == 247) then 0xc0800000 // -4.0
   else if (idx == 248) then 0x3e22f983 // 1/(2*PI)
   else if (idx == 255) then {
-    0x00000000 // Literal constant (requires PC+4 fetch)
+    0x00000000
   } 
   else {
     0x00000000

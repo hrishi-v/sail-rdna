@@ -26,7 +26,6 @@ function rVGPR(reg_id, lane_id) = {
   }
 }
 
-
 // Write VGPR registers
 val wVGPR : (vector_dst, vector_lane_id, DWORD) -> unit
 function wVGPR(reg_id, lane_id, value) = {

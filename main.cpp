@@ -4,12 +4,14 @@
 #include <cstdint>
 #include <iomanip>
 #include <filesystem>
+#include <string>
 
 #include <gmp.h> 
 
 extern "C" {
     #include "sail.h"
     #include "out.h" 
+    #include "elf.h"
 
     extern uint64_t zVMCNT;
     extern uint64_t zLGKMCNT;
@@ -19,6 +21,8 @@ extern "C" {
     void model_init(void);
     unit zsail_test_main(unit); 
     unit zwrite_mem_8(uint64_t addr, uint64_t data);
+    unit zwSGPR(uint64_t reg, uint64_t data); 
+    
     unit zset_pc(uint64_t start_addr);
     bool zget_halt_flag(unit);
     unit zstep(unit);
@@ -49,7 +53,6 @@ void dump_gpu_state() {
     }
     sgpr_log.close();
 
-    
     std::ofstream vgpr_log("outputs/vgpr.log");
     vgpr_log << "--- VECTOR REGISTERS (VGPR) ---\n";
     for (int reg = 0; reg < 256; reg++) {
@@ -74,19 +77,17 @@ void dump_gpu_state() {
     
     mem_log << "\n[Aperture: Shared/LDS]\n";
     for (uint64_t addr = 0x1000; addr <= 0x1020; addr += 4) {
-        uint32_t val = zread_mem_32(addr);
+        uint64_t val = zread_mem_32(addr); // Changed from uint32_t
         mem_log << "0x" << std::hex << addr << ": 0x" << std::setw(8) << std::setfill('0') << val << "\n";
     }
 
     mem_log << "\n[Aperture: Global/VRAM]\n";
     for (uint64_t addr = 0x2000; addr <= 0x2020; addr += 4) {
-        uint32_t val = zread_mem_32(addr);
+        uint64_t val = zread_mem_32(addr); // Changed from uint32_t
         mem_log << "0x" << std::hex << addr << ": 0x" << std::setw(8) << std::setfill('0') << val << "\n";
     }
     
     mem_log.close();
-
-
     std::cout << "[Emulator] State dump complete.\n";
 }
 
@@ -99,21 +100,51 @@ int main(int argc, char** argv) {
         return 0;
     }
 
-    std::cout << "[Emulator] Loading kernel: " << argv[1] << "\n";
-    std::ifstream file(argv[1], std::ios::binary);
-    if (!file) {
-        std::cerr << "Error: Could not open file.\n";
-        return 1;
-    }
-    std::vector<uint8_t> buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+    std::string filename = argv[1];
+    uint64_t entry_pc = 0x0100;
 
-    uint64_t base_address = 0x0100;
-    for (size_t i = 0; i < buffer.size(); i++) {
-        zwrite_mem_8(base_address + i, buffer[i]); 
+    if (filename.find(".elf") != std::string::npos) {
+        std::cout << "[Emulator] Loading ELF kernel: " << filename << "\n";
+        bool is32bit = false;
+        
+        uint64_t ptr_C = 0x00002000;
+        uint64_t ptr_A = 0x00003000;
+        uint64_t ptr_B = 0x00004000;
+        zwrite_mem_32(ptr_A, 10); 
+        zwrite_mem_32(ptr_B, 20); 
+
+        uint64_t kernarg_base = 0x00001000;
+        zwrite_mem_32(kernarg_base + 0, ptr_C);
+        zwrite_mem_32(kernarg_base + 4, 0x00000000); 
+
+        zwrite_mem_32(kernarg_base + 8, ptr_A);
+        zwrite_mem_32(kernarg_base + 12, 0x00000000);
+
+        zwrite_mem_32(kernarg_base + 16, ptr_B);
+        zwrite_mem_32(kernarg_base + 20, 0x00000000);
+
+        zwSGPR(4, kernarg_base & 0xFFFFFFFF); 
+        zwSGPR(5, (kernarg_base >> 32) & 0xFFFFFFFF);
+
+        std::cout << "[Emulator] ELF flashed. Entry PC: 0x" << std::hex << entry_pc << "\n";
+    } 
+    else {
+        std::cout << "[Emulator] Loading raw binary: " << filename << "\n";
+        std::ifstream file(filename, std::ios::binary);
+        if (!file) {
+            std::cerr << "Error: Could not open file.\n";
+            return 1;
+        }
+        std::vector<uint8_t> buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
+        for (size_t i = 0; i < buffer.size(); i++) {
+            zwrite_mem_8(entry_pc + i, buffer[i]); 
+        }
+        std::cout << "[Emulator] Binary flashed.\n";
     }
 
-    std::cout << "[Emulator] Kernel flashed. Booting Wavefront...\n";
-    zset_pc(base_address);
+    std::cout << "[Emulator] Booting Wavefront at PC: 0x" << std::hex << entry_pc << "\n";
+    zset_pc(entry_pc);
     
     int cycle_count = 0;
     while (!zget_halt_flag(UNIT)) {
@@ -127,7 +158,7 @@ int main(int argc, char** argv) {
         }
     }
 
-    std::cout << "[Emulator] Execution cleanly halted. Cycles: " << cycle_count << "\n";
+    std::cout << "[Emulator] Execution cleanly halted. Cycles: " << std::dec << cycle_count << "\n";
     dump_gpu_state();
 
     return 0;

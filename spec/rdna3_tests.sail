@@ -1,16 +1,17 @@
 val step : unit -> unit
 function step() = {
-    let current_pc = PC; 
-    
-    let first_dword = fetch_inst(current_pc);
-    let is_flat = (first_dword[31..26] == 0b110111);
-    let inst_length : QWORD = if is_flat then 0x0000000000000008 else 0x0000000000000004;
-    
-    let ast_node = decode(first_dword, current_pc);
-    
-    PC = current_pc + inst_length;
-    
+    let instr = fetch_inst(PC);
+    let ast_node = decode(instr, PC);
+    print_bits("[DEBUG] PC: ", PC);
+    if inst_size(ast_node) == 8 then print("LITERAL DETECTED\n") else print("NO LITERAL\n");
+
     execute(ast_node);
+
+    if inst_size(ast_node) == 8 then {
+        PC = PC + 8
+    } else {
+        PC = PC + 4
+    }
 }
 
 val load_test_add : unit -> unit
@@ -197,11 +198,8 @@ function load_test_flat_store() = {
     LGKMCNT = 0b000000;
     write_mem_32(0x0000000000001008, 0x00000000);
 
-    // Instruction: flat_store_b32 v[0:1], v2
-    // Low DWORD: 0xDCE00000 (Prefix: 110111, OP: Let's assume 0011100 for store, SEG: 0)
-    // High DWORD: 0x00000200 (DATA: 2, ADDR: 0, VDST: 0)
-    write_mem_32(0x0000000000000100, 0xDCE00000);
-    write_mem_32(0x0000000000000104, 0x00000200); 
+    write_mem_32(0x0000000000000100, 0xDC680000);
+    write_mem_32(0x0000000000000104, 0x00000200);
 
     PC = 0x0000000000000100;
     

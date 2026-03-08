@@ -13,12 +13,12 @@ function vop2_decode(instr) = {
 
 val vop1_decode : bits(32) -> ast
 function vop1_decode(instr) = {
-    let vdst = instr[15..8];
-    let op   = instr[24..16];
+    let vdst = instr[24..17]; 
+    let opc   = instr[16..9];  
     let src0 = instr[8..0];
 
-    match op {
-        0b000000001 => Inst_V_MOV_B32(vdst, src0),
-        _           => Inst_INVALID()
+    match opc {
+        0b00000001 => Inst_V_MOV_B32(vdst, src0),
+        _          => Inst_INVALID()
     }
 }
