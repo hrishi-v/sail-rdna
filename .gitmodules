@@ -1,3 +1,6 @@
 [submodule "external/tinygrad"]
 	path = external/tinygrad
 	url = https://github.com/tinygrad/tinygrad.git
+[submodule "external/clrx"]
+	path = external/clrx
+	url = https://github.com/CLRX/CLRX-mirror.git
