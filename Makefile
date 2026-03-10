@@ -19,13 +19,13 @@ ASFLAGS = -target amdgcn-amd-amdhsa -mcpu=gfx1100 -c
 type:
 	sail spec/rdna3_main.sail
 
-emu: $(SRCS) main.cpp
+emu: $(SRCS) test_harness/main.cpp
 	mkdir -p c_build
 	# Compile Sail to C
 	sail -c -c_no_main spec/rdna3_main.sail -o $(C_BUILD_FILES)
 	
 	# Compile the C++ Harness
-	g++ -c -O2 main.cpp -I c_build/ -I $(SAIL_LIB) -o main.o
+	g++ -c -O2 test_harness/main.cpp -I c_build/ -I $(SAIL_LIB) -o main.o
 	
 	# Compile the generated Sail hardware model
 	gcc -c -O2 $(C_BUILD_FILES).c -I $(SAIL_LIB) -o out.o
@@ -64,3 +64,11 @@ $(BIN_DIR)/%.bin: $(ELF_DIR)/%.elf | $(BIN_DIR)
 
 $(ELF_DIR) $(BIN_DIR):
 	mkdir -p $@
+
+fmt:
+	@echo "Formatting Sail specifications..."
+	@for file in $(SRCS); do \
+		sail -fmt "$$file"; \
+		echo "Formatted $$file"; \
+	done
+	@echo "Formatting complete!"

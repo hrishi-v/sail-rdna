@@ -4,54 +4,54 @@ val s_add_u32 : (scalar_dst, scalar_src, scalar_src) -> unit
 function s_add_u32(sdst, ssrc0, ssrc1) = {
     let val0 = read_scalar_source(ssrc0);
     let val1 = read_scalar_source(ssrc1);
-    let result : int  = unsigned(val0) + unsigned(val1);
+    let result : int = unsigned(val0) + unsigned(val1);
 
     let result_bits : bits(32) = get_slice_int(32, result, 0);
-    let carry : bit = if result > MAX_UINT32 then bitone else bitzero;
+    let carry : bit = if result > MAX_UINT32 then { bitone } else { bitzero };
     wSGPR(sdst, result_bits);
-    wSCC(carry);
+    wSCC(carry)
 }
-
 
 val s_sub_u32 : (scalar_dst, scalar_src, scalar_src) -> unit
 function s_sub_u32(sdst, ssrc0, ssrc1) = {
     let val0 = read_scalar_source(ssrc0);
     let val1 = read_scalar_source(ssrc1);
-    let result : int  = unsigned(val0) - unsigned(val1);
+    let result : int = unsigned(val0) - unsigned(val1);
 
     let result_bits : bits(32) = get_slice_int(32, result, 0);
-    let carry : bit = if result >= 0 then bitone else bitzero;
+    let carry : bit = if result >= 0 then { bitone } else { bitzero };
     wSGPR(sdst, result_bits);
-    wSCC(carry);
+    wSCC(carry)
 }
 
 val s_lshr_b64 : (scalar_dst, scalar_src, scalar_src) -> unit
 function s_lshr_b64(sdst, ssrc0, ssrc1) = {
     let val0 : QWORD = read_scalar_source64(ssrc0);
     let val1 : DWORD = read_scalar_source(ssrc1);
-    
+
     let shift_amt : int = unsigned(val1[5..0]);
     let val0_int : int = unsigned(val0);
-    
+
     let shifted_int : int = shr_int(val0_int, shift_amt);
     let result : QWORD = get_slice_int(64, shifted_int, 0);
-    
-    let scc_val : bit = if result != 0x0000000000000000 then bitone else bitzero;
-    
+
+    let scc_val : bit = if result != 0x0000000000000000 then { bitone } else { bitzero };
+
     write_scalar_dst64(sdst, result);
-    wSCC(scc_val);
+    wSCC(scc_val)
 }
-
-
 
 val s_cselect_b32 : (scalar_dst, scalar_src, scalar_src) -> unit
 function s_cselect_b32(sdst, ssrc0, ssrc1) = {
-    let value = if rSCC() == bitone then read_scalar_source(ssrc0) else read_scalar_source(ssrc1);
+    let value = if rSCC() == bitone then {
+        read_scalar_source(ssrc0)
+    } else {
+        read_scalar_source(ssrc1)
+    };
     wSGPR(sdst, value)
 }
 
 // SOP1 Instructions
-
 val s_mov_b32 : (scalar_dst, scalar_src) -> unit
 function s_mov_b32(sdst, ssrc0) = {
     wSGPR(sdst, read_scalar_source(ssrc0))
@@ -64,34 +64,38 @@ function s_mov_b64(sdst, ssrc0) = {
 }
 
 // SOPC Instructions
-
 val s_cmp_eq_i32 : (scalar_src, scalar_src) -> unit
 function s_cmp_eq_i32(ssrc0, ssrc1) = {
     let val0 = read_scalar_source(ssrc0);
     let val1 = read_scalar_source(ssrc1);
 
-    if val0 == val1 then wSCC(bitone) else wSCC(bitzero)
+    if val0 == val1 then {
+        wSCC(bitone)
+    } else {
+        wSCC(bitzero)
+    }
 }
-
 
 val s_cmp_lg_i32 : (scalar_src, scalar_src) -> unit
 function s_cmp_lg_i32(ssrc0, ssrc1) = {
     let val0 = read_scalar_source(ssrc0);
     let val1 = read_scalar_source(ssrc1);
 
-    if val0 != val1 then wSCC(bitone) else wSCC(bitzero)
+    if val0 != val1 then {
+        wSCC(bitone)
+    } else {
+        wSCC(bitzero)
+    }
 }
 
 // SOPP Instructions
-
 val s_endpgm : unit -> unit
-function s_endpgm() = {
-  // TODO: Hardware implicitly executes S_WAITCNT 0 and S_WAITCNT_VSCNT 0 here.
-  // Currently omitted.
+function s_endpgm () = {
+    // TODO: Hardware implicitly executes S_WAITCNT 0 and S_WAITCNT_VSCNT 0 here.
+    // Currently omitted.
     print(">>> S_ENDPGM REACHED: Halting Wavefront <<<\n");
-    set_halt_flag();
+    set_halt_flag()
 }
 
 // SMEM Instructions
-
 val s_load_b64 : (smem_offset, smem_base, smem_inst_offset) -> unit

@@ -8,7 +8,7 @@ type BYTE = bits(8)
 type SHORT = bits(SHORT_LENGTH)
 type DWORD = bits(DWORD_LENGTH)
 type QWORD = bits(QWORD_LENGTH)
- 
+
 type scalar_dst = bits(7)
 type scalar_src = bits(8)
 
@@ -18,7 +18,6 @@ type vop_src = bits(9)
 type vector_lane_id = bits(5)
 
 // FLAT
-
 type flat_offset = bits(12)
 type flat_dlc_bit = bits(1)
 type flat_glc_bit = bits(1)
@@ -31,9 +30,7 @@ type flat_saddr = bits(7)
 type flat_sve_bit = bits(1)
 type flat_vdst = bits(8)
 
-
 // SMEM
-
 type smem_offset = bits(7)
 type smem_base = bits(6)
 type smem_inst_offset = bits(21)

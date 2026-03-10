@@ -11,7 +11,6 @@ $include "regs/rdna3_scalar_reg_ops.sail"
 $include "regs/rdna3_vector_regs.sail"
 $include "regs/rdna3_vector_reg_ops.sail"
 
-
 $include "rdna3_imem.sail"
 $include "rdna3_ast.sail"
 
@@ -20,36 +19,64 @@ $include "decode/rdna3_s_decode.sail"
 $include "decode/rdna3_v_decode.sail"
 $include "decode/rdna3_decode.sail"
 
-
 $include "execute/rdna3_flat_execute.sail"
 $include "execute/rdna3_s_execute.sail"
 $include "execute/rdna3_v_execute.sail"
 $include "execute/rdna3_execute.sail"
 
-$include "rdna3_tests.sail"
+val step : unit -> unit
+function step () = {
+    let instr = fetch_inst(PC);
+    let ast_node = decode(instr, PC);
 
-val sail_test_main : unit -> unit
-function sail_test_main() = {
-    set_pc(PC); 
-    write_mem_8(0x0000000000000000, 0x00);
-    let _dummy = get_halt_flag();
+    execute(ast_node);
 
-    print("RDNA3 Emulator Starting...\n");
+    if inst_size(ast_node) == 8 then {
+        PC = PC + 8
+    } else {
+        PC = PC + 4
+    }
+}
 
-    // ------------------------------------------------
-    // SELECT YOUR TEST HERE
-    // ------------------------------------------------
-    load_test_add();
-    load_test_sub();
-    load_test_cmp_select();
-    load_test_shift64();
-    load_end_pgm();
-    load_test_flat_load();
-    load_test_flat_store();
-    // ------------------------------------------------
+val get_pc : unit -> QWORD
+function get_pc () = { PC }
+
+val set_pc : QWORD -> unit
+function set_pc start_addr = {
+    PC = start_addr
+}
+
+val reset_vmcnt : unit -> unit
+function reset_vmcnt () = {
+    VMCNT = 0b000000
+}
+
+val reset_lgkmcnt : unit -> unit
+function reset_lgkmcnt () = {
+    LGKMCNT = 0b000000
+}
+
+val reset_halt_flag : unit -> unit
+function reset_halt_flag () = {
+    halt_flag = 0b0
 }
 
 val main : unit -> unit
-function main() = {
-    sail_test_main()
+function main () = {
+    let dummy_addr : QWORD = 0x0000000000000000;
+    let dummy_data32 : DWORD = 0x00000000;
+    let dummy_data8 : bits(8) = 0x00;
+
+    let _ = get_pc();
+    set_pc(dummy_addr);
+
+    reset_vmcnt();
+    reset_lgkmcnt();
+    reset_halt_flag();
+
+    write_mem_8(dummy_addr, dummy_data8);
+    write_mem_32(dummy_addr, dummy_data32);
+    let _ = read_mem_32(dummy_addr);
+
+    step()
 }
