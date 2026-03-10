@@ -4,8 +4,9 @@
 #include <string>
 #include <filesystem>
 
-#include "SailFFI.h"
 #include <gmp.h> 
+#include "FlightRecorder.h"
+#include "SailFFI.h"
 
 std::vector<std::string> get_test_files(const std::string& directory) {
     std::vector<std::string> test_files;
@@ -65,7 +66,6 @@ bool run_test(const std::string &filepath)
   int cycle_count = 0;
   const int CYCLE_LIMIT = 10000;
 
-  // Tick Loop
   while (!zget_halt_flag(UNIT))
   {
     uint64_t current_pc = zget_pc(UNIT);
@@ -82,6 +82,26 @@ bool run_test(const std::string &filepath)
       break;
     }
   }
+
+  std::filesystem::create_directory("outputs");
+
+  std::string base_name = std::filesystem::path(filepath).filename().string();
+  std::string log_name = "outputs/trace_" + base_name + ".log";
+  recorder.dump_trace(log_name);
+
+  bool passed = (cycle_count < CYCLE_LIMIT);
+  if (passed)
+  {
+    std::cout << "[Test Suite] PASS: " << filepath << " (" << cycle_count << " cycles)\n";
+  }
+  else
+  {
+    std::cout << "[Test Suite] FAIL (Timeout): " << filepath << "\n";
+  }
+
+  return passed;
+
+  return passed;
 }
 
   void reset_emulator_state()

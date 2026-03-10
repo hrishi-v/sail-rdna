@@ -25,7 +25,8 @@ emu: $(SRCS) test_harness/main.cpp
 	sail -c -c_no_main spec/rdna3_main.sail -o $(C_BUILD_FILES)
 	
 	# Compile the C++ Harness
-	g++ -c -O2 test_harness/main.cpp -I c_build/ -I $(SAIL_LIB) -o main.o
+	g++ -std=c++17 -c -O2 test_harness/main.cpp -I c_build/ -I $(SAIL_LIB) -o main.o
+	g++ -std=c++17 -c -O2 test_harness/FlightRecorder.cpp -I c_build/ -I $(SAIL_LIB) -o FlightRecorder.o
 	
 	# Compile the generated Sail hardware model
 	gcc -c -O2 $(C_BUILD_FILES).c -I $(SAIL_LIB) -o out.o
@@ -36,7 +37,7 @@ emu: $(SRCS) test_harness/main.cpp
 	gcc -c -O2 $(SAIL_LIB)/elf.c -I $(SAIL_LIB) -o elf.o
 	
 	# Linker
-	g++ -O2 main.o out.o sail.o rts.o elf.o -lgmp -lz -o $(EMU)
+	g++ -O2 main.o FlightRecorder.o out.o sail.o rts.o elf.o -lgmp -lz -o $(EMU)
 	
 	# 6. Clean up the object files
 	rm -f *.o

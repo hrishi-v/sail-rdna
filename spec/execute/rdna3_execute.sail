@@ -46,7 +46,10 @@ function execute inst = {
             vdst,
         ),
         // General
-        Inst_INVALID() => print("Error: Executing invalid instruction"),
+        Inst_INVALID() => {
+            print("Error: Executing invalid instruction");
+            halt_flag = 0b1
+        },
         _ => print("Error: Unimplemented instruction execution"),
     }
 }

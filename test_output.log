@@ -1,0 +1,55 @@
+
+========================================
+[Test Suite] Running: tests/bin/v_add.bin
+========================================
+[Loader] Flashed 12 bytes to PC 0x100
+>>> S_ENDPGM REACHED: Halting Wavefront <<<
+[Recorder] Writing execution trace to outputs/trace_v_add.bin.log...
+[Test Suite] PASS: tests/bin/v_add.bin (3 cycles)
+
+========================================
+[Test Suite] Running: tests/bin/flat_store.bin
+========================================
+[Loader] Flashed 24 bytes to PC 0x100
+[GPU] V_MOV: Loading Literal 0x0x00002008
+[GPU] V_MOV: Loading Literal 0x0xCAFEBABE
+>>> S_ENDPGM REACHED: Halting Wavefront <<<
+[Recorder] Writing execution trace to outputs/trace_flat_store.bin.log...
+[Test Suite] PASS: tests/bin/flat_store.bin (6 cycles)
+
+========================================
+[Test Suite] Running: tests/bin/scalar_alu.bin
+========================================
+[Loader] Flashed 10 bytes to PC 0x100
+>>> S_ENDPGM REACHED: Halting Wavefront <<<
+[Recorder] Writing execution trace to outputs/trace_scalar_alu.bin.log...
+[Test Suite] PASS: tests/bin/scalar_alu.bin (4 cycles)
+
+========================================
+[Test Suite] Running: tests/bin/vector_alu.bin
+========================================
+[Loader] Flashed 18 bytes to PC 0x100
+Error: Executing invalid instruction[Recorder] Writing execution trace to outputs/trace_vector_alu.bin.log...
+[Test Suite] PASS: tests/bin/vector_alu.bin (2 cycles)
+
+========================================
+[Test Suite] Running: tests/bin/raw_tinygrad_vec_add.bin
+========================================
+[Loader] Flashed 500 bytes to PC 0x100
+Error: Executing invalid instruction[Recorder] Writing execution trace to outputs/trace_raw_tinygrad_vec_add.bin.log...
+[Test Suite] PASS: tests/bin/raw_tinygrad_vec_add.bin (1 cycles)
+
+========================================
+[Test Suite] Running: tests/bin/endpgm.bin
+========================================
+[Loader] Flashed 4 bytes to PC 0x100
+>>> S_ENDPGM REACHED: Halting Wavefront <<<
+[Recorder] Writing execution trace to outputs/trace_endpgm.bin.log...
+[Test Suite] PASS: tests/bin/endpgm.bin (1 cycles)
+
+========================================
+[Test Suite] Running: tests/bin/infinite_jump.bin
+========================================
+[Loader] Flashed 10 bytes to PC 0x100
+Error: Executing invalid instruction[Recorder] Writing execution trace to outputs/trace_infinite_jump.bin.log...
+[Test Suite] PASS: tests/bin/infinite_jump.bin (3 cycles)

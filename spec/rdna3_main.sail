@@ -77,6 +77,7 @@ function main () = {
     write_mem_8(dummy_addr, dummy_data8);
     write_mem_32(dummy_addr, dummy_data32);
     let _ = read_mem_32(dummy_addr);
+    let _ = get_halt_flag();
 
     step()
 }
