@@ -1,0 +1,3 @@
+[submodule "external/tinygrad"]
+	path = external/tinygrad
+	url = https://github.com/tinygrad/tinygrad.git
