@@ -21,3 +21,5 @@ tests/elf
 
 # Generated logs
 outputs/
+
+flake-profile*

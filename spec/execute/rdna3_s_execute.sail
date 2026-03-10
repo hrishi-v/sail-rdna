@@ -91,3 +91,7 @@ function s_endpgm() = {
     print(">>> S_ENDPGM REACHED: Halting Wavefront <<<\n");
     set_halt_flag();
 }
+
+// SMEM Instructions
+
+val s_load_b64 : (smem_offset, smem_base, smem_inst_offset) -> unit

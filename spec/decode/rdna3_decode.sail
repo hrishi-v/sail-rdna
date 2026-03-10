@@ -29,6 +29,11 @@ function decode(instr, pc) = {
         let full_qword : QWORD = next_dword @ instr; 
         
         flat_decode(full_qword)
+    } else if (instr[31..26] == 0b111101) then {
+        let next_dword = fetch_inst(pc + 4);
+        let full_qword : QWORD = next_dword @ instr;
+
+        smem_decode(full_qword)
     }
     else {
         Inst_INVALID()

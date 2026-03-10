@@ -50,3 +50,17 @@ function sopp_decode(instr) = {
         _ => Inst_INVALID()
     }
 }
+
+val smem_decode : QWORD -> ast = {
+    let op        = qword_instr[25..18];
+    let sdst      = qword_instr[12..6];
+    let sbase_raw = qword_instr[5..0];
+    let sbase     = sbase_raw << 1; 
+    let offset    = qword_instr[52..32]; 
+    
+    if (op == 0b00000001) then {
+        s_load_b64(sbase, sdst, offset)
+    } else {
+        Inst_INVALID()
+    }
+}
