@@ -7,6 +7,7 @@
 #include <gmp.h> 
 #include "FlightRecorder.h"
 #include "SailFFI.h"
+#include "utils.h"
 
 std::vector<std::string> get_test_files(const std::string& directory) {
     std::vector<std::string> test_files;
@@ -66,12 +67,26 @@ bool run_test(const std::string &filepath)
   int cycle_count = 0;
   const int CYCLE_LIMIT = 10000;
 
+  // Before loop
+  recorder.init_vcd("outputs/waveforms/trace.vcd");
+
+  while (!zget_halt_flag(UNIT))
+  {
+    uint64_t current_pc = zget_pc(UNIT);
+    uint32_t v0_val = zrVGPR(0, 0);
+
+    recorder.record_vcd_step(cycle_count, current_pc, v0_val);
+
+    zstep(UNIT);
+    cycle_count++;
+  }
+
   while (!zget_halt_flag(UNIT))
   {
     uint64_t current_pc = zget_pc(UNIT);
     uint32_t current_inst = zread_mem_32(current_pc);
 
-    recorder.record_cycle(cycle_count, current_pc, current_inst);
+    recorder.record_instruction_cycle(cycle_count, current_pc, current_inst);
     zstep(UNIT);
     cycle_count++;
 
@@ -84,10 +99,15 @@ bool run_test(const std::string &filepath)
   }
 
   std::filesystem::create_directory("outputs");
+  std::filesystem::create_directory("outputs/instruction_trace");
+  std::filesystem::create_directory("outputs/register_dumps");
 
   std::string base_name = std::filesystem::path(filepath).filename().string();
-  std::string log_name = "outputs/trace_" + base_name + ".log";
-  recorder.dump_trace(log_name);
+  std::string trace_log_name = "outputs/instruction_trace/trace_" + base_name + ".log";
+  recorder.dump_trace(trace_log_name);
+
+  std::string vector_register_dump_name = "outputs/register_dumps/vector_register_dump_" + base_name + ".log";
+  recorder.dump_vector_registers(vector_register_dump_name);
 
   bool passed = (cycle_count < CYCLE_LIMIT);
   if (passed)
@@ -100,8 +120,6 @@ bool run_test(const std::string &filepath)
   }
 
   return passed;
-
-  return passed;
 }
 
   void reset_emulator_state()
@@ -112,6 +130,19 @@ bool run_test(const std::string &filepath)
     for (uint64_t i = 0; i < 65536; i++)
     {
       zwrite_mem_8(i, 0);
+    }
+
+    for (int i = 0; i < 102; i++)
+    {
+      zwSGPR(i, 0);
+    }
+
+    for (int i = 0; i < 256; i++)
+    {
+      for (int lane = 0; lane < 32; lane++)
+      {
+        zwVGPR(i, lane, 0);
+      }
     }
   }
 

@@ -29,12 +29,12 @@ function step () = {
     let instr = fetch_inst(PC);
     let ast_node = decode(instr, PC);
 
-    execute(ast_node);
+    let current_pc = PC;
 
-    if inst_size(ast_node) == 8 then {
-        PC = PC + 8
-    } else {
-        PC = PC + 4
+    execute(ast_node);
+    
+    if PC == current_pc then {
+        PC = PC + inst_size(ast_node)
     }
 }
 

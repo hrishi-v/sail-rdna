@@ -2,25 +2,34 @@
 
 val v_add_nc_u32 : (vector_dst, vector_src, vop_src) -> unit
 function v_add_nc_u32(vdst, src1, src0) = {
-    let op0_base = if unsigned(src0) == 255 then {
+    // Fetch data
+    let op0_common = if unsigned(src0) == 255 then {
         fetch_inst(PC + 4)
     } else {
         read_common_source(unsigned(src0))
     };
 
+    var results : vector(32, dec, bits(32)) = undefined; // For lock-step "emulation"
+
     foreach (lane from 0 to 31) {
         let lane_bv = get_slice_int(5, lane, 0);
         if EXEC_LO[lane..lane] == 0b1 then {
-            let op0 = if unsigned(src0) <= 255 then { op0_base } else {
+            let op0 = if unsigned(src0) <= 255 then { op0_common } else {
                 rVGPR(get_slice_int(8, unsigned(src0) - 256, 0), lane_bv)
             };
-
             let op1 = rVGPR(src1, lane_bv);
 
-            let result_int = unsigned(op0) + unsigned(op1);
-            let result_bits = get_slice_int(32, result_int, 0);
-
-            wVGPR(vdst, lane_bv, result_bits)
+            let res = unsigned(op0) + unsigned(op1);
+            results[lane] = get_slice_int(32, res, 0);
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv);
+        }
+    };
+    // Commit
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            wVGPR(vdst, lane_bv, results[lane])
         }
     }
 }
