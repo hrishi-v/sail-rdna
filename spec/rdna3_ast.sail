@@ -13,14 +13,19 @@ union ast = {
     // SOPC Instructions
     Inst_S_CMP_EQ_I32 : (scalar_src, scalar_src),
     Inst_S_CMP_LG_I32 : (scalar_src, scalar_src),
+
     // SOPP Instructions
+    Inst_S_WAITCNT : bits(16),
     Inst_S_ENDPGM : unit,
 
     // VOP2 Instructions
-    Inst_V_ADD_NC_U32 : (vector_dst, vector_src, vop_src),
+    Inst_V_ADD_NC_U32 : (vector_dst, vop_src, vop_src),
 
     // VOP1 Instructions
     Inst_V_MOV_B32 : (vector_dst, vop_src),
+
+    // SMEM Instructions
+    Inst_S_LOAD_B64 : (smem_base, smem_data, smem_offset, smem_soffset),
 
     // FLAT Instructions
     Inst_FLAT_LOAD_B32 : (flat_offset, flat_dlc_bit, flat_glc_bit,
@@ -30,21 +35,5 @@ union ast = {
                           flat_slc_bit, flat_seg, flat_op, flat_addr,
                           flat_data, flat_saddr, flat_sve_bit, flat_vdst),
 
-    Inst_INVALID : unit // Not specified
-}
-
-val inst_size : ast -> int
-function inst_size(ast_node) -> int = {
-    match ast_node {
-        Inst_V_ADD_NC_U32(_, _, src0) => {
-            if unsigned(src0) == 255 then 8 else 4
-        },
-        Inst_V_MOV_B32(_, src0) => {
-            if unsigned(src0) == 255 then 8 else 4
-        },
-        Inst_S_MOV_B32(_, ssrc0) => {
-            if unsigned(ssrc0) == 255 then 8 else 4
-        },
-        _ => 4 // Default for simple instructions
-    }
+    Inst_INVALID : unit
 }

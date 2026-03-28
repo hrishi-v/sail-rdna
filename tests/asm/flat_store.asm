@@ -1,4 +1,3 @@
-// flat_store.asm
 s_mov_b32 exec_lo, -1
 v_mov_b32 v0, 0x00002008
 v_mov_b32 v1, 0x00000000

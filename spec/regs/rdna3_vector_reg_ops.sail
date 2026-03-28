@@ -45,14 +45,18 @@ val read_vector_source : (bits(9), vector_lane_id) -> DWORD
 function read_vector_source(src, lane_id) = {
     let idx = unsigned(src);
 
-    if idx < 256 then {
-        // reading from predefined operand (e.g. 0.5, pi)
-        read_common_source(idx)
+    if idx == 255 then {
+        let literal = fetch_inst(PC);
+        PC = PC + 4;
+        literal
     } else {
-        if idx >= 256 & idx <= 511 then {
-            // reading from a VGPR
-            let v_reg = get_slice_int(8, idx - 256, 0);
-            rVGPR(v_reg, lane_id)
-        } else { 0x00000000 }
+        if idx < 256 then {
+            read_common_source(idx)
+        } else {
+            if idx >= 256 & idx <= 511 then {
+                let v_reg = get_slice_int(8, idx - 256, 0);
+                rVGPR(v_reg, lane_id)
+            } else { 0x00000000 }
+        }
     }
 }

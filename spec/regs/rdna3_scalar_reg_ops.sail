@@ -1,6 +1,6 @@
 
-// Read SGPR registers
-val rSGPR : scalar_src -> DWORD
+// Read SGPR registers, when a physical SGPR index is guaranteed!
+val rSGPR : scalar_dst -> DWORD
 function rSGPR id = {
     let idx = unsigned(id);
     if idx <= 107 then {
@@ -17,6 +17,10 @@ function wSGPR(id, value) = {
     } else {
         if idx == 126 then {
             EXEC_LO = value
+        } else {
+            if idx == 127 then {
+                EXEC_HI = value
+            }
         }
     }
 }
@@ -24,11 +28,9 @@ function wSGPR(id, value) = {
 val read_common_source : int -> DWORD
 function read_common_source idx = {
     if idx >= 0 & idx <= 107 then {
-        SGPR[idx] // Covers SGPRs and VCC_LO/HI
+        SGPR[idx]
     } else {
-        if idx >= 108 & idx <= 123 then {
-            0x00000000 // Trap registers
-        } else {
+        if idx >= 108 & idx <= 123 then { 0x00000000 } else {
             if idx == 124 | idx == 125 then { 0x00000000 } else {
                 if idx == 126 then { EXEC_LO } else {
                     if idx == 127 then { EXEC_HI } else {
@@ -39,36 +41,16 @@ function read_common_source idx = {
                                 if idx >= 193 & idx <= 208 then {
                                     get_slice_int(32, 192 - idx, 0)
                                 } else {
-                                    if idx == 240 then {
-                                        0x3f000000 // 0.5
-                                    } else {
-                                        if idx == 241 then {
-                                            0xbf000000 // -0.5
-                                        } else {
-                                            if idx == 242 then {
-                                                0x3f800000 // 1.0
-                                            } else {
-                                                if idx == 243 then {
-                                                    0xbf800000 // -1.0
-                                                } else {
-                                                    if idx == 244 then {
-                                                        0x40000000 // 2.0
-                                                    } else {
-                                                        if idx == 245 then {
-                                                            0xc0000000 // -2.0
-                                                        } else {
-                                                            if idx == 246 then {
-                                                                0x40800000 // 4.0
-                                                            } else {
-                                                                if idx == 247 then {
-                                                                    0xc0800000 // -4.0
-                                                                } else {
-                                                                    if idx == 248 then {
-                                                                        0x3e22f983 // 1/(2*PI)
-                                                                    } else {
-                                                                        if idx == 255 then { 0x00000000 } else {
-                                                                            0x00000000
-                                                                        }
+                                    if idx == 240 then { 0x3f000000 } else {
+                                        if idx == 241 then { 0xbf000000 } else {
+                                            if idx == 242 then { 0x3f800000 } else {
+                                                if idx == 243 then { 0xbf800000 } else {
+                                                    if idx == 244 then { 0x40000000 } else {
+                                                        if idx == 245 then { 0xc0000000 } else {
+                                                            if idx == 246 then { 0x40800000 } else {
+                                                                if idx == 247 then { 0xc0800000 } else {
+                                                                    if idx == 248 then { 0x3e22f983 } else {
+                                                                        0x00000000
                                                                     }
                                                                 }
                                                             }
@@ -86,11 +68,6 @@ function read_common_source idx = {
             }
         }
     }
-}
-
-val read_scalar_source : bits(8) -> DWORD
-function read_scalar_source src = {
-    read_common_source(unsigned(src))
 }
 
 val write_scalar_dst64 : (scalar_dst, QWORD) -> unit
@@ -114,10 +91,10 @@ function read_scalar_source64 id = {
         let id_base : scalar_src = get_slice_int(8, idx, 0);
         let id_plus_1 : scalar_src = get_slice_int(8, idx + 1, 0);
 
-        read_scalar_source(id_plus_1) @ read_scalar_source(id_base)
+        read_common_source(unsigned(id_plus_1)) @ read_common_source(unsigned(id_base))
     } else {
         if idx >= 128 then {
-            0x00000000 @ read_scalar_source(id)
+            0x00000000 @ read_common_source(unsigned(id))
         } else { 0x0000000000000000 }
     }
 }

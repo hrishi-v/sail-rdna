@@ -31,6 +31,7 @@ type flat_sve_bit = bits(1)
 type flat_vdst = bits(8)
 
 // SMEM
-type smem_offset = bits(7)
 type smem_base = bits(6)
-type smem_inst_offset = bits(21)
+type smem_data = bits(7)
+type smem_offset = bits(21)
+type smem_soffset = bits(7)

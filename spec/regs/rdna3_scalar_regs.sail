@@ -3,6 +3,7 @@ register PC :
 register SGPR : vector(108, dec, DWORD)
 register SCC : bits(1)
 register halt_flag : bits(1)
+register error_flag : bits(1)
 
 register EXEC_LO : DWORD
 register EXEC_HI : DWORD

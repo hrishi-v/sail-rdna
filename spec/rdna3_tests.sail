@@ -10,7 +10,7 @@ function load_test_add () = {
     PC = 0x0000000000000100;
     step();
 
-    let res = read_scalar_source(0b00000000);
+    let res = read_common_source(unsigned(0b00000000));
 
     if res == 0x0000001E then {
         print_bits("[PASS] Result: ", res)
@@ -35,7 +35,7 @@ function load_test_sub () = {
     PC = 0x0000000000000100;
     step();
 
-    let res = read_scalar_source(0b00000011);
+    let res = read_common_source(unsigned(0b00000011));
 
     if res == 0x0000000A then {
         print_bits("[PASS] Result: ", res)
@@ -73,7 +73,7 @@ function load_test_cmp_select () = {
     step();
 
     // Check Result
-    let res = read_scalar_source(0b00000100); // Read s4
+    let res = read_common_source(unsigned(0b00000100)); // Read s4
 
     if res == 0x00000063 then {
         print_bits("[PASS] CSELECT picked True (99): ", res)
@@ -103,8 +103,8 @@ function load_test_shift64 () = {
     step();
 
     // Check Result: After shift, lower 32 bits (s4) should be 0x10. Upper (s5) should be 0x0.
-    let res_lower = read_scalar_source(0b00000100); // Read s4
-    let res_upper = read_scalar_source(0b00000101); // Read s5
+    let res_lower = read_common_source(unsigned(0b00000100)); // Read s4
+    let res_upper = read_common_source(unsigned(0b00000101)); // Read s5
 
     if res_lower == 0x00000010 & res_upper == 0x00000000 then {
         print_bits("[PASS] LSHR result correct: ", res_lower)

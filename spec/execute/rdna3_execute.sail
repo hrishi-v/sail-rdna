@@ -13,9 +13,14 @@ function execute inst = {
         Inst_S_CMP_EQ_I32(s0, s1) => s_cmp_eq_i32(s0, s1),
         Inst_S_CMP_LG_I32(s0, s1) => s_cmp_lg_i32(s0, s1),
         // SOPP
+        Inst_S_WAITCNT(simm) => s_waitcnt(simm),
         Inst_S_ENDPGM() => s_endpgm(),
         // VOP2
-        Inst_V_ADD_NC_U32(vd, vs, s) => v_add_nc_u32(vd, vs, s),
+        Inst_V_ADD_NC_U32(vd, vs, s) => {
+            v_add_nc_u32(vd, vs, s)
+        },
+        // SMEM
+        Inst_S_LOAD_B64(sbase, sdata, offset, soffset) => s_load_b64(sbase, sdata, offset, soffset),
         // VOP1
         Inst_V_MOV_B32(vd, s) => v_mov_b32(vd, s),
         // FLAT
@@ -47,8 +52,9 @@ function execute inst = {
         ),
         // General
         Inst_INVALID() => {
-            print("Error: Executing invalid instruction");
-            halt_flag = 0b1
+            print("Error: Executing invalid instruction\n");
+            halt_flag = 0b1;
+            error_flag = 0b1
         },
         _ => print("Error: Unimplemented instruction execution"),
     }

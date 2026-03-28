@@ -45,20 +45,26 @@ function sopp_decode instr = {
     let simm16 = instr[15..0];
 
     match opc {
+        0b0001001 => Inst_S_WAITCNT(simm16),
         0b0110000 => Inst_S_ENDPGM(),
         _ => Inst_INVALID(),
     }
 }
 
-// val smem_decode : QWORD -> ast = {
-//     let op        = qword_instr[25..18];
-//     let sdst      = qword_instr[12..6];
-//     let sbase_raw = qword_instr[5..0];
-//     let sbase     = sbase_raw << 1;
-//     let offset    = qword_instr[52..32];
-//     if (op == 0b00000001) then {
-//         s_load_b64(sbase, sdst, offset)
-//     } else {
-//         Inst_INVALID()
-//     }
-// }
+val smem_decode : QWORD -> ast
+function smem_decode instr = {
+    let sbase = instr[5..0];
+    let sdata = instr[12..6];
+    let dlc = instr[14..14];
+    let glc = instr[16..16];
+    let opc = instr[25..18];
+    let encoding = instr[31..26];
+
+    let offset = instr[52..32];
+    let soffset = instr[63..57];
+
+    match opc {
+        0b00000001 => Inst_S_LOAD_B64(sbase, sdata, offset, soffset),
+        _ => Inst_INVALID(),
+    }
+}

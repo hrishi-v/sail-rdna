@@ -28,13 +28,15 @@
       in
       {
         devShells.default = pkgs.mkShell {
-          # Tools that run on the host (the compiler, make, etc.)
           nativeBuildInputs = with pkgs; [
             stdenv.cc
             gnumake
             ocamlPackages.sail
             git
             which
+            # Verilator for SystemVerilog simulation
+            verilator
+            
             llvmPackages.llvm
             llvmPackages.lld
             llvmPackages.bintools
@@ -60,16 +62,23 @@
             ln -sf $(which c++) .nix-bin/g++
             export PATH="$PWD/.nix-bin:$PATH"
 
-            export NIX_CFLAGS_COMPILE="-I${pkgs.gmp.dev}/include -I${pkgs.zlib.dev}/include $NIX_CFLAGS_COMPILE"
+            export VERILATOR_ROOT="${pkgs.verilator}/share/verilator"
+            
+            export NIX_CFLAGS_COMPILE="-I${pkgs.gmp.dev}/include -I${pkgs.zlib.dev}/include -I$VERILATOR_ROOT/include $NIX_CFLAGS_COMPILE"
             export NIX_LDFLAGS="-L${pkgs.gmp.out}/lib -L${pkgs.zlib.out}/lib $NIX_LDFLAGS"
 
-            echo "Sail Environment Loaded (Imperial EIE RDNA3 Config)"
-            echo "Sail version: $(sail --version | head -n 1)"
-            echo "Z3 version:   $(z3 --version)"
-            echo "Compiler:     $(gcc --version | head -n 1)"
+            echo "Sail Environment Loaded"
+            echo "Sail version:      $(sail --version | head -n 1)"
+            echo "Z3 version:        $(z3 --version)"
+            echo "Verilator version: $(verilator --version)"
+            echo "Compiler:          $(gcc --version | head -n 1)"
 
             ln -snf "$(sail --dir)/lib" ./sail_lib
+            # Also link Verilator headers for easier IDE navigation in your harness
+            ln -snf "$VERILATOR_ROOT/include" ./verilator_include
+            
             echo "Linked Sail StdLib to ./sail_lib"
+            echo "Linked Verilator headers to ./verilator_include"
           '';
         };
       }
