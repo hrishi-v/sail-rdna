@@ -27,6 +27,11 @@ function wSGPR(id, value) = {
 
 val read_common_source : int -> DWORD
 function read_common_source idx = {
+    if idx == 255 then {
+        let literal = fetch_inst(PC);
+        PC = PC + 4;
+        literal
+    } else {
     if idx >= 0 & idx <= 107 then {
         SGPR[idx]
     } else {
@@ -67,6 +72,7 @@ function read_common_source idx = {
                 }
             }
         }
+    }
     }
 }
 
