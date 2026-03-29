@@ -42,7 +42,7 @@ void FlightRecorder::dump_vector_registers(const std::string &filepath) {
         logfile << "v" << std::dec << i << ": ";
         for (int lane = 0; lane < 32; lane++) {
             uint32_t val = zrVGPR(i, lane);
-            logfile << std::hex << std::setw(8) << std::setfill('0') << val << " ";
+            logfile << "0x" << std::hex << std::setw(8) << std::setfill('0') << val << " ";
         }
         logfile << "\n";
     }
