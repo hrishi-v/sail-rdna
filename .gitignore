@@ -23,3 +23,9 @@ tests/elf
 outputs/
 
 flake-profile*
+
+verilator_include
+.direnv
+.claude
+.envrc
+CLAUDE.md

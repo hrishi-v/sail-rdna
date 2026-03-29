@@ -24,6 +24,7 @@
         pythonEnv = pkgs.python311.withPackages (ps: with ps; [
           lxml
           numpy
+          pytest
         ]);
       in
       {
