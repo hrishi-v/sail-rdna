@@ -1,4 +1,5 @@
 #define WAVE_SIZE 32
+#define MEM_BUF_SIZE 64  // 64 ints = 256 bytes, enough for all memory tests
 
 #ifndef NUM_VGPRS
 #define NUM_VGPRS 1

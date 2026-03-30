@@ -10,18 +10,21 @@
 #endif
 
 extern "C" __global__
-void asm_kernel(int* vgpr_out, int* sgpr_out) {
-    // Compute per-lane store address in HIP so the asm doesn't need to.
-    // addr_lo/addr_hi are passed as "v" inputs (%0 and %1).
-    // v2 and v3 are in the clobber list so the compiler won't alias them with %0/%1.
+void asm_kernel(int* vgpr_out, int* sgpr_out, int* mem_buf) {
+    // %0/%1: per-lane vgpr_out address (lo/hi), used by all dump files
     uint64_t addr = (uint64_t)(vgpr_out + threadIdx.x);
     uint32_t addr_lo = (uint32_t)(addr);
     uint32_t addr_hi = (uint32_t)(addr >> 32);
+    // %2/%3: uniform mem_buf base address (lo/hi), used by memory tests
+    uint64_t mem_buf_addr = (uint64_t)(mem_buf);
+    uint32_t mem_buf_lo = (uint32_t)(mem_buf_addr);
+    uint32_t mem_buf_hi = (uint32_t)(mem_buf_addr >> 32);
     asm volatile(
         #include TEST_INC
         #include DUMP_INC
         :
-        : "v"(addr_lo), "v"(addr_hi)
-        : "v0", "v1", "v2", "v3", "v5", "v6", "memory"
+        : "v"(addr_lo), "v"(addr_hi), "v"(mem_buf_lo), "v"(mem_buf_hi) // %0-3
+        : "v0", "v1", "v2", "v3", "v4", "v5", "v6",
+          "v12", "v13", "v14", "v15", "memory"
     );
 }

@@ -38,20 +38,22 @@ static void write_register_file(const char* path, const char* prefix,
 }
 
 int main() {
-    int *d_vgpr, *d_sgpr;
+    int *d_vgpr, *d_sgpr, *d_mem_buf;
     int h_vgpr[NUM_VGPRS * WAVE_SIZE] = {};
     int h_sgpr[NUM_SGPRS > 0 ? NUM_SGPRS : 1] = {};
 
     CHECK(hipMalloc(&d_vgpr, NUM_VGPRS * WAVE_SIZE * sizeof(int)));
     CHECK(hipMalloc(&d_sgpr, (NUM_SGPRS > 0 ? NUM_SGPRS : 1) * sizeof(int)));
+    CHECK(hipMalloc(&d_mem_buf, MEM_BUF_SIZE * sizeof(int)));
     CHECK(hipMemset(d_vgpr, 0, NUM_VGPRS * WAVE_SIZE * sizeof(int)));
     CHECK(hipMemset(d_sgpr, 0, (NUM_SGPRS > 0 ? NUM_SGPRS : 1) * sizeof(int)));
+    CHECK(hipMemset(d_mem_buf, 0, MEM_BUF_SIZE * sizeof(int)));
 
     hipLaunchKernelGGL(
         asm_kernel,
         dim3(1), dim3(WAVE_SIZE),
         0, 0,
-        d_vgpr, d_sgpr
+        d_vgpr, d_sgpr, d_mem_buf
     );
 
     CHECK(hipGetLastError());
@@ -63,12 +65,13 @@ int main() {
 
     CHECK(hipFree(d_vgpr));
     CHECK(hipFree(d_sgpr));
+    CHECK(hipFree(d_mem_buf));
 
     mkdir("outputs", 0755);
 
     const int vgpr_indices[] = VGPR_INDICES;
     write_register_file(
-        "outputs/" TEST_NAME "_vector_registers", "v",
+        "outputs/" TEST_NAME "_vector_registers", CAPTURE_PREFIX,
         h_vgpr, NUM_VGPRS, vgpr_indices
     );
 
@@ -83,7 +86,7 @@ int main() {
     std::cout << "=== " TEST_NAME " register dump ===" << "\n";
     const int* vi = vgpr_indices;
     for (int i = 0; i < NUM_VGPRS; i++) {
-        std::cout << "v" << std::dec << vi[i] << ":";
+        std::cout << CAPTURE_PREFIX << std::dec << vi[i] << ":";
         for (int lane = 0; lane < WAVE_SIZE; lane++)
             std::cout << " " << std::hex << std::setfill('0') << std::setw(8)
                       << static_cast<unsigned>(h_vgpr[i * WAVE_SIZE + lane]);
