@@ -1,0 +1,7 @@
+"v_mov_b32 v12, %2\n\t"
+"v_mov_b32 v13, %3\n\t"
+"v_mov_b32 v2, 0xCAFEBABE\n\t"
+"flat_store_b32 v[12:13], v2\n\t"
+"s_waitcnt vmcnt(0)\n\t"
+"flat_load_b32 v3, v[12:13]\n\t"
+"s_waitcnt vmcnt(0)\n\t"
