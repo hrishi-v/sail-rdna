@@ -24,8 +24,13 @@ outputs/
 
 flake-profile*
 
+# Generated logs
 verilator_include
 .direnv
 .claude
 .envrc
 CLAUDE.md
+
+
+# Test Harness build files
+bare_metal_test/build
