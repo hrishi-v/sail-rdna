@@ -25,43 +25,29 @@ HIP_OUTPUT_DIR = HIP_DIR / "outputs"
 
 def _run_sail() -> None:
     shutil.rmtree(SAIL_DUMP_DIR, ignore_errors=True)
-    result = subprocess.run(
-        ["make", "test"],
-        cwd=REPO_ROOT,
-        capture_output=True,
-        text=True,
-    )
+    result = subprocess.run(["make", "test"], cwd=REPO_ROOT, text=True, capture_output=True)
     if result.returncode != 0:
         raise RuntimeError(f"Sail `make test` failed:\n{result.stderr}")
 
 
 def _run_hip() -> None:
     shutil.rmtree(HIP_OUTPUT_DIR, ignore_errors=True)
-    result = subprocess.run(
-        ["make", "run"],
-        cwd=HIP_DIR,
-        capture_output=True,
-        text=True,
-    )
+    result = subprocess.run(["make", "run"], cwd=HIP_DIR, text=True, capture_output=True)
     if result.returncode != 0:
         raise RuntimeError(f"HIP `make run` failed:\n{result.stderr}")
 
 
 # ---------------------------------------------------------------------------
-# Test discovery
+# Test discovery (from source files, so --collect-only works without outputs)
 # ---------------------------------------------------------------------------
 
 
 def _hip_test_names() -> list[str]:
-    """Discover HIP test names from bare_metal_test/asm/*.inc (excluding dump files)."""
+    """Tests with a .inc file in bare_metal_test/asm/ (excluding dump files)."""
     asm_dir = HIP_DIR / "asm"
     if not asm_dir.exists():
         return []
-    return sorted(
-        p.stem
-        for p in asm_dir.glob("*.inc")
-        if not p.stem.endswith("_dump")
-    )
+    return sorted(p.stem for p in asm_dir.glob("*.inc") if not p.stem.endswith("_dump"))
 
 
 # ---------------------------------------------------------------------------
@@ -78,28 +64,12 @@ def pytest_addoption(parser: pytest.Parser) -> None:
     )
 
 
-def pytest_configure(config: pytest.Config) -> None:
-    if getattr(config.option, "collectonly", False):
-        return
-    if getattr(config.option, "skip_run", False):
-        return
-    _run_sail()
-    _run_hip()
-
-
 def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
-    """Parametrise test_name over the intersection of Sail and HIP test coverage."""
+    """Parametrise test_name over HIP-covered tests. Uses source files so
+    --collect-only works without needing outputs to exist first."""
     if "test_name" not in metafunc.fixturenames:
         return
-
-    sail_names: set[str] = (
-        {p.stem.removeprefix("vec_") for p in SAIL_DUMP_DIR.glob("vec_*.log")}
-        if SAIL_DUMP_DIR.exists()
-        else set()
-    )
-    hip_names = set(_hip_test_names())
-    common = sorted(sail_names & hip_names)
-    metafunc.parametrize("test_name", common)
+    metafunc.parametrize("test_name", _hip_test_names())
 
 
 # ---------------------------------------------------------------------------
@@ -107,11 +77,45 @@ def pytest_generate_tests(metafunc: pytest.Metafunc) -> None:
 # ---------------------------------------------------------------------------
 
 
+@pytest.fixture(scope="session", autouse=True)
+def run_harnesses(request: pytest.FixtureRequest) -> None:
+    """Run both test harnesses once per session before any tests execute.
+    Skipped when --skip-run is passed or during --collect-only."""
+    if request.config.getoption("--skip-run", default=False):
+        return
+    print("\n[diff] Running Sail harness (make test)...")
+    _run_sail()
+    print("[diff] Running HIP harness (make run)...")
+    _run_hip()
+    print("[diff] Both harnesses complete.")
+
+
 @pytest.fixture(scope="session")
-def sail_results() -> dict[str, RegisterDump]:
+def sail_results(run_harnesses: None) -> dict[str, RegisterDump]:
+    """Parsed Sail vector register dumps (vec_*.log), keyed by test name."""
     return parse.sail_vector_dumps(SAIL_DUMP_DIR)
 
 
 @pytest.fixture(scope="session")
-def hip_results() -> dict[str, RegisterDump]:
+def sail_scalar_results(run_harnesses: None) -> dict[str, RegisterDump]:
+    """Parsed Sail scalar register dumps (scal_*.log), keyed by test name."""
+    return parse.sail_scalar_dumps(SAIL_DUMP_DIR)
+
+
+@pytest.fixture(scope="session")
+def sail_all_results(
+    sail_results: dict[str, RegisterDump],
+    sail_scalar_results: dict[str, RegisterDump],
+) -> dict[str, RegisterDump]:
+    """Merged vector + scalar Sail dumps, keyed by test name."""
+    all_names = set(sail_results) | set(sail_scalar_results)
+    return {
+        name: {**sail_results.get(name, {}), **sail_scalar_results.get(name, {})}
+        for name in all_names
+    }
+
+
+@pytest.fixture(scope="session")
+def hip_results(run_harnesses: None) -> dict[str, RegisterDump]:
+    """Parsed HIP register dumps (*_vector_registers), keyed by test name."""
     return parse.hip_vector_dumps(HIP_OUTPUT_DIR)

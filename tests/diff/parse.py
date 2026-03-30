@@ -21,6 +21,14 @@ def parse_register_file(path: Path) -> RegisterDump:
     return result
 
 
+def sail_scalar_dumps(dump_dir: Path) -> dict[str, RegisterDump]:
+    """Parse all Sail scalar register dumps from outputs/register_dumps/scal_*.log."""
+    return {
+        path.stem.removeprefix("scal_"): parse_register_file(path)
+        for path in dump_dir.glob("scal_*.log")
+    }
+
+
 def sail_vector_dumps(dump_dir: Path) -> dict[str, RegisterDump]:
     """Parse all Sail vector register dumps from outputs/register_dumps/vec_*.log."""
     return {
