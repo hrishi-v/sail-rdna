@@ -1,0 +1,5 @@
+"s_mov_b32 exec_lo, -1\n\t"
+"v_mov_b32 v0, 42\n\t"
+"s_branch end_prog\n\t"
+"v_mov_b32 v0, 0\n\t"
+"end_prog:\n\t"

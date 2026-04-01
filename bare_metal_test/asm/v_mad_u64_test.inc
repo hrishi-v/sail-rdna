@@ -1,0 +1,6 @@
+"s_mov_b32 exec_lo, -1\n\t"
+"s_mov_b32 s10, 0x00010000\n\t"
+"s_mov_b32 s11, 0x00010000\n\t"
+"v_mov_b32 v2, 0x00000001\n\t"
+"v_mov_b32 v3, 0x00000000\n\t"
+"v_mad_u64_u32 v[0:1], null, s10, s11, v[2:3]\n\t"

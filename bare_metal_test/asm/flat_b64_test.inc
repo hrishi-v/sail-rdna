@@ -1,0 +1,8 @@
+"v_mov_b32 v10, %2\n\t"
+"v_mov_b32 v11, %3\n\t"
+"v_mov_b32 v4, 0xDEADBEEF\n\t"
+"v_mov_b32 v5, 0xCAFEBABE\n\t"
+"flat_store_b64 v[10:11], v[4:5]\n\t"
+"s_waitcnt vmcnt(0)\n\t"
+"flat_load_b64 v[0:1], v[10:11]\n\t"
+"s_waitcnt vmcnt(0)\n\t"
