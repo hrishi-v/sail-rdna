@@ -20,7 +20,7 @@ function wVCC value = {
 }
 
 // Read from a Vector register, returning a lane-specific value
-val rVGPR : (vector_src, vector_lane_id) -> DWORD
+val rVGPR : (vgpr_idx, lane_id) -> DWORD
 function rVGPR(reg_id, lane_id) = {
     let reg_idx = unsigned(reg_id);
     let lane_idx = unsigned(lane_id);
@@ -30,7 +30,7 @@ function rVGPR(reg_id, lane_id) = {
 }
 
 // Write VGPR registers
-val wVGPR : (vector_dst, vector_lane_id, DWORD) -> unit
+val wVGPR : (vgpr_idx, lane_id, DWORD) -> unit
 function wVGPR(reg_id, lane_id, value) = {
     let reg_idx = unsigned(reg_id);
     let lane_idx = unsigned(lane_id);
@@ -41,7 +41,7 @@ function wVGPR(reg_id, lane_id, value) = {
 }
 
 // Route the VGPR Instructions
-val read_vector_source : (bits(9), vector_lane_id) -> DWORD
+val read_vector_source : (vop_src, lane_id) -> DWORD
 function read_vector_source(src, lane_id) = {
     let idx = unsigned(src);
 

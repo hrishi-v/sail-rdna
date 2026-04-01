@@ -1,39 +1,51 @@
 union ast = {
     // SOP2 Instructions
-    Inst_S_ADD_I32 : (scalar_dst, scalar_src, scalar_src),
-    Inst_S_SUB_U32 : (scalar_dst, scalar_src, scalar_src),
-    Inst_S_ADD_U32 : (scalar_dst, scalar_src, scalar_src),
-    Inst_S_CSELECT_B32 : (scalar_dst, scalar_src, scalar_src),
-    Inst_S_LSHR_B64 : (scalar_dst, scalar_src, scalar_src),
+    Inst_S_ADD_I32 : (sgpr_idx, sgpr_src, sgpr_src),
+    Inst_S_SUB_U32 : (sgpr_idx, sgpr_src, sgpr_src),
+    Inst_S_ADD_U32 : (sgpr_idx, sgpr_src, sgpr_src),
+    Inst_S_CSELECT_B32 : (sgpr_idx, sgpr_src, sgpr_src),
+    Inst_S_LSHR_B64 : (sgpr_idx, sgpr_src, sgpr_src),
 
     // SOP1 Instructions
-    Inst_S_MOV_B32 : (scalar_dst, scalar_src),
-    Inst_S_MOV_B64 : (scalar_dst, scalar_src),
+    Inst_S_MOV_B32 : (sgpr_idx, sgpr_src),
+    Inst_S_MOV_B64 : (sgpr_idx, sgpr_src),
 
     // SOPC Instructions
-    Inst_S_CMP_EQ_I32 : (scalar_src, scalar_src),
-    Inst_S_CMP_LG_I32 : (scalar_src, scalar_src),
+    Inst_S_CMP_EQ_I32 : (sgpr_src, sgpr_src),
+    Inst_S_CMP_LG_I32 : (sgpr_src, sgpr_src),
 
     // SOPP Instructions
+    Inst_S_CLAUSE : unit,
+    Inst_S_DELAY_ALU : unit,
     Inst_S_WAITCNT : bits(16),
+    Inst_S_BRANCH : bits(16),
     Inst_S_ENDPGM : unit,
 
+    // VOP3SD Instructions
+    Inst_V_MAD_U64_U32 : (vgpr_idx, sgpr_idx, vop_src, vop_src, vop_src),
+
     // VOP2 Instructions
-    Inst_V_ADD_NC_U32 : (vector_dst, vop_src, vop_src),
+    Inst_V_ASHRREV_I32 : (vgpr_idx, vop_src, vop_src),
+    Inst_V_ADD_NC_U32 : (vgpr_idx, vop_src, vop_src),
 
     // VOP1 Instructions
-    Inst_V_MOV_B32 : (vector_dst, vop_src),
+    Inst_V_MOV_B32 : (vgpr_idx, vop_src),
 
     // SMEM Instructions
-    Inst_S_LOAD_B64 : (smem_base, smem_data, smem_offset, smem_soffset),
+    // sbase: bits(6) — 6-bit SGPR pair base (unique width, not sgpr_idx)
+    Inst_S_LOAD_B64 : (bits(6), sgpr_idx, bits(21), sgpr_idx),
 
     // FLAT Instructions
-    Inst_FLAT_LOAD_B32 : (flat_offset, flat_dlc_bit, flat_glc_bit,
-                          flat_slc_bit, flat_seg, flat_op, flat_addr,
-                          flat_data, flat_saddr, flat_sve_bit, flat_vdst),
-    Inst_FLAT_STORE_B32 : (flat_offset, flat_dlc_bit, flat_glc_bit,
-                          flat_slc_bit, flat_seg, flat_op, flat_addr,
-                          flat_data, flat_saddr, flat_sve_bit, flat_vdst),
+    // fields: offset(12), dlc(1), glc(1), slc(1), seg(2), op(8),
+    //         addr(vgpr_idx), data(vgpr_idx), saddr(sgpr_idx), sve(1), vdst(vgpr_idx)
+    Inst_FLAT_LOAD_B32 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
+                          vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
+    Inst_FLAT_STORE_B32 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
+                           vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
+    Inst_FLAT_LOAD_B64 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
+                          vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
+    Inst_FLAT_STORE_B64 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
+                           vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
 
     Inst_INVALID : unit
 }

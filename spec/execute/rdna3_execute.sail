@@ -13,12 +13,15 @@ function execute inst = {
         Inst_S_CMP_EQ_I32(s0, s1) => s_cmp_eq_i32(s0, s1),
         Inst_S_CMP_LG_I32(s0, s1) => s_cmp_lg_i32(s0, s1),
         // SOPP
+        Inst_S_CLAUSE() => s_clause(),
+        Inst_S_DELAY_ALU() => s_delay_alu(),
         Inst_S_WAITCNT(simm) => s_waitcnt(simm),
+        Inst_S_BRANCH(simm) => s_branch(simm),
         Inst_S_ENDPGM() => s_endpgm(),
+        // VOP3
+        Inst_V_MAD_U64_U32(vd, sd, s0, s1, s2) => v_mad_u64_u32(vd, sd, s0, s1, s2),
         // VOP2
-        Inst_V_ADD_NC_U32(vd, vs, s) => {
-            v_add_nc_u32(vd, vs, s)
-        },
+        Inst_V_ADD_NC_U32(vd, vs, s) => v_add_nc_u32(vd, vs, s),
         // SMEM
         Inst_S_LOAD_B64(sbase, sdata, offset, soffset) => s_load_b64(sbase, sdata, offset, soffset),
         // VOP1
@@ -38,6 +41,32 @@ function execute inst = {
             vdst,
         ),
         Inst_FLAT_STORE_B32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) => flat_store_b32(
+            offset,
+            dlc,
+            glc,
+            slc,
+            seg,
+            op,
+            addr,
+            data,
+            saddr,
+            sve,
+            vdst,
+        ),
+        Inst_FLAT_LOAD_B64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) => flat_load_b64(
+            offset,
+            dlc,
+            glc,
+            slc,
+            seg,
+            op,
+            addr,
+            data,
+            saddr,
+            sve,
+            vdst,
+        ),
+        Inst_FLAT_STORE_B64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) => flat_store_b64(
             offset,
             dlc,
             glc,

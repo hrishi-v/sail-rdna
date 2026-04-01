@@ -15,8 +15,10 @@ function flat_decode instr = {
     let vdst = instr[63..56];
 
     match opc {
-        0b00010100 => Inst_FLAT_LOAD_B32(offset, dlc, glc, slc, seg, opc, addr, data, saddr, sve, vdst),
-        0b00011010 => Inst_FLAT_STORE_B32(offset, dlc, glc, slc, seg, opc, addr, data, saddr, sve, vdst),
+        0b00010100 => Inst_FLAT_LOAD_B32(offset, dlc, glc, slc, seg, opc, addr, data, saddr, sve, vdst), // 20
+        0b00011010 => Inst_FLAT_STORE_B32(offset, dlc, glc, slc, seg, opc, addr, data, saddr, sve, vdst), // 21
+        0b00010101 => Inst_FLAT_LOAD_B64(offset, dlc, glc, slc, seg, opc, addr, data, saddr, sve, vdst), // 26
+        0b00011011 => Inst_FLAT_STORE_B64(offset, dlc, glc, slc, seg, opc, addr, data, saddr, sve, vdst), // 27
         _ => Inst_INVALID(),
     }
 }

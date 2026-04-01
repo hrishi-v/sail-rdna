@@ -1,37 +1,12 @@
 $include <prelude.sail>
 
-type SHORT_LENGTH : Int = 16
-type DWORD_LENGTH : Int = 32
-type QWORD_LENGTH : Int = 64
-
 type BYTE = bits(8)
-type SHORT = bits(SHORT_LENGTH)
-type DWORD = bits(DWORD_LENGTH)
-type QWORD = bits(QWORD_LENGTH)
+type DWORD = bits(32)
+type QWORD = bits(64)
 
-type scalar_dst = bits(7)
-type scalar_src = bits(8)
-
-type vector_dst = bits(8)
-type vector_src = bits(8)
-type vop_src = bits(9)
-type vector_lane_id = bits(5)
-
-// FLAT
-type flat_offset = bits(12)
-type flat_dlc_bit = bits(1)
-type flat_glc_bit = bits(1)
-type flat_slc_bit = bits(1)
-type flat_seg = bits(2)
-type flat_op = bits(8)
-type flat_addr = bits(8)
-type flat_data = bits(8)
-type flat_saddr = bits(7)
-type flat_sve_bit = bits(1)
-type flat_vdst = bits(8)
-
-// SMEM
-type smem_base = bits(6)
-type smem_data = bits(7)
-type smem_offset = bits(21)
-type smem_soffset = bits(7)
+// Operand types — named by semantic role, not instruction format
+type sgpr_idx  = bits(7)   // SGPR index (destinations, saddr, soffset, etc.)
+type sgpr_src  = bits(8)   // Scalar source encoding (SGPR + inline constants 0-255)
+type vgpr_idx  = bits(8)   // VGPR index (0-255)
+type vop_src   = bits(9)   // VOP source (scalar range 0-255 + VGPR 256-511)
+type lane_id   = bits(5)   // Lane index within a wavefront (0-31)

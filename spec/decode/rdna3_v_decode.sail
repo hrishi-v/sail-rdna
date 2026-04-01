@@ -8,16 +8,21 @@ function vop3_decode instr = {
 
     let encoding = instr[31..26];
     let opc = instr[25..16];
+    // VOP3A fields
     let cm = instr[15..15];
     let opsel = instr[14..11];
     let abs = instr[10..8];
     let vdst = instr[7..0];
+    // VOP3SD extra field (replaces cm/opsel/abs); valid values all fit in 7 bits (max 127)
+    let sdst : sgpr_idx = instr[14..8];
 
     let vsrc = instr[16..9];
     let src = instr[8..0];
 
     match opc {
         0b0100100101 => Inst_V_ADD_NC_U32(vdst, src1, src0),
+        // VOP3SD
+        0b1011111110 => Inst_V_MAD_U64_U32(vdst, sdst, src0, src1, src2), // 766, ISA §16.12
         _ => {
             print("VOP3 Decode Error: Unknown Opcode 0x");
             Inst_INVALID()

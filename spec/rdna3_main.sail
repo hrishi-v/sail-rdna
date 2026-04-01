@@ -35,7 +35,7 @@ function step () = {
 val get_pc : unit -> QWORD
 function get_pc () = { PC }
 
-val get_sgpr : scalar_dst -> DWORD
+val get_sgpr : sgpr_idx -> DWORD
 function get_sgpr id = {
     rSGPR(id)
 }
@@ -86,6 +86,7 @@ function main () = {
     reset_lgkmcnt();
     reset_halt_flag();
 
+    write_mem_8(dummy_addr, dummy_data8);
     write_mem_32(dummy_addr, dummy_data32);
     let _ = read_mem_32(dummy_addr);
     let _ = get_halt_flag();
