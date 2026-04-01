@@ -35,6 +35,12 @@ def pytest_addoption(parser: pytest.Parser) -> None:
         default=False,
         help="Keep generated fuzz files in fuzzer/fuzz_tests/ after the run.",
     )
+    parser.addoption(
+        "--brute-force",
+        action="store_true",
+        default=False,
+        help="Also run brute-force register comparison (v0-v27 except v14:v15).",
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -45,6 +51,10 @@ def pytest_addoption(parser: pytest.Parser) -> None:
 
 def pytest_configure(config: pytest.Config) -> None:
     config.addinivalue_line("markers", "fuzz: marks tests as part of the fuzz suite")
+    config.addinivalue_line(
+        "markers",
+        "brute_force: marks tests that require --brute-force to run",
+    )
 
 
 def pytest_collection_modifyitems(
@@ -52,10 +62,14 @@ def pytest_collection_modifyitems(
     items: list[pytest.Item],
 ) -> None:
     fuzz_active = config.getoption("--fuzz", default=False)
+    bf_active = config.getoption("--brute-force", default=False)
     skip_diff = pytest.mark.skip(reason="skipped in --fuzz mode (run without --fuzz to enable)")
     skip_fuzz = pytest.mark.skip(reason="fuzz tests require --fuzz flag")
+    skip_bf = pytest.mark.skip(reason="brute-force tests require --brute-force flag")
     for item in items:
         if "tests/diff" in str(item.fspath) and fuzz_active:
             item.add_marker(skip_diff)
         elif item.get_closest_marker("fuzz") and not fuzz_active:
             item.add_marker(skip_fuzz)
+        elif item.get_closest_marker("brute_force") and not bf_active:
+            item.add_marker(skip_bf)

@@ -19,8 +19,10 @@ function execute inst = {
         Inst_S_BRANCH(simm) => s_branch(simm),
         Inst_S_ENDPGM() => s_endpgm(),
         // VOP3
+        Inst_V_LSHLREV_B64(vd, s0, s1) => v_lshlrev_b64(vd, s0, s1),
         Inst_V_MAD_U64_U32(vd, sd, s0, s1, s2) => v_mad_u64_u32(vd, sd, s0, s1, s2),
         // VOP2
+        Inst_V_ASHRREV_I32(vd, vs, s) => v_ashrrev_i32(vd, vs, s),
         Inst_V_ADD_NC_U32(vd, vs, s) => v_add_nc_u32(vd, vs, s),
         // SMEM
         Inst_S_LOAD_B64(sbase, sdata, offset, soffset) => s_load_b64(sbase, sdata, offset, soffset),

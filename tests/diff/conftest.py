@@ -17,24 +17,59 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 SAIL_DUMP_DIR = REPO_ROOT / "outputs" / "register_dumps"
 HIP_DIR = REPO_ROOT / "bare_metal_test"
 HIP_OUTPUT_DIR = HIP_DIR / "outputs"
+HIP_BF_OUTPUT_DIR = HIP_DIR / "outputs_brute_force"
+
+# ---------------------------------------------------------------------------
+# Sentinel register allow-lists
+#
+# Maps test name -> set of register names that are permitted to be non-zero
+# in the Sail full dump after the test runs.  Every other register must be
+# zero; if it isn't, the Sail spec is accidentally clobbering it.
+#
+# Include both the "result" registers AND any scratch registers the test .asm
+# uses internally (e.g. address setup registers).  Update this dict whenever
+# you add a new test.
+# ---------------------------------------------------------------------------
+
+_SAIL_ALLOWED_NONZERO: dict[str, frozenset[str]] = {
+    "add_one":         frozenset({"v5"}),
+    "v_add":           frozenset({"v0", "v1"}),
+    "scalar_alu":      frozenset({"s0", "s1", "s2"}),
+    "vector_alu":      frozenset({"v0", "v1", "s0"}),
+    "imm_pc":          frozenset({"v1", "v2"}),
+    "flat_store":      frozenset({"v0", "v1", "v2", "v3"}),
+    "s_load_b64_test": frozenset({"v0", "v1", "v2", "v3", "s0", "s1", "s2", "s3"}),
+    "s_branch":        frozenset({"v0"}),
+    "flat_b64_test":   frozenset({"v0", "v1", "v2", "v3", "v4", "v5"}),
+    "v_mad_u64_test":       frozenset({"v0", "v1", "v2", "v3", "s0", "s1"}),
+    "v_lshlrev_b64_test":  frozenset({"v0", "v1", "v2"}),
+}
 
 # ---------------------------------------------------------------------------
 # Harness runners
 # ---------------------------------------------------------------------------
 
 
+def _run(cmd: list[str], cwd: Path, label: str) -> None:
+    """Run a shell command, streaming its output live.  Raises on failure."""
+    result = subprocess.run(cmd, cwd=cwd)
+    if result.returncode != 0:
+        raise RuntimeError(f"{label} failed (exit {result.returncode})")
+
+
 def _run_sail() -> None:
     shutil.rmtree(SAIL_DUMP_DIR, ignore_errors=True)
-    result = subprocess.run(["make", "test"], cwd=REPO_ROOT, text=True, capture_output=True)
-    if result.returncode != 0:
-        raise RuntimeError(f"Sail `make test` failed:\n{result.stderr}")
+    _run(["make", "test"], REPO_ROOT, "Sail `make test`")
 
 
 def _run_hip() -> None:
     shutil.rmtree(HIP_OUTPUT_DIR, ignore_errors=True)
-    result = subprocess.run(["make", "run"], cwd=HIP_DIR, text=True, capture_output=True)
-    if result.returncode != 0:
-        raise RuntimeError(f"HIP `make run` failed:\n{result.stderr}")
+    _run(["make", "run"], HIP_DIR, "HIP `make run`")
+
+
+def _run_hip_brute_force() -> None:
+    shutil.rmtree(HIP_BF_OUTPUT_DIR, ignore_errors=True)
+    _run(["make", "brute_force_run"], HIP_DIR, "HIP `make brute_force_run`")
 
 
 # ---------------------------------------------------------------------------
@@ -119,3 +154,30 @@ def sail_all_results(
 def hip_results(run_harnesses: None) -> dict[str, RegisterDump]:
     """Parsed HIP register dumps (*_vector_registers), keyed by test name."""
     return parse.hip_vector_dumps(HIP_OUTPUT_DIR)
+
+
+@pytest.fixture(scope="session")
+def run_brute_force(request: pytest.FixtureRequest) -> None:
+    """Build and run the brute-force HIP harness (make brute_force_run).
+    Only executes when --brute-force is passed."""
+    if not request.config.getoption("--brute-force", default=False):
+        return
+    if request.config.getoption("--skip-run", default=False):
+        return
+    print("\n[brute-force] Building and running HIP brute-force harness...")
+    _run_hip_brute_force()
+    print("[brute-force] Done.")
+
+
+@pytest.fixture(scope="session")
+def brute_force_hip_results(run_brute_force: None) -> dict[str, RegisterDump]:
+    """Parsed HIP brute-force dumps (v0-v13, v16-v27), keyed by test name."""
+    if not HIP_BF_OUTPUT_DIR.exists():
+        return {}
+    return parse.hip_vector_dumps(HIP_BF_OUTPUT_DIR)
+
+
+@pytest.fixture(scope="session")
+def sail_allowed_nonzero() -> dict[str, frozenset[str]]:
+    """Per-test set of register names permitted to be non-zero in the Sail dump."""
+    return _SAIL_ALLOWED_NONZERO

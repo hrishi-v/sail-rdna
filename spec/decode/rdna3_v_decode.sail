@@ -8,11 +8,13 @@ function vop3_decode instr = {
 
     let encoding = instr[31..26];
     let opc = instr[25..16];
+
     // VOP3A fields
     let cm = instr[15..15];
     let opsel = instr[14..11];
     let abs = instr[10..8];
     let vdst = instr[7..0];
+
     // VOP3SD extra field (replaces cm/opsel/abs); valid values all fit in 7 bits (max 127)
     let sdst : sgpr_idx = instr[14..8];
 
@@ -20,7 +22,9 @@ function vop3_decode instr = {
     let src = instr[8..0];
 
     match opc {
-        0b0100100101 => Inst_V_ADD_NC_U32(vdst, src1, src0),
+        // VOP3
+        0b0100100101 => Inst_V_ADD_NC_U32(vdst, src0, src1), // 293 - same implementation, different encoding!
+        0b1100111100 => Inst_V_LSHLREV_B64(vdst, src0, src1), // 828, ISA §16.7
         // VOP3SD
         0b1011111110 => Inst_V_MAD_U64_U32(vdst, sdst, src0, src1, src2), // 766, ISA §16.12
         _ => {
@@ -37,10 +41,9 @@ function vop2_decode instr = {
     let vsrc = instr[16..9];
     let src = instr[8..0];
     match opc {
-        // VOP2 Instructions
-        0b100101 => {
-            Inst_V_ADD_NC_U32(vdst, 0b1 @ vsrc, src)
-        },
+        // VOP2
+        0b011010 => Inst_V_ASHRREV_I32(vdst, 0b1 @ vsrc, src), // 26
+        0b100101 => Inst_V_ADD_NC_U32(vdst, 0b1 @ vsrc, src), // 37
         _ => Inst_INVALID(),
     }
 }

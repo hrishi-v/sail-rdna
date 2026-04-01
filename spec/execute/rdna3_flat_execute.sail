@@ -1,5 +1,16 @@
-val flat_load_b32 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-                     vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx) -> unit
+val flat_load_b32 : (
+        bits(12),
+        bits(1),
+        bits(1),
+        bits(1),
+        bits(2),
+        BYTE,
+        vgpr_idx,
+        vgpr_idx,
+        sgpr_idx,
+        bits(1),
+        vgpr_idx,
+    ) -> unit
 function flat_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
     let actual_offset : QWORD = EXTZ(offset[11..0]);
     let shared_base = SHARED_BASE;
@@ -30,8 +41,19 @@ function flat_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, v
     }
 }
 
-val flat_store_b32 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-                      vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx) -> unit
+val flat_store_b32 : (
+        bits(12),
+        bits(1),
+        bits(1),
+        bits(1),
+        bits(2),
+        BYTE,
+        vgpr_idx,
+        vgpr_idx,
+        sgpr_idx,
+        bits(1),
+        vgpr_idx,
+    ) -> unit
 function flat_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
     let actual_offset : QWORD = EXTZ(offset[11..0]);
     let shared_base = SHARED_BASE;
@@ -63,8 +85,19 @@ function flat_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, 
     }
 }
 
-val flat_load_b64 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-                     vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx) -> unit
+val flat_load_b64 : (
+        bits(12),
+        bits(1),
+        bits(1),
+        bits(1),
+        bits(2),
+        BYTE,
+        vgpr_idx,
+        vgpr_idx,
+        sgpr_idx,
+        bits(1),
+        vgpr_idx,
+    ) -> unit
 function flat_load_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
     let actual_offset : QWORD = EXTZ(offset[11..0]);
     let shared_base = SHARED_BASE;
@@ -101,8 +134,19 @@ function flat_load_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, v
     }
 }
 
-val flat_store_b64 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-                      vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx) -> unit
+val flat_store_b64 : (
+        bits(12),
+        bits(1),
+        bits(1),
+        bits(1),
+        bits(2),
+        BYTE,
+        vgpr_idx,
+        vgpr_idx,
+        sgpr_idx,
+        bits(1),
+        vgpr_idx,
+    ) -> unit
 function flat_store_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
     let actual_offset : QWORD = EXTZ(offset[11..0]);
     let shared_base = SHARED_BASE;

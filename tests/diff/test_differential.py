@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import pytest
+
 from parse import RegisterDump
 
 
@@ -42,3 +44,83 @@ def test_vgpr_values_match(
                 f"  sail: {[hex(v) for v in sail_val]}\n"
                 f"  hip:  {[hex(v) for v in hip_lanes]}"
             )
+
+
+def test_no_register_clobber(
+    test_name: str,
+    sail_all_results: dict[str, RegisterDump],
+    sail_allowed_nonzero: dict[str, frozenset[str]],
+) -> None:
+    """Check the Sail spec doesn't write to registers it shouldn't.
+
+    The Sail emulator always dumps every VGPR (v0-v255) and SGPR (s0-s107).
+    For each test we maintain an explicit allow-list of which registers the
+    test is expected to modify.  Anything outside that list must remain zero.
+
+    If a test name is missing from the allow-list the check is skipped with a
+    warning — add it to _SAIL_ALLOWED_NONZERO in conftest.py when you write
+    the test.
+    """
+    if test_name not in sail_allowed_nonzero:
+        pytest.skip(f"No sentinel allow-list defined for '{test_name}' — add it to _SAIL_ALLOWED_NONZERO")
+
+    assert test_name in sail_all_results, f"No Sail output found for '{test_name}'"
+
+    sail = sail_all_results[test_name]
+    allowed = sail_allowed_nonzero[test_name]
+
+    unexpected: dict[str, list[str]] = {}
+    for reg, vals in sail.items():
+        if reg in allowed:
+            continue
+        nonzero = [hex(v) for v in vals if v != 0]
+        if nonzero:
+            unexpected[reg] = nonzero
+
+    assert not unexpected, (
+        f"[{test_name}] Sail modified registers outside the expected set.\n"
+        f"  This likely means the spec has a side-effect bug.\n"
+        + "\n".join(f"  {reg}: {vals}" for reg, vals in sorted(unexpected.items()))
+    )
+
+
+@pytest.mark.brute_force
+def test_brute_force_no_clobber(
+    test_name: str,
+    sail_all_results: dict[str, RegisterDump],
+    brute_force_hip_results: dict[str, RegisterDump],
+) -> None:
+    """Compare v0-v27 (excluding v14:v15) between Sail and HIP hardware.
+
+    The brute-force dump captures 26 VGPRs per test using global_store_b32,
+    skipping v14 and v15 which the dump mechanism uses as the output address.
+    Any divergence means either:
+      - Sail is computing a wrong value (spec bug), or
+      - Sail is writing to a register hardware doesn't (side-effect bug).
+
+    Requires --brute-force flag to run.
+    """
+    assert test_name in sail_all_results, f"No Sail output found for '{test_name}'"
+
+    if test_name not in brute_force_hip_results:
+        pytest.skip(f"No brute-force HIP output for '{test_name}' — did make brute_force_run complete?")
+
+    sail = sail_all_results[test_name]
+    hip_bf = brute_force_hip_results[test_name]
+
+    mismatches: list[str] = []
+    for reg, hip_lanes in hip_bf.items():
+        if reg not in sail:
+            mismatches.append(f"  {reg}: missing from Sail dump")
+            continue
+        sail_lanes = sail[reg]
+        if sail_lanes != hip_lanes:
+            mismatches.append(
+                f"  {reg}:\n"
+                f"    sail: {[hex(v) for v in sail_lanes]}\n"
+                f"    hip:  {[hex(v) for v in hip_lanes]}"
+            )
+
+    assert not mismatches, (
+        f"[{test_name}] brute-force register divergence:\n" + "\n".join(mismatches)
+    )

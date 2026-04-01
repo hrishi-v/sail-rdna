@@ -63,7 +63,39 @@ s_load_b64_test_VGPR_IDX    := {2, 3}
 s_load_b64_test_SGPR_IDX    := {}
 s_load_b64_test_CAPTURE_PREFIX := s
 
-TESTS := add_one v_add scalar_alu vector_alu imm_pc flat_store s_load_b64_test
+s_branch_TEST_INC       := asm/s_branch.inc
+s_branch_DUMP_INC       := asm/s_branch_dump.inc
+s_branch_NUM_VGPRS      := 1
+s_branch_NUM_SGPRS      := 0
+s_branch_VGPR_IDX       := {0}
+s_branch_SGPR_IDX       := {}
+s_branch_CAPTURE_PREFIX := v
+
+flat_b64_test_TEST_INC       := asm/flat_b64_test.inc
+flat_b64_test_DUMP_INC       := asm/flat_b64_test_dump.inc
+flat_b64_test_NUM_VGPRS      := 2
+flat_b64_test_NUM_SGPRS      := 0
+flat_b64_test_VGPR_IDX       := {0, 1}
+flat_b64_test_SGPR_IDX       := {}
+flat_b64_test_CAPTURE_PREFIX := v
+
+v_mad_u64_test_TEST_INC := asm/v_mad_u64_test.inc
+v_mad_u64_test_DUMP_INC := asm/v_mad_u64_test_dump.inc
+v_mad_u64_test_NUM_VGPRS := 2
+v_mad_u64_test_NUM_SGPRS := 0
+v_mad_u64_test_VGPR_IDX       := {0, 1}
+v_mad_u64_test_SGPR_IDX       := {}
+v_mad_u64_test_CAPTURE_PREFIX := v
+
+v_lshlrev_b64_test_TEST_INC := asm/v_lshlrev_b64_test.inc
+v_lshlrev_b64_test_DUMP_INC := asm/v_lshlrev_b64_test_dump.inc
+v_lshlrev_b64_test_NUM_VGPRS := 2
+v_lshlrev_b64_test_NUM_SGPRS := 0
+v_lshlrev_b64_test_VGPR_IDX       := {0, 1}
+v_lshlrev_b64_test_SGPR_IDX       := {}
+v_lshlrev_b64_test_CAPTURE_PREFIX := v
+
+TESTS := v_lshlrev_b64_test v_mad_u64_test flat_b64_test s_load_b64_test flat_store add_one v_add scalar_alu vector_alu imm_pc s_branch
 
 # ---------------------------------------------------------------------------
 # Build rules

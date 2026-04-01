@@ -23,6 +23,7 @@ union ast = {
 
     // VOP3SD Instructions
     Inst_V_MAD_U64_U32 : (vgpr_idx, sgpr_idx, vop_src, vop_src, vop_src),
+    Inst_V_LSHLREV_B64 : (vgpr_idx, vop_src, vop_src),
 
     // VOP2 Instructions
     Inst_V_ASHRREV_I32 : (vgpr_idx, vop_src, vop_src),

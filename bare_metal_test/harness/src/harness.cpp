@@ -14,6 +14,10 @@
 #define CAPTURE_PREFIX "v"
 #endif
 
+#ifndef OUTPUT_DIR
+#define OUTPUT_DIR "outputs"
+#endif
+
 #define CHECK(x) do { auto err = (x); if (err != hipSuccess) { \
   std::cerr << hipGetErrorString(err) << "\n"; std::exit(1); } } while(0)
 
@@ -67,18 +71,18 @@ int main() {
     CHECK(hipFree(d_sgpr));
     CHECK(hipFree(d_mem_buf));
 
-    mkdir("outputs", 0755);
+    mkdir(OUTPUT_DIR, 0755);
 
     const int vgpr_indices[] = VGPR_INDICES;
     write_register_file(
-        "outputs/" TEST_NAME "_vector_registers", CAPTURE_PREFIX,
+        OUTPUT_DIR "/" TEST_NAME "_vector_registers", CAPTURE_PREFIX,
         h_vgpr, NUM_VGPRS, vgpr_indices
     );
 
     if (NUM_SGPRS > 0) {
         const int sgpr_indices[] = SGPR_INDICES;
         write_register_file(
-            "outputs/" TEST_NAME "_scalar_registers", "s",
+            OUTPUT_DIR "/" TEST_NAME "_scalar_registers", "s",
             h_sgpr, NUM_SGPRS, sgpr_indices
         );
     }
@@ -92,11 +96,15 @@ int main() {
                       << static_cast<unsigned>(h_vgpr[i * WAVE_SIZE + lane]);
         std::cout << "\n";
     }
+    
     if (NUM_SGPRS > 0) {
         const int sgpr_indices[] = SGPR_INDICES;
-        for (int i = 0; i < NUM_SGPRS; i++)
-            std::cout << "s" << std::dec << sgpr_indices[i] << ": "
-                      << std::hex << std::setfill('0') << std::setw(8)
-                      << static_cast<unsigned>(h_sgpr[i]) << "\n";
+        for (int i = 0; i < NUM_SGPRS; i++) {
+            std::cout << "s" << std::dec << sgpr_indices[i] << ":";
+            for (int lane = 0; lane < WAVE_SIZE; lane++)
+                std::cout << " " << std::hex << std::setfill('0') << std::setw(8)
+                          << static_cast<unsigned>(h_sgpr[i * WAVE_SIZE + lane]);
+            std::cout << "\n";
+        }
     }
 }

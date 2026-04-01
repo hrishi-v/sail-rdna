@@ -25,6 +25,6 @@ void asm_kernel(int* vgpr_out, int* sgpr_out, int* mem_buf) {
         :
         : "v"(addr_lo), "v"(addr_hi), "v"(mem_buf_lo), "v"(mem_buf_hi) // %0-3
         : "v0", "v1", "v2", "v3", "v4", "v5", "v6",
-          "v12", "v13", "v14", "v15", "memory"
+          "v10", "v11", "v12", "v13", "v14", "v15", "memory"
     );
 }
