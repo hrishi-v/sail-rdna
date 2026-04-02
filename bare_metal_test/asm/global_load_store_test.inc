@@ -1,0 +1,7 @@
+"v_mov_b32 v10, %2\n\t"
+"v_mov_b32 v11, %3\n\t"
+"v_mov_b32 v1, 0xDEADC0DE\n\t"
+"global_store_b32 v[10:11], v1, off\n\t"
+"s_waitcnt vmcnt(0)\n\t"
+"global_load_b32 v0, v[10:11], off\n\t"
+"s_waitcnt vmcnt(0)\n\t"

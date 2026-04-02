@@ -1,0 +1,6 @@
+"s_mov_b32 exec_lo, -1\n\t"
+"s_mov_b32 vcc_lo, 0xFFFFFFFF\n\t"
+"s_mov_b32 s10, 0xFFFFFFFF\n\t"
+"v_mov_b32 v2, 0x00000000\n\t"
+"v_add_co_ci_u32_e32 v0, s10, v2\n\t"
+"v_mov_b32 v1, vcc_lo\n\t"
