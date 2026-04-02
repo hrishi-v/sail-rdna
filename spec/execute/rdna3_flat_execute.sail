@@ -179,3 +179,79 @@ function flat_store_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, 
         }
     }
 }
+
+val global_load_b32 : (
+        bits(12),
+        bits(1),
+        bits(1),
+        bits(1),
+        bits(2),
+        BYTE,
+        vgpr_idx,
+        vgpr_idx,
+        sgpr_idx,
+        bits(1),
+        vgpr_idx,
+    ) -> unit
+function global_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
+    let saddr_u = unsigned(saddr);
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let final_addr : QWORD = if saddr_u == unsigned(0x7F) then {
+                // saddr=null: VGPR pair is the full 64-bit address
+                let addr_lo = rVGPR(addr, lane_bv);
+                let addr_hi = rVGPR(addr + 0x01, lane_bv);
+                (addr_hi @ addr_lo) + EXTZ(offset)
+            } else {
+                // SGPR pair is the 64-bit base; VGPR is a 32-bit per-lane offset
+                let base_lo : DWORD = rSGPR(saddr);
+                let base_hi : DWORD = rSGPR(get_slice_int(7, saddr_u + 1, 0));
+                let base : QWORD = base_hi @ base_lo;
+                base + EXTZ(rVGPR(addr, lane_bv)) + EXTZ(offset)
+            };
+            let read_data = read_mem_32(final_addr);
+            wVGPR(vdst, lane_bv, read_data);
+            VMCNT = VMCNT + 1
+        }
+    }
+}
+
+val global_store_b32 : (
+        bits(12),
+        bits(1),
+        bits(1),
+        bits(1),
+        bits(2),
+        BYTE,
+        vgpr_idx,
+        vgpr_idx,
+        sgpr_idx,
+        bits(1),
+        vgpr_idx,
+    ) -> unit
+function global_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
+    let saddr_u = unsigned(saddr);
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let final_addr : QWORD = if saddr_u == unsigned(0x7F) then {
+                // saddr=null: VGPR pair is the full 64-bit address
+                let addr_lo = rVGPR(addr, lane_bv);
+                let addr_hi = rVGPR(addr + 0x01, lane_bv);
+                (addr_hi @ addr_lo) + EXTZ(offset)
+            } else {
+                // SGPR pair is the 64-bit base; VGPR is a 32-bit per-lane offset
+                let base_lo : DWORD = rSGPR(saddr);
+                let base_hi : DWORD = rSGPR(get_slice_int(7, saddr_u + 1, 0));
+                let base : QWORD = base_hi @ base_lo;
+                base + EXTZ(rVGPR(addr, lane_bv)) + EXTZ(offset)
+            };
+            let write_data = rVGPR(data, lane_bv);
+            write_mem_32(final_addr, write_data);
+            VMCNT = VMCNT + 1
+        }
+    }
+}

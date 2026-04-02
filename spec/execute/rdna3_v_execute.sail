@@ -29,8 +29,6 @@ function v_ashrrev_i32(vdst, vsrc, src0) = {
 
 val v_add_nc_u32 : (vgpr_idx, vop_src, vop_src) -> unit
 function v_add_nc_u32(vdst, vsrc, src0) = {
-    // Pre-read scalar/literal sources once — same value for all lanes.
-    // read_vector_source handles literal fetch and PC advancement when src == 255.
     let op0_common : DWORD = if unsigned(src0) <= 255 then {
         read_vector_source(src0, 0b00000)
     } else { 0x00000000 };
@@ -62,6 +60,93 @@ function v_add_nc_u32(vdst, vsrc, src0) = {
             wVGPR(vdst, lane_bv, results[lane])
         }
     }
+}
+
+val v_add_co_ci_u32 : (vgpr_idx, vop_src, vop_src) -> unit
+function v_add_co_ci_u32(vdst, vsrc, src0) = {
+    let op0_common : DWORD = if unsigned(src0) <= 255 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if unsigned(vsrc) <= 255 then {
+        read_vector_source(vsrc, 0b00000)
+    } else { 0x00000000 };
+
+    var results : vector(32, dec, bits(32)) = undefined;
+    let carry_in : bits(32) = rVCC()[31..0];
+    var carry_out : bits(32) = 0x00000000;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 = if unsigned(src0) <= 255 then { op0_common } else {
+                rVGPR(get_slice_int(8, unsigned(src0) - 256, 0), lane_bv)
+            };
+            let op1 = if unsigned(vsrc) <= 255 then { op1_common } else {
+                rVGPR(get_slice_int(8, unsigned(vsrc) - 256, 0), lane_bv)
+            };
+            let ci_bit : bits(1) = carry_in[lane..lane];
+            let tmp : bits(33) = (0b0 @ op0) + (0b0 @ op1) + (0x00000000 @ ci_bit);
+            results[lane] = tmp[31..0];
+            carry_out[lane..lane] = tmp[32..32]
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            wVGPR(vdst, lane_bv, results[lane])
+        }
+    };
+
+    wVCC(rVCC()[63..32] @ carry_out)
+}
+
+val v_add_co_ci_u32_vop3 : (vgpr_idx, sgpr_idx, vop_src, vop_src, vop_src) -> unit
+function v_add_co_ci_u32_vop3(vdst, carry_dst, src0, src1, src2) = {
+    let src0_u = unsigned(src0);
+    let src1_u = unsigned(src1);
+
+    let op0_common : DWORD = if src0_u <= 255 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if src1_u <= 255 then {
+        read_vector_source(src1, 0b00000)
+    } else { 0x00000000 };
+
+    // carry-in is always an SGPR (src2 < 256), safe to pre-read outside the loop
+    let carry_in : bits(32) = read_vector_source(src2, 0b00000);
+
+    var results : vector(32, dec, bits(32)) = undefined;
+    var carry_out : bits(32) = 0x00000000;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 : DWORD = if src0_u <= 255 then { op0_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            };
+            let op1 : DWORD = if src1_u <= 255 then { op1_common } else {
+                rVGPR(get_slice_int(8, src1_u - 256, 0), lane_bv)
+            };
+            let ci_bit : bits(1) = carry_in[lane..lane];
+            let tmp : bits(33) = (0b0 @ op0) + (0b0 @ op1) + (0x00000000 @ ci_bit);
+            results[lane] = tmp[31..0];
+            carry_out[lane..lane] = tmp[32..32]
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            wVGPR(vdst, lane_bv, results[lane])
+        }
+    };
+
+    wSGPR(carry_dst, carry_out)
 }
 
 // VOP1 Instructions
@@ -110,6 +195,48 @@ function v_lshlrev_b64(vdst, src0, src1) = {
             wVGPR(vdst + 0x01, lane_bv, result[63..32])
         }
     }
+}
+
+val v_add_co_u32 : (vgpr_idx, sgpr_idx, vop_src, vop_src) -> unit
+function v_add_co_u32(vdst, carry_dst, src0, src1) = {
+    let src0_u = unsigned(src0);
+    let src1_u = unsigned(src1);
+
+    let op0_common : DWORD = if src0_u < 256 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if src1_u < 256 then {
+        read_vector_source(src1, 0b00000)
+    } else { 0x00000000 };
+
+    var results : vector(32, dec, bits(32)) = undefined;
+    var carry : bits(32) = 0x00000000;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 : DWORD = if src0_u < 256 then { op0_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            };
+            let op1 : DWORD = if src1_u < 256 then { op1_common } else {
+                rVGPR(get_slice_int(8, src1_u - 256, 0), lane_bv)
+            };
+            let tmp : bits(33) = (0b0 @ op0) + (0b0 @ op1);
+            results[lane] = tmp[31..0];
+            carry[lane..lane] = tmp[32..32]
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            wVGPR(vdst, lane_bv, results[lane])
+        }
+    };
+
+    wSGPR(carry_dst, carry)
 }
 
 // VOP3SD Instructions

@@ -42,7 +42,13 @@ _SAIL_ALLOWED_NONZERO: dict[str, frozenset[str]] = {
     "s_branch":        frozenset({"v0"}),
     "flat_b64_test":   frozenset({"v0", "v1", "v2", "v3", "v4", "v5"}),
     "v_mad_u64_test":       frozenset({"v0", "v1", "v2", "v3", "s0", "s1"}),
+    "v_ashrrev_i32_test":  frozenset({"v0"}),
+    "v_add_co_ci_u32_test": frozenset({"v1", "s10", "s106"}),
+    "v_add_co_u32_test":   frozenset({"v0", "v1", "s10", "s106"}),
     "v_lshlrev_b64_test":  frozenset({"v0", "v1", "v2"}),
+    "global_load_store_test": frozenset({"v0", "v1", "v2"}),
+    "s_and_b32_test": frozenset({"s0", "s1", "s2"}),
+    "s_load_b32_test": frozenset({"s0", "s2", "v0", "v2"}),
 }
 
 # ---------------------------------------------------------------------------

@@ -24,6 +24,15 @@ function s_sub_u32(sdst, ssrc0, ssrc1) = {
     wSCC(carry)
 }
 
+val s_and_b32 : (sgpr_idx, sgpr_src, sgpr_src) -> unit
+function s_and_b32(sdst, ssrc0, ssrc1) = {
+    let val0 : DWORD = read_common_source(unsigned(ssrc0));
+    let val1 : DWORD = read_common_source(unsigned(ssrc1));
+    let result : DWORD = val0 & val1;
+    wSGPR(sdst, result);
+    wSCC(if result == 0x00000000 then bitzero else bitone)
+}
+
 val s_lshr_b64 : (sgpr_idx, sgpr_src, sgpr_src) -> unit
 function s_lshr_b64(sdst, ssrc0, ssrc1) = {
     let val0 : QWORD = read_scalar_source64(ssrc0);
@@ -123,6 +132,29 @@ function s_waitcnt simm = {
 }
 
 // SMEM Instructions
+val s_load_b32 : (bits(6), sgpr_idx, bits(21), sgpr_idx) -> unit
+function s_load_b32(sbase, sdata, offset, soffset) = {
+    let base_idx = unsigned(sbase) * 2;
+    let base_lo : sgpr_src = get_slice_int(8, base_idx, 0);
+    let base_hi : sgpr_src = get_slice_int(8, base_idx + 1, 0);
+
+    let addr_lo = read_common_source(unsigned(base_lo));
+    let addr_hi = read_common_source(unsigned(base_hi));
+    let base_addr : QWORD = EXTZ(addr_hi) @ addr_lo;
+
+    let imm_offset : QWORD = EXTS(offset);
+
+    let soff : QWORD = if unsigned(soffset) == 127 then { 0x0000000000000000 } else {
+        EXTZ(read_common_source(unsigned(soffset)))
+    };
+
+    let final_addr = base_addr + imm_offset + soff;
+
+    let data = read_mem_32(final_addr);
+    let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
+    wSGPR(dst, data)
+}
+
 val s_load_b64 : (bits(6), sgpr_idx, bits(21), sgpr_idx) -> unit
 function s_load_b64(sbase, sdata, offset, soffset) = {
     let base_idx = unsigned(sbase) * 2;

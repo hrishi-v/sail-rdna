@@ -24,9 +24,11 @@ function vop3_decode instr = {
     match opc {
         // VOP3
         0b0100100101 => Inst_V_ADD_NC_U32(vdst, src0, src1), // 293 - same implementation, different encoding!
-        0b1100111100 => Inst_V_LSHLREV_B64(vdst, src0, src1), // 828, ISA §16.7
         // VOP3SD
+        0b0100100000 => Inst_V_ADD_CO_CI_U32_VOP3(vdst, sdst, src0, src1, src2), // 288, ISA §16.12
         0b1011111110 => Inst_V_MAD_U64_U32(vdst, sdst, src0, src1, src2), // 766, ISA §16.12
+        0b1100000000 => Inst_V_ADD_CO_U32(vdst, sdst, src0, src1), // 768, ISA §16.12
+        0b1100111100 => Inst_V_LSHLREV_B64(vdst, src0, src1), // 828, ISA §16.12
         _ => {
             print("VOP3 Decode Error: Unknown Opcode 0x");
             Inst_INVALID()
@@ -43,6 +45,7 @@ function vop2_decode instr = {
     match opc {
         // VOP2
         0b011010 => Inst_V_ASHRREV_I32(vdst, 0b1 @ vsrc, src), // 26
+        0b100000 => Inst_V_ADD_CO_CI_U32(vdst, 0b1 @ vsrc, src), // 32
         0b100101 => Inst_V_ADD_NC_U32(vdst, 0b1 @ vsrc, src), // 37
         _ => Inst_INVALID(),
     }
