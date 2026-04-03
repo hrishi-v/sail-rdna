@@ -95,7 +95,56 @@ v_lshlrev_b64_test_VGPR_IDX       := {0, 1}
 v_lshlrev_b64_test_SGPR_IDX       := {}
 v_lshlrev_b64_test_CAPTURE_PREFIX := v
 
-TESTS := v_lshlrev_b64_test v_mad_u64_test flat_b64_test s_load_b64_test flat_store add_one v_add scalar_alu vector_alu imm_pc s_branch
+v_add_co_u32_test_TEST_INC     := asm/v_add_co_u32_test.inc
+v_add_co_u32_test_DUMP_INC     := asm/v_add_co_u32_test_dump.inc
+v_add_co_u32_test_NUM_VGPRS    := 2
+v_add_co_u32_test_NUM_SGPRS    := 0
+v_add_co_u32_test_VGPR_IDX     := {0, 1}
+v_add_co_u32_test_SGPR_IDX     := {}
+v_add_co_u32_test_CAPTURE_PREFIX := v
+
+v_add_co_ci_u32_test_TEST_INC     := asm/v_add_co_ci_u32_test.inc
+v_add_co_ci_u32_test_DUMP_INC     := asm/v_add_co_ci_u32_test_dump.inc
+v_add_co_ci_u32_test_NUM_VGPRS    := 2
+v_add_co_ci_u32_test_NUM_SGPRS    := 0
+v_add_co_ci_u32_test_VGPR_IDX     := {0, 1}
+v_add_co_ci_u32_test_SGPR_IDX     := {}
+v_add_co_ci_u32_test_CAPTURE_PREFIX := v
+
+v_ashrrev_i32_test_TEST_INC     := asm/v_ashrrev_i32_test.inc
+v_ashrrev_i32_test_DUMP_INC     := asm/v_ashrrev_i32_test_dump.inc
+v_ashrrev_i32_test_NUM_VGPRS    := 1
+v_ashrrev_i32_test_NUM_SGPRS    := 0
+v_ashrrev_i32_test_VGPR_IDX     := {0}
+v_ashrrev_i32_test_SGPR_IDX     := {}
+v_ashrrev_i32_test_CAPTURE_PREFIX := v
+
+global_load_store_test_TEST_INC     := asm/global_load_store_test.inc
+global_load_store_test_DUMP_INC     := asm/global_load_store_test_dump.inc
+global_load_store_test_NUM_VGPRS    := 1
+global_load_store_test_NUM_SGPRS    := 0
+global_load_store_test_VGPR_IDX     := {0}
+global_load_store_test_SGPR_IDX     := {}
+global_load_store_test_CAPTURE_PREFIX := v
+
+s_and_b32_test_TEST_INC     := asm/s_and_b32_test.inc
+s_and_b32_test_DUMP_INC     := asm/s_and_b32_test_dump.inc
+s_and_b32_test_NUM_VGPRS    := 1
+s_and_b32_test_NUM_SGPRS    := 0
+s_and_b32_test_VGPR_IDX     := {0}
+s_and_b32_test_SGPR_IDX     := {}
+s_and_b32_test_CAPTURE_PREFIX := s
+
+s_load_b32_test_TEST_INC     := asm/s_load_b32_test.inc
+s_load_b32_test_DUMP_INC     := asm/s_load_b32_test_dump.inc
+s_load_b32_test_NUM_VGPRS    := 1
+s_load_b32_test_NUM_SGPRS    := 0
+s_load_b32_test_VGPR_IDX     := {2}
+s_load_b32_test_SGPR_IDX     := {}
+s_load_b32_test_CAPTURE_PREFIX := s
+
+TESTS := v_lshlrev_b64_test v_mad_u64_test flat_b64_test s_load_b64_test flat_store add_one v_add scalar_alu vector_alu imm_pc s_branch \
+         v_add_co_u32_test v_add_co_ci_u32_test v_ashrrev_i32_test global_load_store_test s_and_b32_test s_load_b32_test
 
 # ---------------------------------------------------------------------------
 # Build rules
