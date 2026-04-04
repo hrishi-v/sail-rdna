@@ -11,6 +11,14 @@ int main(int argc, char **argv)
 {
     model_init();
 
+    // Kernel test mode: rdna3_emu --kernel-test <bin> <setup>
+    // Runs a single stripped kernel binary with the given setup file, then
+    // dumps memory regions specified by DUMP_MEM directives in the setup.
+    if (argc == 4 && std::string(argv[1]) == "--kernel-test") {
+        reset_emulator_state();
+        return run_kernel_test(argv[2], argv[3]) ? 0 : 1;
+    }
+
     std::vector<std::string> tests_to_run;
     if (argc == 2) {
         tests_to_run.push_back(argv[1]);

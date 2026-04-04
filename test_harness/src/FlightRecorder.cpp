@@ -94,3 +94,18 @@ void FlightRecorder::close_vcd() {
         vcd_file.close();
     }
 }
+
+void FlightRecorder::dump_memory_region(const std::string &filepath,
+                                        uint64_t start_addr, size_t n_words) {
+    std::ofstream f(filepath);
+    if (!f) {
+        log_error("Recorder", "Failed to open memory dump: " + filepath);
+        return;
+    }
+    for (size_t i = 0; i < n_words; i++) {
+        uint64_t addr = start_addr + i * 4;
+        uint32_t val  = zread_mem_32(addr);
+        f << "0x" << std::hex << std::setfill('0') << std::setw(8) << addr
+          << ": " << std::setw(8) << val << "\n";
+    }
+}

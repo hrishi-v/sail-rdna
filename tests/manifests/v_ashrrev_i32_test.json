@@ -1,0 +1,20 @@
+{
+  "name": "v_ashrrev_i32_test",
+  "capture_prefix": "v",
+  "assembly": {
+    "core_logic": "asm/v_ashrrev_i32_test.inc",
+    "dump_logic": "asm/v_ashrrev_i32_test_dump.inc"
+  },
+  "registers": {
+    "vgprs": {
+      "count": 1,
+      "indices": [
+        0
+      ]
+    },
+    "sgprs": {
+      "count": 0,
+      "indices": []
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "flat_store",
+  "capture_prefix": "v",
+  "assembly": {
+    "core_logic": "asm/flat_store.inc",
+    "dump_logic": "asm/flat_store_dump.inc"
+  },
+  "registers": {
+    "vgprs": {
+      "count": 1,
+      "indices": [
+        3
+      ]
+    },
+    "sgprs": {
+      "count": 0,
+      "indices": []
+    }
+  }
+}

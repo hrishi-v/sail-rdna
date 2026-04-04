@@ -112,6 +112,122 @@ bool run_test(const std::string &filepath) {
     return passed;
 }
 
+// ---------------------------------------------------------------------------
+// Kernel test support
+// ---------------------------------------------------------------------------
+
+namespace {
+
+struct MemDump {
+    uint64_t    addr;
+    size_t      n_bytes;
+    std::string path;
+};
+
+// Parse a numeric token that may be decimal or 0x-prefixed hex.
+static uint64_t parse_uint(const std::string &s) {
+    return std::stoull(s, nullptr, 0);
+}
+
+// Read the setup file and apply every directive to the Sail model.
+// Returns the list of DUMP_MEM directives to execute after the kernel runs.
+static std::vector<MemDump> apply_setup_file(const std::string &filepath) {
+    std::vector<MemDump> dumps;
+    std::ifstream f(filepath);
+    if (!f) {
+        log_error("KernelRunner", "Cannot open setup file: " + filepath);
+        return dumps;
+    }
+
+    std::string line;
+    while (std::getline(f, line)) {
+        // Strip comments (everything from '#' onward).
+        auto pos = line.find('#');
+        if (pos != std::string::npos) line.resize(pos);
+
+        std::istringstream iss(line);
+        std::string directive;
+        if (!(iss >> directive)) continue;
+
+        if (directive == "SGPR") {
+            std::string si, sv;
+            iss >> si >> sv;
+            zwSGPR(parse_uint(si), static_cast<uint32_t>(parse_uint(sv)));
+
+        } else if (directive == "VGPR_LANE_ID") {
+            std::string si;
+            iss >> si;
+            uint64_t idx = parse_uint(si);
+            for (uint64_t lane = 0; lane < 32; lane++)
+                zwVGPR(idx, lane, static_cast<uint32_t>(lane));
+
+        } else if (directive == "VGPR_CONST") {
+            std::string si, sv;
+            iss >> si >> sv;
+            uint64_t idx = parse_uint(si);
+            uint32_t val = static_cast<uint32_t>(parse_uint(sv));
+            for (uint64_t lane = 0; lane < 32; lane++)
+                zwVGPR(idx, lane, val);
+
+        } else if (directive == "MEM32") {
+            std::string sa, sv;
+            iss >> sa >> sv;
+            zwrite_mem_32(parse_uint(sa), static_cast<uint32_t>(parse_uint(sv)));
+
+        } else if (directive == "DUMP_MEM") {
+            std::string sa, sn, sp;
+            iss >> sa >> sn >> sp;
+            dumps.push_back({parse_uint(sa), static_cast<size_t>(parse_uint(sn)), sp});
+        }
+    }
+    return dumps;
+}
+
+} // namespace
+
+bool run_kernel_test(const std::string &bin_path, const std::string &setup_path) {
+    log_info("KernelRunner", "=== Kernel: " + bin_path + " ===");
+
+    const uint64_t START_PC = 0x0100;
+    if (!load_binary_to_memory(bin_path, START_PC)) return false;
+    zset_pc(START_PC);
+
+    // Apply initial register / memory state from the fixture-generated setup file.
+    auto mem_dumps = apply_setup_file(setup_path);
+
+    FlightRecorder recorder;
+    int cycle = 0;
+    const int CYCLE_LIMIT = 10000;
+
+    while (!zget_halt_flag(UNIT)) {
+        uint64_t pc   = zget_pc(UNIT);
+        uint32_t inst = zread_mem_32(pc);
+        recorder.record_instruction_cycle(cycle, pc, inst);
+        zstep(UNIT);
+        if (++cycle >= CYCLE_LIMIT) {
+            log_error("KernelRunner", "Watchdog triggered for: " + bin_path);
+            break;
+        }
+    }
+
+    bool ok = (cycle < CYCLE_LIMIT) && !zget_error_flag(UNIT);
+
+    // Write instruction trace (useful for debugging spec gaps).
+    std::filesystem::create_directories("outputs/instruction_trace");
+    std::string base = std::filesystem::path(bin_path).stem().string();
+    recorder.dump_trace("outputs/instruction_trace/" + base + ".log");
+
+    // Write each DUMP_MEM region.
+    for (const auto &d : mem_dumps) {
+        std::filesystem::create_directories(
+            std::filesystem::path(d.path).parent_path());
+        FlightRecorder::dump_memory_region(d.path, d.addr, d.n_bytes / 4);
+    }
+
+    log_info("KernelRunner", std::string(ok ? "PASS" : "FAIL") + ": " + bin_path);
+    return ok;
+}
+
 void reset_emulator_state() {
     zreset_halt_flag(UNIT);
     zreset_error_flag(UNIT);

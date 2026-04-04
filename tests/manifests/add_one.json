@@ -1,0 +1,20 @@
+{
+  "name": "add_one",
+  "capture_prefix": "v",
+  "assembly": {
+    "core_logic": "asm/add_one.inc",
+    "dump_logic": "asm/add_one_dump.inc"
+  },
+  "registers": {
+    "vgprs": {
+      "count": 1,
+      "indices": [
+        5
+      ]
+    },
+    "sgprs": {
+      "count": 0,
+      "indices": []
+    }
+  }
+}

@@ -1,5 +1,7 @@
 #include <hip/hip_runtime.h>
 #include <iostream>
+#include <fstream>
+#include <iomanip>
 #include <cstdlib>
 
 #define CHECK(x) do { \
@@ -57,6 +59,13 @@ int main() {
             failures++;
         }
     }
+
+    // Write results to a file for differential testing against the Sail emulator.
+    // Format: one 8-digit hex value per line, in thread-index order.
+    std::ofstream results("outputs/read_modify_write_results.log");
+    for (int i = 0; i < N; i++)
+        results << std::hex << std::setw(8) << std::setfill('0')
+                << static_cast<unsigned>(h_out[i]) << "\n";
 
     if (failures == 0)
         std::cout << "PASS  read_modify_write  (N=" << N << " val=" << VAL << ")\n";

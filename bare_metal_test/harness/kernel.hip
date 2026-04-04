@@ -21,7 +21,7 @@ void asm_kernel(int* vgpr_out, int* sgpr_out, int* mem_buf) {
     uint32_t mem_buf_hi = (uint32_t)(mem_buf_addr >> 32);
     asm volatile(
         #include TEST_INC
-        #include DUMP_INC
+        #include DUMP_INCa
         :
         : "v"(addr_lo), "v"(addr_hi), "v"(mem_buf_lo), "v"(mem_buf_hi) // %0-3
         : "v0", "v1", "v2", "v3", "v4", "v5", "v6",

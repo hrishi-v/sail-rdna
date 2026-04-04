@@ -1,0 +1,20 @@
+{
+  "name": "scalar_alu",
+  "capture_prefix": "s",
+  "assembly": {
+    "core_logic": "asm/scalar_alu.inc",
+    "dump_logic": "asm/scalar_alu_dump.inc"
+  },
+  "registers": {
+    "vgprs": {
+      "count": 1,
+      "indices": [
+        2
+      ]
+    },
+    "sgprs": {
+      "count": 0,
+      "indices": []
+    }
+  }
+}

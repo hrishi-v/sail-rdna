@@ -3,3 +3,4 @@
 "v_mov_b32 v0, s2\n\t"
 "flat_store_b32 v[14:15], v0\n\t"
 "s_waitcnt vmcnt(0)\n\t"
+

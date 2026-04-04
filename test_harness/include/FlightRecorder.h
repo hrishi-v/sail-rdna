@@ -32,4 +32,9 @@ public:
   void record_vcd_step(int cycle, uint64_t pc, uint32_t v0);
   void init_vcd(const std::string &filepath);
   void close_vcd();
+
+  // Dump a region of Sail memory to a file.
+  // n_words is the number of 32-bit words to dump.
+  static void dump_memory_region(const std::string &filepath,
+                                 uint64_t start_addr, size_t n_words);
 };
