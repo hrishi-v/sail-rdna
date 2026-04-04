@@ -17,5 +17,6 @@
       "count": 0,
       "indices": []
     }
-  }
+  },
+  "binary_path": "bare_metal_test/outputs/binaries/v_add_co_u32_test.co"
 }

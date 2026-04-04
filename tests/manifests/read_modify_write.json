@@ -1,0 +1,23 @@
+{
+  "name": "read_modify_write",
+  "kernel_name": "read_modify_write",
+  "binary_path": "bare_metal_test/outputs/binaries/read_modify_write.co",
+  "initial_memory_hex": [
+    "00000005",
+    "00000005",
+    "00000005",
+    "00000005"
+  ],
+  "registers": {
+    "vgprs": {
+      "count": 1,
+      "indices": [
+        0
+      ]
+    },
+    "sgprs": {
+      "count": 0,
+      "indices": []
+    }
+  }
+}

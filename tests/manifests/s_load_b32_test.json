@@ -5,6 +5,9 @@
     "core_logic": "asm/s_load_b32_test.inc",
     "dump_logic": "asm/s_load_b32_test_dump.inc"
   },
+  "initial_memory_hex": [
+    "deadc0de"
+  ],
   "registers": {
     "vgprs": {
       "count": 1,
@@ -16,5 +19,6 @@
       "count": 0,
       "indices": []
     }
-  }
+  },
+  "binary_path": "bare_metal_test/outputs/binaries/s_load_b32_test.co"
 }

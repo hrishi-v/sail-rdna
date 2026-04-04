@@ -18,6 +18,7 @@ SAIL_DUMP_DIR = REPO_ROOT / "outputs" / "register_dumps"
 HIP_DIR = REPO_ROOT / "bare_metal_test"
 HIP_OUTPUT_DIR = HIP_DIR / "outputs"
 HIP_BF_OUTPUT_DIR = HIP_DIR / "outputs_brute_force"
+MANIFEST_DIR = REPO_ROOT / "tests" / "manifests"
 
 # ---------------------------------------------------------------------------
 # Sentinel register allow-lists
@@ -69,13 +70,80 @@ def _run_sail() -> None:
 
 
 def _run_hip() -> None:
+    """Dynamically compile and run all hardware tests using the Universal Harness."""
+    import json
+    
     shutil.rmtree(HIP_OUTPUT_DIR, ignore_errors=True)
-    _run(["make", "run"], HIP_DIR, "HIP `make run`")
+    HIP_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    
+    bin_dir = HIP_OUTPUT_DIR / "binaries"
+    bin_dir.mkdir(parents=True, exist_ok=True)
 
+    harness_bin = REPO_ROOT / "bare_metal_test" / "build" / "universal_harness"
+    kernel_src = REPO_ROOT / "bare_metal_test" / "harness" / "kernel.hip"
+    include_dir = REPO_ROOT / "bare_metal_test" / "harness" / "include"
+
+    for manifest_path in MANIFEST_DIR.glob("*.json"):
+        with open(manifest_path) as f:
+            manifest = json.load(f)
+        
+        test_name = manifest["name"]
+        co_path = bin_dir / f"{test_name}.co"
+        inc_file = REPO_ROOT / "bare_metal_test" / "asm" / f"{test_name}.inc"
+        dump_file = REPO_ROOT / "bare_metal_test" / "asm" / f"{test_name}_dump.inc"
+        hip_file = REPO_ROOT / "bare_metal_test" / "kernels" / f"{test_name}.hip"
+        
+        if inc_file.exists():
+            print(f"[diff] Compiling .co from Assembly for {test_name}...")
+            _run([
+                "hipcc", "--offload-arch=gfx1101", "--cuda-device-only",
+                f"-I{include_dir}",
+                f'-DTEST_INC="{inc_file}"',
+                f'-DDUMP_INC="{dump_file}"',
+                str(kernel_src), "-o", str(co_path)
+            ], REPO_ROOT, f"Compile {test_name}.co")
+        elif hip_file.exists():
+            print(f"[diff] Compiling .co from C++ for {test_name}...")
+            _run([
+                "hipcc", "--offload-arch=gfx1101", "--cuda-device-only",
+                str(hip_file), "-o", str(co_path)
+            ], REPO_ROOT, f"Compile {test_name}.co")
+        else:
+            print(f"[diff] WARNING: Missing source for {test_name}. Skipping compilation.")
+
+        print(f"[diff] Running {test_name} on RX 7800XT...")
+        _run([str(harness_bin), str(manifest_path)], REPO_ROOT, f"Run {test_name}")
+        
+        for generated_file in (REPO_ROOT / "outputs").glob(f"{test_name}_*registers"):
+            shutil.move(str(generated_file), str(HIP_OUTPUT_DIR / generated_file.name))
 
 def _run_hip_brute_force() -> None:
-    shutil.rmtree(HIP_BF_OUTPUT_DIR, ignore_errors=True)
-    _run(["make", "brute_force_run"], HIP_DIR, "HIP `make brute_force_run`")
+    """Captures v0-v27 for every test to check for unintended side effects."""
+    import json
+    shutil.rmtree(HIP_BF_OUTPUT_DIR, ignore_ok=True)
+    HIP_BF_OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+    
+    harness_bin = REPO_ROOT / "bare_metal_test" / "build" / "universal_harness"
+    
+    for manifest_path in MANIFEST_DIR.glob("*.json"):
+        with open(manifest_path) as f:
+            manifest = json.load(f)
+        
+        test_name = manifest["name"]
+        manifest["registers"]["vgprs"] = {
+            "count": 26,
+            "indices": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,16,17,18,19,20,21,22,23,24,25,26,27]
+        }
+        
+        bf_manifest_path = HIP_BF_OUTPUT_DIR / f"{test_name}_bf.json"
+        with open(bf_manifest_path, "w") as f:
+            json.dump(manifest, f)
+
+        print(f"[brute-force] Running {test_name}...")
+        _run([str(harness_bin), str(bf_manifest_path)], REPO_ROOT, f"BF Run {test_name}")
+        
+        for gen in (REPO_ROOT / "outputs").glob(f"{test_name}_*registers"):
+            shutil.move(str(gen), str(HIP_BF_OUTPUT_DIR / gen.name))
 
 
 # ---------------------------------------------------------------------------
@@ -84,11 +152,10 @@ def _run_hip_brute_force() -> None:
 
 
 def _hip_test_names() -> list[str]:
-    """Tests with a .inc file in bare_metal_test/asm/ (excluding dump files)."""
-    asm_dir = HIP_DIR / "asm"
-    if not asm_dir.exists():
+    """Tests with a manifest JSON in tests/manifests/."""
+    if not MANIFEST_DIR.exists():
         return []
-    return sorted(p.stem for p in asm_dir.glob("*.inc") if not p.stem.endswith("_dump"))
+    return sorted(p.stem for p in MANIFEST_DIR.glob("*.json"))
 
 
 # ---------------------------------------------------------------------------

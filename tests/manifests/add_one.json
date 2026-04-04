@@ -16,5 +16,6 @@
       "count": 0,
       "indices": []
     }
-  }
+  },
+  "binary_path": "bare_metal_test/outputs/binaries/add_one.co"
 }

@@ -5,6 +5,10 @@
     "core_logic": "asm/s_load_b64_test.inc",
     "dump_logic": "asm/s_load_b64_test_dump.inc"
   },
+  "initial_memory_hex": [
+    "deadbeef",
+    "cafebabe"
+  ],
   "registers": {
     "vgprs": {
       "count": 2,
@@ -17,5 +21,6 @@
       "count": 0,
       "indices": []
     }
-  }
+  },
+  "binary_path": "bare_metal_test/outputs/binaries/s_load_b64_test.co"
 }

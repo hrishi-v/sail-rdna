@@ -55,6 +55,7 @@
             ocaml
             dune_3
             ocamlPackages.ocaml-lsp
+            nlohmann_json
           ];
 
           shellHook = ''
@@ -65,7 +66,8 @@
 
             export VERILATOR_ROOT="${pkgs.verilator}/share/verilator"
             
-            export NIX_CFLAGS_COMPILE="-I${pkgs.gmp.dev}/include -I${pkgs.zlib.dev}/include -I$VERILATOR_ROOT/include $NIX_CFLAGS_COMPILE"
+            export NLOHMANN_JSON_INC="${pkgs.nlohmann_json}/include"
+            export NIX_CFLAGS_COMPILE="-I${pkgs.gmp.dev}/include -I${pkgs.zlib.dev}/include -I$VERILATOR_ROOT/include -I${pkgs.nlohmann_json}/include $NIX_CFLAGS_COMPILE"
             export NIX_LDFLAGS="-L${pkgs.gmp.out}/lib -L${pkgs.zlib.out}/lib $NIX_LDFLAGS"
 
             echo "Sail Environment Loaded"

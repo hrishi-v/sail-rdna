@@ -17,5 +17,6 @@
       "count": 0,
       "indices": []
     }
-  }
+  },
+  "binary_path": "bare_metal_test/outputs/binaries/v_mad_u64_test.co"
 }
