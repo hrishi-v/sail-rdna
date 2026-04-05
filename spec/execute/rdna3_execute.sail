@@ -21,12 +21,14 @@ function execute inst = {
         Inst_S_ENDPGM() => s_endpgm(),
         // VOP3
         Inst_V_LSHLREV_B64(vd, s0, s1) => v_lshlrev_b64(vd, s0, s1),
+        Inst_V_LSHL_ADD_U32(vd, sd, s0, s1, s2) => v_lshl_add_u32(vd, sd, s0, s1, s2),
         Inst_V_ADD_CO_U32(vd, sd, s0, s1) => v_add_co_u32(vd, sd, s0, s1),
         Inst_V_MAD_U64_U32(vd, sd, s0, s1, s2) => v_mad_u64_u32(vd, sd, s0, s1, s2),
         Inst_V_ADD_CO_CI_U32_VOP3(vd, sd, s0, s1, s2) => v_add_co_ci_u32_vop3(vd, sd, s0, s1, s2),
         // VOP2
         Inst_V_ADD_CO_CI_U32(vd, vs, s) => v_add_co_ci_u32(vd, vs, s),
         Inst_V_ASHRREV_I32(vd, vs, s) => v_ashrrev_i32(vd, vs, s),
+        Inst_V_LSHLREV_B32(vd, vs, s) => v_lshlrev_b32(vd, vs, s),
         Inst_V_ADD_NC_U32(vd, vs, s) => v_add_nc_u32(vd, vs, s),
         // SMEM
         Inst_S_LOAD_B32(sbase, sdata, offset, soffset) => s_load_b32(sbase, sdata, offset, soffset),

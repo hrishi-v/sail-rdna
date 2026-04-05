@@ -1,5 +1,5 @@
 SAIL_LIB_DIR := ./sail_lib
-C_BUILD_DIR  := ./c_build
+C_BUILD_DIR  := ./build/sail
 C_BUILD_OUT  := $(C_BUILD_DIR)/out
 OBJ_DIR      := $(C_BUILD_DIR)/obj
 EMU          := rdna3_emu
@@ -72,6 +72,6 @@ fmt:
 	done
 
 clean:
-	rm -rf $(C_BUILD_DIR) test_output.log $(EMU) $(BIN_DIR) $(ELF_DIR)
+	rm -rf build/ test_output.log $(EMU) $(BIN_DIR) $(ELF_DIR)
 
 -include $(OBJ_FILES:.o=.d)

@@ -27,11 +27,13 @@ union ast = {
     Inst_V_ADD_CO_U32 : (vgpr_idx, sgpr_idx, vop_src, vop_src),
     Inst_V_MAD_U64_U32 : (vgpr_idx, sgpr_idx, vop_src, vop_src, vop_src),
     Inst_V_LSHLREV_B64 : (vgpr_idx, vop_src, vop_src),
+    Inst_V_LSHL_ADD_U32 : (vgpr_idx, sgpr_idx, vop_src, vop_src, vop_src),
 
     // VOP2 Instructions
     Inst_V_ADD_CO_CI_U32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_ASHRREV_I32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_ADD_NC_U32 : (vgpr_idx, vop_src, vop_src),
+    Inst_V_LSHLREV_B32 : (vgpr_idx, vop_src, vop_src),
 
     // VOP1 Instructions
     Inst_V_MOV_B32 : (vgpr_idx, vop_src),

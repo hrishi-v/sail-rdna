@@ -1,30 +1,35 @@
-#include "kernel.h"
-#include <stdint.h>
-
-#ifndef TEST_INC
-#define TEST_INC "../asm/add_one.inc"
-#endif
-
-#ifndef DUMP_INC
-#define DUMP_INC "../asm/add_one_dump.inc"
-#endif
+#include <hip/hip_runtime.h>
 
 extern "C" __global__
+__attribute__((amdgpu_num_vgpr(64)))
 void asm_kernel(int* vgpr_out, int* sgpr_out, int* mem_buf) {
-    // %0/%1: per-lane vgpr_out address (lo/hi), used by all dump files
-    uint64_t addr = (uint64_t)(vgpr_out + threadIdx.x);
-    uint32_t addr_lo = (uint32_t)(addr);
-    uint32_t addr_hi = (uint32_t)(addr >> 32);
-    // %2/%3: uniform mem_buf base address (lo/hi), used by memory tests
-    uint64_t mem_buf_addr = (uint64_t)(mem_buf);
-    uint32_t mem_buf_lo = (uint32_t)(mem_buf_addr);
-    uint32_t mem_buf_hi = (uint32_t)(mem_buf_addr >> 32);
-    asm volatile(
+
+    unsigned int vgpr_lo = (unsigned int)((unsigned long long)vgpr_out & 0xFFFFFFFFULL);
+    unsigned int vgpr_hi = (unsigned int)((unsigned long long)vgpr_out >> 32);
+    
+    unsigned int sgpr_lo = (unsigned int)((unsigned long long)sgpr_out & 0xFFFFFFFFULL);
+    unsigned int sgpr_hi = (unsigned int)((unsigned long long)sgpr_out >> 32);
+
+    unsigned int mem_lo  = (unsigned int)((unsigned long long)mem_buf  & 0xFFFFFFFFULL);
+    unsigned int mem_hi  = (unsigned int)((unsigned long long)mem_buf  >> 32);
+
+    asm volatile (
+        "s_mov_b32 s20, %0\n\t"
+        "s_mov_b32 s21, %1\n\t"
+        "s_mov_b32 s22, %2\n\t" 
+        "s_mov_b32 s23, %3\n\t" 
+        "s_mov_b32 s24, %4\n\t"
+        "s_mov_b32 s25, %5\n\t"
+        
         #include TEST_INC
         #include DUMP_INC
+        
         :
-        : "v"(addr_lo), "v"(addr_hi), "v"(mem_buf_lo), "v"(mem_buf_hi) // %0-3
-        : "v0", "v1", "v2", "v3", "v4", "v5", "v6",
-          "v10", "v11", "v12", "v13", "v14", "v15", "memory"
+        : "s"(vgpr_lo), "s"(vgpr_hi), 
+          "s"(sgpr_lo), "s"(sgpr_hi), 
+          "s"(mem_lo), "s"(mem_hi)
+        : "v30", "v31", "v32", "v33", 
+          "s20", "s21", "s22", "s23", "s24", "s25", 
+          "vcc", "memory"
     );
 }

@@ -61,14 +61,14 @@ bool run_test(const std::string &filepath) {
     int cycle_count = 0;
     const int CYCLE_LIMIT = 10000;
 
-    recorder.init_vcd("outputs/waveforms/trace.vcd");
+    // recorder.init_vcd("outputs/waveforms/trace.vcd");
 
     while (!zget_halt_flag(UNIT)) {
         uint64_t current_pc = zget_pc(UNIT);
         uint32_t current_inst = zread_mem_32(current_pc);
         uint32_t v0_val = zrVGPR(0, 0);
 
-        recorder.record_vcd_step(cycle_count, current_pc, v0_val);
+        // recorder.record_vcd_step(cycle_count, current_pc, v0_val);
         recorder.record_instruction_cycle(cycle_count, current_pc, current_inst);
 
         zstep(UNIT);

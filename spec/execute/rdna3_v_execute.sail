@@ -27,6 +27,42 @@ function v_ashrrev_i32(vdst, vsrc, src0) = {
     }
 }
 
+val v_lshl_add_u32 : (vgpr_idx, sgpr_idx, vop_src, vop_src, vop_src) -> unit
+function v_lshl_add_u32(vdst, sdst, src0, src1, src2) = {
+    let src0_u = unsigned(src0);
+    let src1_u = unsigned(src1);
+    let src2_u = unsigned(src2);
+
+    let op0_common : DWORD = if src0_u < 256 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if src1_u < 256 then {
+        read_vector_source(src1, 0b00000)
+    } else { 0x00000000 };
+    let op2_common : DWORD = if src2_u < 256 then {
+        read_vector_source(src2, 0b00000)
+    } else { 0x00000000 };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 : DWORD = if src0_u < 256 then { op0_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            };
+            let op1 : DWORD = if src1_u < 256 then { op1_common } else {
+                rVGPR(get_slice_int(8, src1_u - 256, 0), lane_bv)
+            };
+            let op2 : DWORD = if src2_u < 256 then { op2_common } else {
+                rVGPR(get_slice_int(8, src2_u - 256, 0), lane_bv)
+            };
+            let shift_amt : int = unsigned(op1[4..0]);
+            let shifted : DWORD = get_slice_int(32, shl_int(unsigned(op0), shift_amt), 0);
+            let result : DWORD = get_slice_int(32, unsigned(shifted) + unsigned(op2), 0);
+            wVGPR(vdst, lane_bv, result)
+        }
+    }
+}
+
 val v_add_nc_u32 : (vgpr_idx, vop_src, vop_src) -> unit
 function v_add_nc_u32(vdst, vsrc, src0) = {
     let op0_common : DWORD = if unsigned(src0) <= 255 then {
@@ -158,6 +194,31 @@ function v_mov_b32(vdst, src0) = {
         let lane_bv = get_slice_int(5, lane, 0);
         if EXEC_LO[lane..lane] == 0b1 then {
             wVGPR(vdst, lane_bv, val_to_move)
+        }
+    }
+}
+
+val v_lshlrev_b32 : (vgpr_idx, vop_src, vop_src) -> unit
+function v_lshlrev_b32(vdst, vsrc, src0) = {
+    let op0_common : DWORD = if unsigned(src0) < 256 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if unsigned(vsrc) < 256 then {
+        read_vector_source(vsrc, 0b00000)
+    } else { 0x00000000 };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let shift_src : DWORD = if unsigned(src0) < 256 then { op0_common } else {
+                rVGPR(get_slice_int(8, unsigned(src0) - 256, 0), lane_bv)
+            };
+            let value : DWORD = if unsigned(vsrc) < 256 then { op1_common } else {
+                rVGPR(get_slice_int(8, unsigned(vsrc) - 256, 0), lane_bv)
+            };
+            let shift_amt : int = unsigned(shift_src[4..0]);
+            let result : DWORD = get_slice_int(32, shl_int(unsigned(value), shift_amt), 0);
+            wVGPR(vdst, lane_bv, result)
         }
     }
 }
