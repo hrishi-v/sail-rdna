@@ -1,10 +1,6 @@
 {
   "name": "global_load_store_test",
   "capture_prefix": "v",
-  "assembly": {
-    "core_logic": "asm/global_load_store_test.inc",
-    "dump_logic": "asm/global_load_store_test_dump.inc"
-  },
   "registers": {
     "vgprs": {
       "count": 1,

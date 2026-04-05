@@ -1,10 +1,6 @@
 {
   "name": "v_add_co_ci_u32_test",
   "capture_prefix": "v",
-  "assembly": {
-    "core_logic": "asm/v_add_co_ci_u32_test.inc",
-    "dump_logic": "asm/v_add_co_ci_u32_test_dump.inc"
-  },
   "registers": {
     "vgprs": {
       "count": 2,

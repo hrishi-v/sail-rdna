@@ -1,10 +1,6 @@
 {
   "name": "vector_alu",
   "capture_prefix": "v",
-  "assembly": {
-    "core_logic": "asm/vector_alu.inc",
-    "dump_logic": "asm/vector_alu_dump.inc"
-  },
   "registers": {
     "vgprs": {
       "count": 1,

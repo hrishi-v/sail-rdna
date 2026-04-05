@@ -1,10 +1,6 @@
 {
   "name": "s_branch",
   "capture_prefix": "v",
-  "assembly": {
-    "core_logic": "asm/s_branch.inc",
-    "dump_logic": "asm/s_branch_dump.inc"
-  },
   "registers": {
     "vgprs": {
       "count": 1,

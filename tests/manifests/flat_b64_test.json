@@ -1,10 +1,6 @@
 {
   "name": "flat_b64_test",
   "capture_prefix": "v",
-  "assembly": {
-    "core_logic": "asm/flat_b64_test.inc",
-    "dump_logic": "asm/flat_b64_test_dump.inc"
-  },
   "registers": {
     "vgprs": {
       "count": 2,

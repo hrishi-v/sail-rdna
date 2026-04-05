@@ -1,10 +1,6 @@
 {
   "name": "imm_pc",
   "capture_prefix": "v",
-  "assembly": {
-    "core_logic": "asm/imm_pc.inc",
-    "dump_logic": "asm/imm_pc_dump.inc"
-  },
   "registers": {
     "vgprs": {
       "count": 1,
