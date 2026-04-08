@@ -60,16 +60,36 @@ function s_cselect_b32(sdst, ssrc0, ssrc1) = {
     wSGPR(sdst, value)
 }
 
+val s_and_not1_b32 : (sgpr_idx, sgpr_src, sgpr_src) -> unit
+function s_and_not1_b32(sdst, ssrc0, ssrc1) = {
+    let src0 : DWORD = read_common_source(unsigned(ssrc0));
+    let src1 : DWORD = read_common_source(unsigned(ssrc1));
+
+    let result : DWORD = src0 & not_vec(src1);
+    wSGPR(sdst, result);
+    wSCC(if unsigned(result) == 0 then bitzero else bitone);
+}
+
 // SOP1 Instructions
 val s_mov_b32 : (sgpr_idx, sgpr_src) -> unit
 function s_mov_b32(sdst, ssrc0) = {
     wSGPR(sdst, read_common_source(unsigned(ssrc0)))
-    // doesn't affect SCC
+    // doesn't affect SCC!
 }
 
 val s_mov_b64 : (sgpr_idx, sgpr_src) -> unit
 function s_mov_b64(sdst, ssrc0) = {
     write_scalar_dst64(sdst, read_scalar_source64(ssrc0))
+}
+
+val s_and_saveexec_b32 : (sgpr_idx, sgpr_src) -> unit
+function s_and_saveexec_b32(sdst, ssrc0) = {
+    let save_exec : DWORD = EXEC_LO;
+    let new_exec : DWORD = read_common_source(unsigned(ssrc0)) & save_exec;
+    
+    wSGPR(sdst, save_exec);
+    EXEC_LO = new_exec;
+    wSCC(if new_exec == 0x00000000 then bitzero else bitone)
 }
 
 // SOPC Instructions

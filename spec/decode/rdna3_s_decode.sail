@@ -9,6 +9,7 @@ function sop2_decode instr = {
         0b0000001 => Inst_S_SUB_U32(sdst, ssrc0, ssrc1),
         0b0010110 => Inst_S_AND_B32(sdst, ssrc0, ssrc1),
         0b0001011 => Inst_S_LSHR_B64(sdst, ssrc0, ssrc1),
+        0b0100010 => Inst_S_AND_NOT1_B32(sdst, ssrc0, ssrc1),
         0b0110000 => Inst_S_CSELECT_B32(sdst, ssrc0, ssrc1),
         _ => Inst_INVALID(),
     }
@@ -22,6 +23,7 @@ function sop1_decode instr = {
     match opc {
         0b00000000 => Inst_S_MOV_B32(sdst, ssrc0),
         0b00000001 => Inst_S_MOV_B64(sdst, ssrc0),
+        0b00100000 => Inst_S_AND_SAVEEXEC_B32(sdst, ssrc0),
         _ => Inst_INVALID(),
     }
 }

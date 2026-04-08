@@ -1,18 +1,17 @@
-{
-  "name": "divergence_test",
-  "kernel_name": "divergence_test",
-  "binary_path": "tests/bin/divergence_test.bin",
-  "initial_memory_hex": [],
-  "registers": {
-    "vgprs": {
-      "count": 1,
-      "indices": [
-        0
-      ]
-    },
-    "sgprs": {
-      "count": 0,
-      "indices": []
+  {
+    "name": "divergence_test",
+    "kernel_name": "divergence_test",
+    "binary_path": "tests/bin/divergence_test.bin",
+    "registers": {
+      "vgprs": {
+        "count": 1,
+        "indices": [
+          4
+        ]
+      },
+      "sgprs": {
+        "count": 0,
+        "indices": []
+      }
     }
   }
-}

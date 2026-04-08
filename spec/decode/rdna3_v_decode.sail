@@ -23,6 +23,9 @@ function vop3_decode instr = {
 
     match opc {
         // VOP3
+        0b0001000100 => Inst_V_CMP_GT_I32(vdst, src0, src1),  // 68, ISA §16.12
+        0b0001001001 => Inst_V_CMP_LT_U32(vdst, src0, src1), // 73, ISA §16.12
+        0b0100000001 => Inst_V_CNDMASK_B32_VOP3(vdst, src0, src1, src2), // 257, ISA §16.12
         0b0100011000 => Inst_V_LSHLREV_B32(vdst, src0, src1), // 280, ISA §16.12
         0b0100100101 => Inst_V_ADD_NC_U32(vdst, src0, src1), // 293 - same implementation, different encoding!
         0b1001010101 => Inst_V_ADD3_U32(vdst, src0, src1, src2), // 597, ISA §16.12
@@ -47,6 +50,7 @@ function vop2_decode instr = {
     let src = instr[8..0];
     match opc {
         // VOP2
+        0b000001 => Inst_V_CNDMASK_B32(vdst, src, 0b1 @ vsrc), // 1
         0b011000 => Inst_V_LSHLREV_B32(vdst, 0b1 @ vsrc, src), // 24
         0b011010 => Inst_V_ASHRREV_I32(vdst, 0b1 @ vsrc, src), // 26
         0b100000 => Inst_V_ADD_CO_CI_U32(vdst, 0b1 @ vsrc, src), // 32
@@ -69,5 +73,12 @@ function vop1_decode instr = {
 
 val vopc_decode : DWORD -> ast
 function vopc_decode instr = {
-    Inst_INVALID()
+    let opc   = instr[24..17];
+    let vsrc1 = instr[16..9];
+    let src0  = instr[8..0];
+    // VOPC destination is always VCC_LO (SGPR 106 = 0b01101010)
+    match opc {
+        0b01000100 => Inst_V_CMP_GT_I32(0b01101010, src0, 0b1 @ vsrc1), // 68
+        _ => Inst_INVALID(),
+    }
 }

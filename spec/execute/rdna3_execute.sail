@@ -7,9 +7,11 @@ function execute inst = {
         Inst_S_SUB_U32(d, s0, s1) => s_sub_u32(d, s0, s1),
         Inst_S_CSELECT_B32(d, s0, s1) => s_cselect_b32(d, s0, s1),
         Inst_S_LSHR_B64(d, s0, s1) => s_lshr_b64(d, s0, s1),
+        Inst_S_AND_NOT1_B32(d, s0, s1) => s_and_not1_b32(d, s0, s1),
         // SOP1
         Inst_S_MOV_B32(d, s0) => s_mov_b32(d, s0),
         Inst_S_MOV_B64(d, s0) => s_mov_b64(d, s0),
+        Inst_S_AND_SAVEEXEC_B32(d, s0) => s_and_saveexec_b32(d, s0),
         // SOPC
         Inst_S_CMP_EQ_I32(s0, s1) => s_cmp_eq_i32(s0, s1),
         Inst_S_CMP_LG_I32(s0, s1) => s_cmp_lg_i32(s0, s1),
@@ -26,7 +28,11 @@ function execute inst = {
         Inst_V_ADD_CO_U32(vd, sd, s0, s1) => v_add_co_u32(vd, sd, s0, s1),
         Inst_V_MAD_U64_U32(vd, sd, s0, s1, s2) => v_mad_u64_u32(vd, sd, s0, s1, s2),
         Inst_V_ADD_CO_CI_U32_VOP3(vd, sd, s0, s1, s2) => v_add_co_ci_u32_vop3(vd, sd, s0, s1, s2),
+        Inst_V_CMP_LT_U32(vd, s0, s1) => v_cmp_lt_u32(vd, s0, s1),
+        Inst_V_CMP_GT_I32(vd, s0, s1) => v_cmp_gt_i32(vd, s0, s1),
+        Inst_V_CNDMASK_B32_VOP3(vd, s0, s1, s2) => v_cndmask_b32_vop3(vd, s0, s1, s2),
         // VOP2
+        Inst_V_CNDMASK_B32(vd, s0, s1) => v_cndmask_b32(vd, s0, s1),
         Inst_V_ADD_CO_CI_U32(vd, vs, s) => v_add_co_ci_u32(vd, vs, s),
         Inst_V_ASHRREV_I32(vd, vs, s) => v_ashrrev_i32(vd, vs, s),
         Inst_V_LSHLREV_B32(vd, vs, s) => v_lshlrev_b32(vd, vs, s),
