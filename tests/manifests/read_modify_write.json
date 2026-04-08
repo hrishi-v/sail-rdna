@@ -1,19 +1,15 @@
 {
   "name": "read_modify_write",
   "kernel_name": "read_modify_write",
-  "binary_path": "bare_metal_test/outputs/binaries/read_modify_write.co",
-  "initial_memory_hex": [
-    "00000005",
-    "00000005",
-    "00000005",
-    "00000005"
-  ],
+  "binary_path": "tests/bin/read_modify_write.bin",
+  "initial_memory_hex": ["0000002a"],
+  "memory_base_addr": "0x1000",
+  "memory_sgprs": [2, 3],
+  "vgpr_lane_ids": [0],
   "registers": {
     "vgprs": {
       "count": 1,
-      "indices": [
-        0
-      ]
+      "indices": [4]
     },
     "sgprs": {
       "count": 0,

@@ -24,6 +24,7 @@ INC_DIR = REPO_ROOT / "bare_metal_test" / "asm"
 PYTEST_BUILD_DIR = REPO_ROOT / "build" / "pytest"
 
 WAVE_SIZE = 32
+SETUP_DIR = REPO_ROOT / "tests" / "setups"
 
 # ---------------------------------------------------------------------------
 # Sentinel register allow-lists
@@ -92,6 +93,45 @@ def _generate_dump_logic(manifest):
 
     c_string_lines = [f'"{line}\\n\\t"' for line in lines]
     return "\n".join(c_string_lines)
+
+
+# ---------------------------------------------------------------------------
+# Setup file generation
+# ---------------------------------------------------------------------------
+
+
+def _generate_setup_files() -> None:
+    """Emit tests/setups/<name>.setup for any manifest that specifies
+    initial_memory_hex + memory_base_addr + memory_sgprs.  These files are
+    picked up by the Sail run_test harness to pre-load memory and pointer
+    registers before execution."""
+    SETUP_DIR.mkdir(exist_ok=True)
+    for manifest_path in MANIFEST_DIR.glob("*.json"):
+        with open(manifest_path) as f:
+            manifest = json.load(f)
+
+        mem_hex   = manifest.get("initial_memory_hex", [])
+        base_str  = manifest.get("memory_base_addr")
+        sgprs     = manifest.get("memory_sgprs")
+
+        if not (mem_hex and base_str and sgprs):
+            continue
+
+        base_addr = int(base_str, 0)
+        lines: list[str] = []
+
+        for i, val in enumerate(mem_hex):
+            lines.append(f"MEM32 {hex(base_addr + i * 4)} 0x{val}")
+
+        # Write the 64-bit pointer into the SGPR pair.
+        lines.append(f"SGPR {sgprs[0]} {hex(base_addr & 0xFFFFFFFF)}")
+        lines.append(f"SGPR {sgprs[1]} {hex((base_addr >> 32) & 0xFFFFFFFF)}")
+
+        # Optionally initialise VGPRs with lane IDs (e.g. for tid).
+        for vgpr_idx in manifest.get("vgpr_lane_ids", []):
+            lines.append(f"VGPR_LANE_ID {vgpr_idx}")
+
+        (SETUP_DIR / f"{manifest['name']}.setup").write_text("\n".join(lines) + "\n")
 
 
 # ---------------------------------------------------------------------------
@@ -281,7 +321,10 @@ def run_harnesses(request: pytest.FixtureRequest) -> None:
     if request.config.getoption("--skip-run", default=False):
         return
 
-    print("\n[diff] Running Sail harness (make test)...")
+    print("\n[diff] Generating Sail setup files from manifests...")
+    _generate_setup_files()
+
+    print("[diff] Running Sail harness (make test)...")
     _run_sail()
 
     # Prepare HIP output directory

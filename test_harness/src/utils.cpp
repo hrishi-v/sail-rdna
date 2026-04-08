@@ -44,76 +44,8 @@ bool load_binary_to_memory(const std::string &filepath, uint64_t start_pc) {
     return true;
 }
 
-bool run_test(const std::string &filepath) {
-    log_info("Test Suite", "========================================");
-    log_info("Test Suite", "Running: " + filepath);
-    log_info("Test Suite", "========================================");
-
-    uint64_t start_pc = 0x0100;
-
-    if (!load_binary_to_memory(filepath, start_pc)) {
-        return false;
-    }
-
-    zset_pc(start_pc);
-
-    FlightRecorder recorder;
-    int cycle_count = 0;
-    const int CYCLE_LIMIT = 10000;
-
-    // recorder.init_vcd("outputs/waveforms/trace.vcd");
-
-    while (!zget_halt_flag(UNIT)) {
-        uint64_t current_pc = zget_pc(UNIT);
-        uint32_t current_inst = zread_mem_32(current_pc);
-        uint32_t v0_val = zrVGPR(0, 0);
-
-        // recorder.record_vcd_step(cycle_count, current_pc, v0_val);
-        recorder.record_instruction_cycle(cycle_count, current_pc, current_inst);
-
-        zstep(UNIT);
-        cycle_count++;
-
-        if (cycle_count >= CYCLE_LIMIT) {
-            log_error("Emulator", "Watchdog triggered for: " + filepath);
-            recorder.flag_mismatch();
-            break;
-        }
-    }
-
-    std::filesystem::create_directories("outputs/instruction_trace");
-    std::filesystem::create_directories("outputs/register_dumps");
-
-    std::string base_name = std::filesystem::path(filepath).stem().string();
-    std::string trace_log_path      = "outputs/instruction_trace/" + base_name + ".log";
-    std::string vec_reg_dump_path   = "outputs/register_dumps/vec_" + base_name + ".log";
-    std::string scal_reg_dump_path  = "outputs/register_dumps/scal_" + base_name + ".log";
-
-    log_info("Recorder", "Writing execution trace to " + trace_log_path);
-    recorder.dump_trace(trace_log_path);
-    recorder.dump_vector_registers(vec_reg_dump_path);
-    recorder.dump_scalar_registers(scal_reg_dump_path);
-
-    bool timed_out   = (cycle_count >= CYCLE_LIMIT);
-    bool error_hit   = zget_error_flag(UNIT);
-    bool passed      = !timed_out && !error_hit;
-
-    std::ostringstream result;
-    result << filepath << " (" << std::dec << cycle_count << " cycles)";
-
-    if (passed) {
-        log_info("Test Suite", "PASS: " + result.str());
-    } else if (timed_out) {
-        log_warn("Test Suite", "FAIL (timeout): " + result.str());
-    } else {
-        log_warn("Test Suite", "FAIL (error): " + result.str());
-    }
-
-    return passed;
-}
-
 // ---------------------------------------------------------------------------
-// Kernel test support
+// Setup file support (used by both run_test and run_kernel_test)
 // ---------------------------------------------------------------------------
 
 namespace {
@@ -124,14 +56,13 @@ struct MemDump {
     std::string path;
 };
 
-// Parse a numeric token that may be decimal or 0x-prefixed hex.
+} // namespace
+
 static uint64_t parse_uint(const std::string &s) {
     return std::stoull(s, nullptr, 0);
 }
 
-// Read the setup file and apply every directive to the Sail model.
-// Returns the list of DUMP_MEM directives to execute after the kernel runs.
-static std::vector<MemDump> apply_setup_file(const std::string &filepath) {
+std::vector<MemDump> apply_setup_file(const std::string &filepath) {
     std::vector<MemDump> dumps;
     std::ifstream f(filepath);
     if (!f) {
@@ -141,7 +72,6 @@ static std::vector<MemDump> apply_setup_file(const std::string &filepath) {
 
     std::string line;
     while (std::getline(f, line)) {
-        // Strip comments (everything from '#' onward).
         auto pos = line.find('#');
         if (pos != std::string::npos) line.resize(pos);
 
@@ -183,7 +113,87 @@ static std::vector<MemDump> apply_setup_file(const std::string &filepath) {
     return dumps;
 }
 
-} // namespace
+// ---------------------------------------------------------------------------
+// Test runner
+// ---------------------------------------------------------------------------
+
+bool run_test(const std::string &filepath) {
+    log_info("Test Suite", "========================================");
+    log_info("Test Suite", "Running: " + filepath);
+    log_info("Test Suite", "========================================");
+
+    uint64_t start_pc = 0x0100;
+
+    if (!load_binary_to_memory(filepath, start_pc)) {
+        return false;
+    }
+
+    zset_pc(start_pc);
+
+    std::string base_name = std::filesystem::path(filepath).stem().string();
+    std::string setup_path = "tests/setups/" + base_name + ".setup";
+    if (std::filesystem::exists(setup_path)) {
+        log_info("Test Suite", "Applying setup: " + setup_path);
+        apply_setup_file(setup_path);
+    }
+
+    FlightRecorder recorder;
+    int cycle_count = 0;
+    const int CYCLE_LIMIT = 10000;
+
+    // recorder.init_vcd("outputs/waveforms/trace.vcd");
+
+    while (!zget_halt_flag(UNIT)) {
+        uint64_t current_pc = zget_pc(UNIT);
+        uint32_t current_inst = zread_mem_32(current_pc);
+        uint32_t v0_val = zrVGPR(0, 0);
+
+        // recorder.record_vcd_step(cycle_count, current_pc, v0_val);
+        recorder.record_instruction_cycle(cycle_count, current_pc, current_inst);
+
+        zstep(UNIT);
+        cycle_count++;
+
+        if (cycle_count >= CYCLE_LIMIT) {
+            log_error("Emulator", "Watchdog triggered for: " + filepath);
+            recorder.flag_mismatch();
+            break;
+        }
+    }
+
+    std::filesystem::create_directories("outputs/instruction_trace");
+    std::filesystem::create_directories("outputs/register_dumps");
+
+    std::string trace_log_path      = "outputs/instruction_trace/" + base_name + ".log";
+    std::string vec_reg_dump_path   = "outputs/register_dumps/vec_" + base_name + ".log";
+    std::string scal_reg_dump_path  = "outputs/register_dumps/scal_" + base_name + ".log";
+
+    log_info("Recorder", "Writing execution trace to " + trace_log_path);
+    recorder.dump_trace(trace_log_path);
+    recorder.dump_vector_registers(vec_reg_dump_path);
+    recorder.dump_scalar_registers(scal_reg_dump_path);
+
+    bool timed_out   = (cycle_count >= CYCLE_LIMIT);
+    bool error_hit   = zget_error_flag(UNIT);
+    bool passed      = !timed_out && !error_hit;
+
+    std::ostringstream result;
+    result << filepath << " (" << std::dec << cycle_count << " cycles)";
+
+    if (passed) {
+        log_info("Test Suite", "PASS: " + result.str());
+    } else if (timed_out) {
+        log_warn("Test Suite", "FAIL (timeout): " + result.str());
+    } else {
+        log_warn("Test Suite", "FAIL (error): " + result.str());
+    }
+
+    return passed;
+}
+
+// ---------------------------------------------------------------------------
+// Kernel test support
+// ---------------------------------------------------------------------------
 
 bool run_kernel_test(const std::string &bin_path, const std::string &setup_path) {
     log_info("KernelRunner", "=== Kernel: " + bin_path + " ===");

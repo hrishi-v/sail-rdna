@@ -73,5 +73,3 @@ fmt:
 
 clean:
 	rm -rf build/ test_output.log $(EMU) $(BIN_DIR) $(ELF_DIR)
-
--include $(OBJ_FILES:.o=.d)

@@ -1,0 +1,17 @@
+{
+  "name": "exec_test",
+  "capture_prefix": "v",
+  "registers": {
+    "vgprs": {
+      "count": 1,
+      "indices": [
+        0
+      ]
+    },
+    "sgprs": {
+      "count": 0,
+      "indices": []
+    }
+  },
+  "binary_path": "tests/bin/exec_test.bin"
+}

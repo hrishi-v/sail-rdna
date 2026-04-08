@@ -6,10 +6,12 @@ union ast = {
     Inst_S_AND_B32 : (sgpr_idx, sgpr_src, sgpr_src),
     Inst_S_CSELECT_B32 : (sgpr_idx, sgpr_src, sgpr_src),
     Inst_S_LSHR_B64 : (sgpr_idx, sgpr_src, sgpr_src),
+    Inst_S_AND_NOT1_B32 : (sgpr_idx, sgpr_src, sgpr_src),
 
     // SOP1 Instructions
     Inst_S_MOV_B32 : (sgpr_idx, sgpr_src),
     Inst_S_MOV_B64 : (sgpr_idx, sgpr_src),
+    Inst_S_AND_SAVEEXEC_B32 : (sgpr_idx, sgpr_src),
 
     // SOPC Instructions
     Inst_S_CMP_EQ_I32 : (sgpr_src, sgpr_src),
@@ -28,6 +30,8 @@ union ast = {
     Inst_V_MAD_U64_U32 : (vgpr_idx, sgpr_idx, vop_src, vop_src, vop_src),
     Inst_V_LSHLREV_B64 : (vgpr_idx, vop_src, vop_src),
     Inst_V_LSHL_ADD_U32 : (vgpr_idx, sgpr_idx, vop_src, vop_src, vop_src),
+    Inst_V_ADD3_U32 : (vgpr_idx, vop_src, vop_src, vop_src),
+    Inst_V_CMP_LT_U32 : (vgpr_idx, vop_src, vop_src, vop_src),
 
     // VOP2 Instructions
     Inst_V_ADD_CO_CI_U32 : (vgpr_idx, vop_src, vop_src),

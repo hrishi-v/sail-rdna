@@ -25,6 +25,7 @@ function vop3_decode instr = {
         // VOP3
         0b0100011000 => Inst_V_LSHLREV_B32(vdst, src0, src1), // 280, ISA §16.12
         0b0100100101 => Inst_V_ADD_NC_U32(vdst, src0, src1), // 293 - same implementation, different encoding!
+        0b1001010101 => Inst_V_ADD3_U32(vdst, src0, src1, src2), // 597, ISA §16.12
         // VOP3SD
         0b0100100000 => Inst_V_ADD_CO_CI_U32_VOP3(vdst, sdst, src0, src1, src2), // 288, ISA §16.12
         0b1001000110 => Inst_V_LSHL_ADD_U32(vdst, sdst, src0, src1, src2), // 582, ISA §16.12
