@@ -55,6 +55,11 @@ function reset_lgkmcnt () = {
     LGKMCNT = 0b000000
 }
 
+val reset_pending_load_queue : unit -> unit
+function reset_pending_load_queue () = {
+    PLQ_COUNT = 0b00000
+}
+
 val reset_halt_flag : unit -> unit
 function reset_halt_flag () = {
     halt_flag = 0b0
@@ -84,6 +89,7 @@ function main () = {
 
     reset_vmcnt();
     reset_lgkmcnt();
+    reset_pending_load_queue();
     reset_halt_flag();
 
     write_mem_8(dummy_addr, dummy_data8);

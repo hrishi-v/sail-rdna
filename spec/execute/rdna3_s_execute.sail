@@ -147,8 +147,22 @@ function s_branch simm = {
 
 val s_waitcnt : bits(16) -> unit
 function s_waitcnt simm = {
-    // Should likely include a cycle count incrementer for my estimate!
-    ()
+    // Flush every entry deferred by s_load_b32 / s_load_b64.
+    // Iterate over the full static range [0,15] so the type-checker can prove
+    // each index is a valid access into vector(16,...).  The runtime guard
+    // skips slots that haven't been filled yet.
+    foreach (i from 0 to 15) {
+        if i < unsigned(PLQ_COUNT) then {
+            let dst : sgpr_idx = PLQ_DST[i];
+            if PLQ_NDW[i] == 0b0 then {
+                wSGPR(dst, PLQ_VAL[i][31..0])
+            } else {
+                write_scalar_dst64(dst, PLQ_VAL[i])
+            }
+        }
+    };
+    PLQ_COUNT = 0b00000;
+    LGKMCNT = 0b000000
 }
 
 // SMEM Instructions
@@ -172,7 +186,14 @@ function s_load_b32(sbase, sdata, offset, soffset) = {
 
     let data = read_mem_32(final_addr);
     let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
-    wSGPR(dst, data)
+    let idx = unsigned(PLQ_COUNT);
+    if idx < 16 then {
+        PLQ_DST[idx] = dst;
+        PLQ_NDW[idx] = 0b0;
+        PLQ_VAL[idx] = EXTZ(data);
+        PLQ_COUNT = PLQ_COUNT + 1;
+        LGKMCNT = LGKMCNT + 1
+    }
 }
 
 val s_load_b64 : (bits(6), sgpr_idx, bits(21), sgpr_idx) -> unit
@@ -196,5 +217,12 @@ function s_load_b64(sbase, sdata, offset, soffset) = {
     let data_lo = read_mem_32(final_addr);
     let data_hi = read_mem_32(final_addr + 4);
     let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
-    write_scalar_dst64(dst, EXTZ(data_hi) @ data_lo)
+    let idx = unsigned(PLQ_COUNT);
+    if idx < 16 then {
+        PLQ_DST[idx] = dst;
+        PLQ_NDW[idx] = 0b1;
+        PLQ_VAL[idx] = EXTZ(data_hi) @ data_lo;
+        PLQ_COUNT = PLQ_COUNT + 1;
+        LGKMCNT = LGKMCNT + 1
+    }
 }

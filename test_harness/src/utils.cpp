@@ -238,11 +238,17 @@ bool run_kernel_test(const std::string &bin_path, const std::string &setup_path)
     return ok;
 }
 
+extern uint64_t zEXEC_LO;
+extern uint64_t zEXEC_HI;
+
 void reset_emulator_state() {
     zreset_halt_flag(UNIT);
     zreset_error_flag(UNIT);
     zreset_vmcnt(UNIT);
     zreset_lgkmcnt(UNIT);
+    zreset_pending_load_queue(UNIT);
+    zEXEC_LO = 0xFFFFFFFF;
+    zEXEC_HI = 0xFFFFFFFF;
 
     for (uint64_t i = 0; i < 65536; i++) {
         zwrite_mem_8(i, 0);

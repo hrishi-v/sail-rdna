@@ -14,6 +14,15 @@ register LGKMCNT : bits(6)
 register SHARED_BASE : DWORD
 register SHARED_LIMIT : DWORD
 
+// Deferred-write queue for SMEM (scalar memory) loads.
+// Values are fetched at issue time but written to the register file only when
+// s_waitcnt lgkmcnt(0) is executed.  Reads between issue and waitcnt therefore
+// return the previous (stale) SGPR value, which is the correct RDNA behaviour.
+register PLQ_DST   : vector(16, dec, bits(7))
+register PLQ_NDW   : vector(16, dec, bits(1))   // 0 = 1 dword (b32), 1 = 2 dwords (b64)
+register PLQ_VAL   : vector(16, dec, bits(64))  // fetched value (lower 32 used when ndw=0)
+register PLQ_COUNT : bits(5)                     // number of entries in the queue (0..16)
+
 val EXTZ : forall 'n 'm, 'm >= 'n. (implicit('m), bits('n)) -> bits('m)
 function EXTZ(m, v) = sail_zero_extend(v, m)
 

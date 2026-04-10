@@ -1,0 +1,26 @@
+{
+  "name": "s_load_no_wait",
+  "capture_prefix": "v",
+  "initial_memory_hex": [
+    "deadbeef"
+  ],
+  "memory_base_addr": "0x2000",
+  "memory_sgprs": [
+    0,
+    1
+  ],
+  "registers": {
+    "vgprs": {
+      "count": 2,
+      "indices": [
+        0,
+        1
+      ]
+    },
+    "sgprs": {
+      "count": 0,
+      "indices": []
+    }
+  },
+  "binary_path": "bare_metal_test/outputs/binaries/s_load_no_wait.co"
+}

@@ -25,6 +25,7 @@ extern "C"
 
   unit zreset_vmcnt(unit);
   unit zreset_lgkmcnt(unit);
+  unit zreset_pending_load_queue(unit);
   unit zreset_halt_flag(unit);
   bool zget_error_flag(unit);
   unit zreset_error_flag(unit);
