@@ -1,0 +1,5 @@
+"s_mov_b32 s2, 0x11111111\n\t"
+"s_load_b32 s2, s[0:1], 0x0\n\t"
+"v_mov_b32 v0, s2\n\t"
+"s_waitcnt lgkmcnt(0)\n\t"
+"v_mov_b32 v1, s2\n\t"
