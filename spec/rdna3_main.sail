@@ -29,7 +29,8 @@ function step () = {
     let instr = fetch_inst(PC);
     PC = PC + 4;
     let ast_node = decode(instr);
-    execute(ast_node)
+    execute(ast_node);
+    CYCLE_COUNT = CYCLE_COUNT + 1;
 }
 
 val get_pc : unit -> QWORD
@@ -57,7 +58,8 @@ function reset_lgkmcnt () = {
 
 val reset_pending_load_queue : unit -> unit
 function reset_pending_load_queue () = {
-    PLQ_COUNT = 0b00000
+    PLQ_COUNT = 0b00000;
+    CYCLE_COUNT = 0x0000
 }
 
 val reset_halt_flag : unit -> unit

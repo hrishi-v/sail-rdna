@@ -1,9 +1,12 @@
 
+val check_sgpr_plq : int -> unit
+
 // Read SGPR registers, when a physical SGPR index is guaranteed!
 val rSGPR : sgpr_idx -> DWORD
 function rSGPR id = {
     let idx = unsigned(id);
     if idx <= 107 then {
+        check_sgpr_plq(idx);
         SGPR[idx]
     } else { 0x00000000 }
 }
@@ -33,6 +36,7 @@ function read_common_source idx = {
         literal
     } else {
         if idx >= 0 & idx <= 107 then {
+            check_sgpr_plq(idx);
             SGPR[idx]
         } else {
             if idx >= 108 & idx <= 123 then { 0x00000000 } else {
@@ -87,6 +91,39 @@ function write_scalar_dst64(id, value) = {
 
     wSGPR(id, lower32);
     wSGPR(id_plus_1, upper32)
+}
+
+// Check if sgpr_n has a pending PLQ entry. If ready, flush it early (writing
+// the value to SGPR and marking the slot with a sentinel DST of 127 so
+// s_waitcnt skips it). If not ready, emit a [HAZARD] diagnostic.
+// sgpr_n values 0-107 are valid physical SGPRs; 127 is the sentinel.
+function check_sgpr_plq sgpr_n = {
+    foreach (i from 0 to 15) {
+        if i < unsigned(PLQ_COUNT) then {
+            let dst_n = unsigned(PLQ_DST[i]);
+            // skip entries already early-flushed (sentinel DST = 127)
+            let is_base  = dst_n == sgpr_n;
+            let is_upper = PLQ_NDW[i] == 0b1 & dst_n + 1 == sgpr_n;
+            if is_base | is_upper then {
+                if unsigned(CYCLE_COUNT) >= unsigned(PLQ_READY[i]) then {
+                    if PLQ_NDW[i] == 0b0 then {
+                        wSGPR(PLQ_DST[i], PLQ_VAL[i][31..0])
+                    } else {
+                        write_scalar_dst64(PLQ_DST[i], PLQ_VAL[i])
+                    };
+                    PLQ_DST[i] = 0b1111111  // sentinel: mark slot as early-flushed
+                } else {
+                    print("[HAZARD] read of s");
+                    print_int("", sgpr_n);
+                    print(" at cycle ");
+                    print_int("", unsigned(CYCLE_COUNT));
+                    print(" returns stale value (load completes at cycle ");
+                    print_int("", unsigned(PLQ_READY[i]));
+                    print(")\n")
+                }
+            }
+        }
+    }
 }
 
 val read_scalar_source64 : sgpr_src -> QWORD
