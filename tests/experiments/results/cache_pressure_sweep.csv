@@ -1,0 +1,64 @@
+Fill_Type,Thrash_Count,Crossover_N
+s_nop 0,0,45
+v_nop,0,45
+"s_add_u32 s4,s4,1",0,45
+"s_and_b32 s4,s4,s4",0,45
+"v_add_f32 v3,v3,v3",0,45
+"v_add_u32 v3,v3,v3",0,45
+"v_mul_f32 v3,v3,v3",0,45
+"v_mov_b32 v3,v3",0,45
+mixed(s_add+v_add_f32)/iter,0,23
+s_nop 0,64,23
+v_nop,64,23
+"s_add_u32 s4,s4,1",64,13
+"s_and_b32 s4,s4,s4",64,14
+"v_add_f32 v3,v3,v3",64,13
+"v_add_u32 v3,v3,v3",64,13
+"v_mul_f32 v3,v3,v3",64,13
+"v_mov_b32 v3,v3",64,13
+mixed(s_add+v_add_f32)/iter,64,12
+s_nop 0,128,23
+v_nop,128,23
+"s_add_u32 s4,s4,1",128,15
+"s_and_b32 s4,s4,s4",128,15
+"v_add_f32 v3,v3,v3",128,13
+"v_add_u32 v3,v3,v3",128,13
+"v_mul_f32 v3,v3,v3",128,13
+"v_mov_b32 v3,v3",128,13
+mixed(s_add+v_add_f32)/iter,128,12
+s_nop 0,256,23
+v_nop,256,23
+"s_add_u32 s4,s4,1",256,15
+"s_and_b32 s4,s4,s4",256,15
+"v_add_f32 v3,v3,v3",256,13
+"v_add_u32 v3,v3,v3",256,13
+"v_mul_f32 v3,v3,v3",256,13
+"v_mov_b32 v3,v3",256,13
+mixed(s_add+v_add_f32)/iter,256,12
+s_nop 0,512,23
+v_nop,512,23
+"s_add_u32 s4,s4,1",512,15
+"s_and_b32 s4,s4,s4",512,15
+"v_add_f32 v3,v3,v3",512,13
+"v_add_u32 v3,v3,v3",512,13
+"v_mul_f32 v3,v3,v3",512,13
+"v_mov_b32 v3,v3",512,13
+mixed(s_add+v_add_f32)/iter,512,12
+s_nop 0,1024,73
+v_nop,1024,73
+"s_add_u32 s4,s4,1",1024,52
+"s_and_b32 s4,s4,s4",1024,52
+"v_add_f32 v3,v3,v3",1024,28
+"v_add_u32 v3,v3,v3",1024,28
+"v_mul_f32 v3,v3,v3",1024,28
+"v_mov_b32 v3,v3",1024,28
+mixed(s_add+v_add_f32)/iter,1024,28
+s_nop 0,2048,73
+v_nop,2048,73
+"s_add_u32 s4,s4,1",2048,52
+"s_and_b32 s4,s4,s4",2048,52
+"v_add_f32 v3,v3,v3",2048,28
+"v_add_u32 v3,v3,v3",2048,28
+"v_mul_f32 v3,v3,v3",2048,28
+"v_mov_b32 v3,v3",2048,28
+mixed(s_add+v_add_f32)/iter,2048,28
