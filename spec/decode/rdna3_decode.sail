@@ -26,22 +26,34 @@ function decode instr = {
                     PC = PC + 4;
                     flat_decode(w1 @ instr)
                 } else {
-                    if instr[31..30] == 0b10 then {
-                        if instr[29..23] == 0b1111101 then {
-                            sop1_decode(instr)
-                        } else {
-                            if instr[29..23] == 0b1111110 then {
-                                sopc_decode(instr)
+                    if instr[31..26] == 0b110110 then {
+                        let w1 = fetch_inst(PC);
+                        PC = PC + 4;
+                        ds_decode(w1 @ instr)
+                    } else {
+                        if instr[31..30] == 0b10 then {
+                            if instr[29..23] == 0b1111101 then {
+                                sop1_decode(instr)
                             } else {
-                                if instr[29..23] == 0b1111111 then {
-                                    sopp_decode(instr)
+                                if instr[29..23] == 0b1111110 then {
+                                    sopc_decode(instr)
                                 } else {
-                                    sop2_decode(instr)
+                                    if instr[29..23] == 0b1111111 then {
+                                        sopp_decode(instr)
+                                    } else {
+                                        sop2_decode(instr)
+                                    }
                                 }
                             }
+                        } else {
+                            if instr[31..26] == 0b111000 then {
+                                let w1 = fetch_inst(PC);
+                                PC = PC + 4;
+                                mubuf_decode(w1 @ instr)
+                            } else {
+                                Inst_INVALID()
+                            }
                         }
-                    } else {
-                        Inst_INVALID()
                     }
                 }
             }

@@ -247,7 +247,7 @@ function v_add_co_ci_u32_vop3(vdst, carry_dst, src0, src1, src2) = {
 val v_mov_b32 : (vgpr_idx, vop_src) -> unit
 function v_mov_b32(vdst, src0) = {
     let src0_u = unsigned(src0);
-    
+
     let val_common : DWORD = if src0_u <= 255 then {
         read_vector_source(src0, 0b00000)
     } else { 0x00000000 };
@@ -257,9 +257,10 @@ function v_mov_b32(vdst, src0) = {
     foreach (lane from 0 to 31) {
         let lane_bv = get_slice_int(5, lane, 0);
         if EXEC_LO[lane..lane] == 0b1 then {
-            results[lane] = if src0_u <= 255 then { val_common } else {
-                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
-            }
+            results[lane] =
+                if src0_u <= 255 then { val_common } else {
+                    rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+                }
         } else {
             results[lane] = rVGPR(vdst, lane_bv)
         }

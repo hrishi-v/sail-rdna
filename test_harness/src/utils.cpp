@@ -56,13 +56,18 @@ struct MemDump {
     std::string path;
 };
 
+struct SetupConfig {
+    std::vector<MemDump> dumps;
+    bool expected_error = false;
+};
+
 } // namespace
 
 static uint64_t parse_uint(const std::string &s) {
     return std::stoull(s, nullptr, 0);
 }
 
-std::vector<MemDump> apply_setup_file(const std::string &filepath) {
+std::vector<MemDump> apply_setup_file(const std::string &filepath, SetupConfig &config) {
     std::vector<MemDump> dumps;
     std::ifstream f(filepath);
     if (!f) {
@@ -108,8 +113,11 @@ std::vector<MemDump> apply_setup_file(const std::string &filepath) {
             std::string sa, sn, sp;
             iss >> sa >> sn >> sp;
             dumps.push_back({parse_uint(sa), static_cast<size_t>(parse_uint(sn)), sp});
+        } else if (directive == "EXPECT_ERROR") {
+            config.expected_error = true;
         }
     }
+    config.dumps = dumps;
     return dumps;
 }
 
@@ -132,9 +140,10 @@ bool run_test(const std::string &filepath) {
 
     std::string base_name = std::filesystem::path(filepath).stem().string();
     std::string setup_path = "tests/setups/" + base_name + ".setup";
+    SetupConfig config;
     if (std::filesystem::exists(setup_path)) {
         log_info("Test Suite", "Applying setup: " + setup_path);
-        apply_setup_file(setup_path);
+        apply_setup_file(setup_path, config);
     }
 
     FlightRecorder recorder;
@@ -175,7 +184,7 @@ bool run_test(const std::string &filepath) {
 
     bool timed_out   = (cycle_count >= CYCLE_LIMIT);
     bool error_hit   = zget_error_flag(UNIT);
-    bool passed      = !timed_out && !error_hit;
+    bool passed      = !timed_out && (error_hit == config.expected_error);
 
     std::ostringstream result;
     result << filepath << " (" << std::dec << cycle_count << " cycles)";
@@ -203,7 +212,8 @@ bool run_kernel_test(const std::string &bin_path, const std::string &setup_path)
     zset_pc(START_PC);
 
     // Apply initial register / memory state from the fixture-generated setup file.
-    auto mem_dumps = apply_setup_file(setup_path);
+    SetupConfig config;
+    apply_setup_file(setup_path, config);
 
     FlightRecorder recorder;
     int cycle = 0;
@@ -220,7 +230,7 @@ bool run_kernel_test(const std::string &bin_path, const std::string &setup_path)
         }
     }
 
-    bool ok = (cycle < CYCLE_LIMIT) && !zget_error_flag(UNIT);
+    bool ok = (cycle < CYCLE_LIMIT) && (zget_error_flag(UNIT) == config.expected_error);
 
     // Write instruction trace (useful for debugging spec gaps).
     std::filesystem::create_directories("outputs/instruction_trace");
@@ -228,7 +238,7 @@ bool run_kernel_test(const std::string &bin_path, const std::string &setup_path)
     recorder.dump_trace("outputs/instruction_trace/" + base + ".log");
 
     // Write each DUMP_MEM region.
-    for (const auto &d : mem_dumps) {
+    for (const auto &d : config.dumps) {
         std::filesystem::create_directories(
             std::filesystem::path(d.path).parent_path());
         FlightRecorder::dump_memory_region(d.path, d.addr, d.n_bytes / 4);

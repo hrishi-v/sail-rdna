@@ -18,11 +18,15 @@ function wSGPR(id, value) = {
     if idx <= 107 then {
         SGPR[idx] = value
     } else {
-        if idx == 126 then {
-            EXEC_LO = value
+        if idx == 124 then {
+            M0 = value
         } else {
-            if idx == 127 then {
-                EXEC_HI = value
+            if idx == 126 then {
+                EXEC_LO = value
+            } else {
+                if idx == 127 then {
+                    EXEC_HI = value
+                }
             }
         }
     }
@@ -40,26 +44,28 @@ function read_common_source idx = {
             SGPR[idx]
         } else {
             if idx >= 108 & idx <= 123 then { 0x00000000 } else {
-                if idx == 124 | idx == 125 then { 0x00000000 } else {
-                    if idx == 126 then { EXEC_LO } else {
-                        if idx == 127 then { EXEC_HI } else {
-                            if idx == 128 then { 0x00000000 } else {
-                                if idx >= 129 & idx <= 192 then {
-                                    get_slice_int(32, idx - 128, 0)
-                                } else {
-                                    if idx >= 193 & idx <= 208 then {
-                                        get_slice_int(32, 192 - idx, 0)
+                if idx == 124 then { M0 } else {
+                    if idx == 125 then { 0x00000000 } else {
+                        if idx == 126 then { EXEC_LO } else {
+                            if idx == 127 then { EXEC_HI } else {
+                                if idx == 128 then { 0x00000000 } else {
+                                    if idx >= 129 & idx <= 192 then {
+                                        get_slice_int(32, idx - 128, 0)
                                     } else {
-                                        if idx == 240 then { 0x3f000000 } else {
-                                            if idx == 241 then { 0xbf000000 } else {
-                                                if idx == 242 then { 0x3f800000 } else {
-                                                    if idx == 243 then { 0xbf800000 } else {
-                                                        if idx == 244 then { 0x40000000 } else {
-                                                            if idx == 245 then { 0xc0000000 } else {
-                                                                if idx == 246 then { 0x40800000 } else {
-                                                                    if idx == 247 then { 0xc0800000 } else {
-                                                                        if idx == 248 then { 0x3e22f983 } else {
-                                                                            0x00000000
+                                        if idx >= 193 & idx <= 208 then {
+                                            get_slice_int(32, 192 - idx, 0)
+                                        } else {
+                                            if idx == 240 then { 0x3f000000 } else {
+                                                if idx == 241 then { 0xbf000000 } else {
+                                                    if idx == 242 then { 0x3f800000 } else {
+                                                        if idx == 243 then { 0xbf800000 } else {
+                                                            if idx == 244 then { 0x40000000 } else {
+                                                                if idx == 245 then { 0xc0000000 } else {
+                                                                    if idx == 246 then { 0x40800000 } else {
+                                                                        if idx == 247 then { 0xc0800000 } else {
+                                                                            if idx == 248 then { 0x3e22f983 } else {
+                                                                                0x00000000
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
@@ -93,33 +99,17 @@ function write_scalar_dst64(id, value) = {
     wSGPR(id_plus_1, upper32)
 }
 
-// Check if sgpr_n has a pending PLQ entry. If ready, flush it early (writing
-// the value to SGPR and marking the slot with a sentinel DST of 127 so
-// s_waitcnt skips it). If not ready, emit a [HAZARD] diagnostic.
-// sgpr_n values 0-107 are valid physical SGPRs; 127 is the sentinel.
 function check_sgpr_plq sgpr_n = {
     foreach (i from 0 to 15) {
         if i < unsigned(PLQ_COUNT) then {
             let dst_n = unsigned(PLQ_DST[i]);
-            // skip entries already early-flushed (sentinel DST = 127)
-            let is_base  = dst_n == sgpr_n;
+            let is_base = dst_n == sgpr_n;
             let is_upper = PLQ_NDW[i] == 0b1 & dst_n + 1 == sgpr_n;
             if is_base | is_upper then {
-                if unsigned(CYCLE_COUNT) >= unsigned(PLQ_READY[i]) then {
-                    if PLQ_NDW[i] == 0b0 then {
-                        wSGPR(PLQ_DST[i], PLQ_VAL[i][31..0])
-                    } else {
-                        write_scalar_dst64(PLQ_DST[i], PLQ_VAL[i])
-                    };
-                    PLQ_DST[i] = 0b1111111  // sentinel: mark slot as early-flushed
-                } else {
-                    print("[HAZARD] read of s");
-                    print_int("", sgpr_n);
-                    print(" at cycle ");
-                    print_int("", unsigned(CYCLE_COUNT));
-                    print(" returns stale value (load completes at cycle ");
-                    print_int("", unsigned(PLQ_READY[i]));
-                    print(")\n")
+                if unsigned(CYCLE_COUNT) < unsigned(PLQ_READY[i]) then {
+                    print(
+                        "[DIAGNOSTIC] Load result used without synchronisation primitives. This may return stale data on bare metal. Use s_waitcnt to avoid stale loads.\n",
+                    )
                 }
             }
         }

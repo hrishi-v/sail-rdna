@@ -23,7 +23,7 @@ function vop3_decode instr = {
 
     match opc {
         // VOP3
-        0b0001000100 => Inst_V_CMP_GT_I32(vdst, src0, src1),  // 68, ISA §16.12
+        0b0001000100 => Inst_V_CMP_GT_I32(vdst, src0, src1), // 68, ISA §16.12
         0b0001001001 => Inst_V_CMP_LT_U32(vdst, src0, src1), // 73, ISA §16.12
         0b0100000001 => Inst_V_CNDMASK_B32_VOP3(vdst, src0, src1, src2), // 257, ISA §16.12
         0b0100011000 => Inst_V_LSHLREV_B32(vdst, src0, src1), // 280, ISA §16.12
@@ -73,9 +73,10 @@ function vop1_decode instr = {
 
 val vopc_decode : DWORD -> ast
 function vopc_decode instr = {
-    let opc   = instr[24..17];
+    let opc = instr[24..17];
     let vsrc1 = instr[16..9];
-    let src0  = instr[8..0];
+    let src0 = instr[8..0];
+
     // VOPC destination is always VCC_LO (SGPR 106 = 0b01101010)
     match opc {
         0b01000100 => Inst_V_CMP_GT_I32(0b01101010, src0, 0b1 @ vsrc1), // 68

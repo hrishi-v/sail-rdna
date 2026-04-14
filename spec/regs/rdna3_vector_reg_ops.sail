@@ -19,12 +19,44 @@ function wVCC value = {
     }
 }
 
+val check_vgpr_vmq : int -> unit
+function check_vgpr_vmq reg_idx = {
+    if IN_EXECUTE == 0b1 & reg_idx >= 0 & reg_idx < 256 then {
+        if VMQ_PENDING[reg_idx] == 0b1 then {
+            print("[HAZARD] read of v");
+            print_int("", reg_idx);
+            print(" before s_waitcnt vmcnt(0) - destination has pending VMEM load\n")
+        }
+    }
+}
+
+val vmem_mark_pending : vgpr_idx -> unit
+function vmem_mark_pending vdst = {
+    let idx = unsigned(vdst);
+    if idx < 256 then {
+        VMQ_PENDING[idx] = 0b1
+    }
+}
+
+val vmem_issue_load : vgpr_idx -> unit
+function vmem_issue_load vdst = {
+    if unsigned(VMCNT) >= 63 then {
+        print("[HAZARD] vmcnt overflow: 64th VMEM load issued without s_waitcnt. Hardware counter would wrap to 0.\n");
+    };
+    VMCNT = VMCNT + 1;
+    let idx = unsigned(vdst);
+    if idx < 256 then {
+        VMQ_PENDING[idx] = 0b1
+    }
+}
+
 // Read from a Vector register, returning a lane-specific value
 val rVGPR : (vgpr_idx, lane_id) -> DWORD
 function rVGPR(reg_id, lane_id) = {
     let reg_idx = unsigned(reg_id);
     let lane_idx = unsigned(lane_id);
     if reg_idx < 256 & lane_idx <= 31 then {
+        check_vgpr_vmq(reg_idx);
         VGPR[reg_idx][lane_idx]
     } else { 0x00000000 }
 }

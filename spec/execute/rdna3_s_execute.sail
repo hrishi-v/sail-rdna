@@ -67,7 +67,7 @@ function s_and_not1_b32(sdst, ssrc0, ssrc1) = {
 
     let result : DWORD = src0 & not_vec(src1);
     wSGPR(sdst, result);
-    wSCC(if unsigned(result) == 0 then bitzero else bitone);
+    wSCC(if unsigned(result) == 0 then bitzero else bitone)
 }
 
 // SOP1 Instructions
@@ -86,7 +86,7 @@ val s_and_saveexec_b32 : (sgpr_idx, sgpr_src) -> unit
 function s_and_saveexec_b32(sdst, ssrc0) = {
     let save_exec : DWORD = EXEC_LO;
     let new_exec : DWORD = read_common_source(unsigned(ssrc0)) & save_exec;
-    
+
     wSGPR(sdst, save_exec);
     EXEC_LO = new_exec;
     wSCC(if new_exec == 0x00000000 then bitzero else bitone)
@@ -147,22 +147,50 @@ function s_branch simm = {
 
 val s_waitcnt : bits(16) -> unit
 function s_waitcnt simm = {
-    // Flush every entry deferred by s_load_b32 / s_load_b64.
-    foreach (i from 0 to 15) {
-        if i < unsigned(PLQ_COUNT) then {
-            let dst : sgpr_idx = PLQ_DST[i];
-            // skip entries already early-flushed (sentinel DST = 127)
-            if unsigned(dst) <= 107 then {
-                if PLQ_NDW[i] == 0b0 then {
-                    wSGPR(dst, PLQ_VAL[i][31..0])
-                } else {
-                    write_scalar_dst64(dst, PLQ_VAL[i])
-                }
+    let vmcnt_target : bits(6) = simm[15..10];
+    if vmcnt_target != 0b111111 then {
+        let target_ext : bits(7) = 0b0 @ vmcnt_target;
+        if unsigned(VMCNT) > unsigned(target_ext) then {
+            VMCNT = target_ext
+        };
+        if vmcnt_target == 0b000000 then {
+            foreach (i from 0 to 255) {
+                VMQ_PENDING[i] = 0b0
             }
         }
     };
-    PLQ_COUNT = 0b00000;
-    LGKMCNT = 0b000000
+    let lgkm_target : bits(6) = simm[9..4];
+    if lgkm_target != 0b111111 then {
+        foreach (iteration from 0 to 15) {
+            if unsigned(LGKMCNT) > unsigned(lgkm_target) then {
+                if unsigned(PLQ_COUNT) > 0 then {
+                    // Drain one SMEM PLQ entry (s_load_b32 / s_load_b64).
+                    let dst : sgpr_idx = PLQ_DST[0];
+                    if PLQ_NDW[0] == 0b0 then {
+                        wSGPR(dst, PLQ_VAL[0][31..0])
+                    } else {
+                        write_scalar_dst64(dst, PLQ_VAL[0])
+                    };
+                    foreach (j from 0 to 14) {
+                        if j < unsigned(PLQ_COUNT) - 1 then {
+                            PLQ_DST[j] = PLQ_DST[j + 1];
+                            PLQ_NDW[j] = PLQ_NDW[j + 1];
+                            PLQ_VAL[j] = PLQ_VAL[j + 1];
+                            PLQ_READY[j] = PLQ_READY[j + 1]
+                        }
+                    };
+                    PLQ_COUNT = PLQ_COUNT + 0b11111;
+                    LGKMCNT = LGKMCNT + 0b111111
+                } else {
+                    if unsigned(DS_PENDING) > 0 then {
+                        // Drain one DS credit (ds_read_b32 already wrote to VGPR).
+                        DS_PENDING = DS_PENDING + 0b11111;
+                        LGKMCNT = LGKMCNT + 0b111111
+                    }
+                }
+            }
+        }
+    }
 }
 
 // SMEM Instructions

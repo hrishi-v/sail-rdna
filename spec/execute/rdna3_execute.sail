@@ -40,6 +40,8 @@ function execute inst = {
         // SMEM
         Inst_S_LOAD_B32(sbase, sdata, offset, soffset) => s_load_b32(sbase, sdata, offset, soffset),
         Inst_S_LOAD_B64(sbase, sdata, offset, soffset) => s_load_b64(sbase, sdata, offset, soffset),
+        // DS (LDS)
+        Inst_DS_READ_B32(vdst, vaddr, offset) => ds_read_b32(vdst, vaddr, offset),
         // VOP1
         Inst_V_MOV_B32(vd, s) => v_mov_b32(vd, s),
         // FLAT
@@ -122,6 +124,8 @@ function execute inst = {
             sve,
             vdst,
         ),
+        // MUBUF
+        Inst_BUFFER_LOAD_B128(vdata, vaddr, srsrc, soffset, offset, offen, idxen, glc, slc, dlc) => buffer_load_b128(vdata, vaddr, srsrc, soffset, offset, offen, idxen, glc, slc, dlc),
         // General
         Inst_INVALID() => {
             print("Error: Executing invalid instruction\n");

@@ -68,5 +68,12 @@ union ast = {
     Inst_GLOBAL_STORE_B32 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
                               vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
 
+    // DS (Local Data Share) Instructions
+    // vdst: VGPR destination, vaddr: VGPR per-lane byte address, offset: 8-bit immediate offset
+    Inst_DS_READ_B32 : (vgpr_idx, vgpr_idx, bits(8)),
+
+    // MUBUF Instructions
+    Inst_BUFFER_LOAD_B128 : (vgpr_idx, vgpr_idx, bits(5), BYTE, bits(12), bits(1), bits(1), bits(1), bits(1), bits(1)),
+
     Inst_INVALID : unit
 }

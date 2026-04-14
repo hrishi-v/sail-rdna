@@ -134,7 +134,7 @@ function load_test_flat_load () = {
 
     EXEC_LO = 0x00000001;
 
-    VMCNT = 0b000000;
+    VMCNT = 0b0000000;
     LGKMCNT = 0b000000;
 
     write_mem_32(0x0000000000002000, 0xDEADBEEF);
@@ -150,7 +150,7 @@ function load_test_flat_load () = {
 
     let res = rVGPR(0b00000010, 0b00000); // Read v2, Lane 0
 
-    if res == 0xDEADBEEF & VMCNT == 0b000001 & LGKMCNT == 0b000000 then {
+    if res == 0xDEADBEEF & VMCNT == 0b00000001 & LGKMCNT == 0b000000 then {
         print("\n[PASS] FLAT Load successful!\n");
         print_bits("Data: ", res);
         print("VMCNT correctly incremented to 1 for Global Memory.")
@@ -178,7 +178,7 @@ function load_test_flat_store () = {
     EXEC_LO = 0x00000001;
 
     // Reset counters before the test
-    VMCNT = 0b000000;
+    VMCNT = 0b0000000;
     LGKMCNT = 0b000000;
     write_mem_32(0x0000000000001008, 0x00000000);
 
@@ -191,7 +191,7 @@ function load_test_flat_store () = {
 
     let mem_res = read_mem_32(0x0000000000001008);
 
-    if mem_res == 0xCAFEBABE & LGKMCNT == 0b000001 & VMCNT == 0b000000 then {
+    if mem_res == 0xCAFEBABE & LGKMCNT == 0b000001 & VMCNT == 0b0000000 then {
         print("\n[PASS] FLAT Store successful!");
         print_bits("Memory at 0x1008: ", mem_res);
         print("LGKMCNT correctly incremented to 1 for Shared Memory.")

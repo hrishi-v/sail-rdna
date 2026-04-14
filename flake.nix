@@ -25,6 +25,7 @@
           lxml
           numpy
           pytest
+          matplotlib
         ]);
       in
       {

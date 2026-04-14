@@ -15,6 +15,8 @@ function flat_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, v
     let actual_offset : QWORD = EXTZ(offset[11..0]);
     let shared_base = SHARED_BASE;
     let shared_limit = SHARED_LIMIT;
+    var any_vmem : bits(1) = 0b0;
+    var any_lds : bits(1) = 0b0;
 
     foreach (lane from 0 to 31) {
         let lane_bv = get_slice_int(5, lane, 0);
@@ -28,16 +30,20 @@ function flat_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, v
             let is_shared = unsigned(final_addr[31..0]) >= unsigned(shared_base[31..0]) & unsigned(final_addr[31..0]) <= unsigned(
                 shared_limit[31..0],
             );
+            let read_data = read_mem_32(final_addr);
+            wVGPR(vdst, lane_bv, read_data);
             if is_shared then {
-                let read_data = read_mem_32(final_addr);
-                wVGPR(vdst, lane_bv, read_data);
-                LGKMCNT = LGKMCNT + 1
+                any_lds = 0b1
             } else {
-                let read_data = read_mem_32(final_addr);
-                wVGPR(vdst, lane_bv, read_data);
-                VMCNT = VMCNT + 1
+                any_vmem = 0b1
             }
         }
+    };
+    if any_lds == 0b1 then {
+        LGKMCNT = LGKMCNT + 1
+    };
+    if any_vmem == 0b1 then {
+        vmem_issue_load(vdst)
     }
 }
 
@@ -58,6 +64,8 @@ function flat_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, 
     let actual_offset : QWORD = EXTZ(offset[11..0]);
     let shared_base = SHARED_BASE;
     let shared_limit = SHARED_LIMIT;
+    var any_vmem : bits(1) = 0b0;
+    var any_lds : bits(1) = 0b0;
 
     foreach (lane from 0 to 31) {
         let lane_bv = get_slice_int(5, lane, 0);
@@ -72,16 +80,19 @@ function flat_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, 
             let is_shared = unsigned(final_addr[31..0]) >= unsigned(shared_base[31..0]) & unsigned(final_addr[31..0]) <= unsigned(
                 shared_limit[31..0],
             );
-
+            write_mem_32(final_addr, write_data);
             if is_shared then {
-                write_mem_32(final_addr, write_data);
-                LGKMCNT = LGKMCNT + 0b000001
+                any_lds = 0b1
             } else {
-                write_mem_32(final_addr, write_data);
-
-                VMCNT = VMCNT + 0b000001
+                any_vmem = 0b1
             }
         }
+    };
+    if any_lds == 0b1 then {
+        LGKMCNT = LGKMCNT + 0b000001
+    };
+    if any_vmem == 0b1 then {
+        VMCNT = VMCNT + 0b0000001
     }
 }
 
@@ -102,6 +113,8 @@ function flat_load_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, v
     let actual_offset : QWORD = EXTZ(offset[11..0]);
     let shared_base = SHARED_BASE;
     let shared_limit = SHARED_LIMIT;
+    var any_vmem : bits(1) = 0b0;
+    var any_lds : bits(1) = 0b0;
 
     foreach (lane from 0 to 31) {
         let lane_bv = get_slice_int(5, lane, 0);
@@ -115,22 +128,22 @@ function flat_load_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, v
             let is_shared = unsigned(final_addr[31..0]) >= unsigned(shared_base[31..0]) & unsigned(final_addr[31..0]) <= unsigned(
                 shared_limit[31..0],
             );
+            let read_data : QWORD = read_mem_64(final_addr);
+            wVGPR(vdst, lane_bv, read_data[31..0]);
+            wVGPR(vdst + 0x01, lane_bv, read_data[63..32]);
             if is_shared then {
-                let read_data : QWORD = read_mem_64(final_addr);
-                let read_data_lo : DWORD = read_data[31..0];
-                let read_data_hi : DWORD = read_data[63..32];
-                wVGPR(vdst, lane_bv, read_data_lo);
-                wVGPR(vdst + 0x01, lane_bv, read_data_hi);
-                LGKMCNT = LGKMCNT + 1
+                any_lds = 0b1
             } else {
-                let read_data : QWORD = read_mem_64(final_addr);
-                let read_data_lo : DWORD = read_data[31..0];
-                let read_data_hi : DWORD = read_data[63..32];
-                wVGPR(vdst, lane_bv, read_data_lo);
-                wVGPR(vdst + 0x01, lane_bv, read_data_hi);
-                VMCNT = VMCNT + 1
+                any_vmem = 0b1
             }
         }
+    };
+    if any_lds == 0b1 then {
+        LGKMCNT = LGKMCNT + 1
+    };
+    if any_vmem == 0b1 then {
+        vmem_issue_load(vdst);
+        vmem_mark_pending(vdst + 0x01)
     }
 }
 
@@ -151,6 +164,8 @@ function flat_store_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, 
     let actual_offset : QWORD = EXTZ(offset[11..0]);
     let shared_base = SHARED_BASE;
     let shared_limit = SHARED_LIMIT;
+    var any_vmem : bits(1) = 0b0;
+    var any_lds : bits(1) = 0b0;
 
     foreach (lane from 0 to 31) {
         let lane_bv = get_slice_int(5, lane, 0);
@@ -168,15 +183,19 @@ function flat_store_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, 
                 shared_limit[31..0],
             );
 
+            write_mem_64(final_addr, write_data);
             if is_shared then {
-                write_mem_64(final_addr, write_data);
-                LGKMCNT = LGKMCNT + 1
+                any_lds = 0b1
             } else {
-                write_mem_64(final_addr, write_data);
-
-                VMCNT = VMCNT + 1
+                any_vmem = 0b1
             }
         }
+    };
+    if any_lds == 0b1 then {
+        LGKMCNT = LGKMCNT + 1
+    };
+    if any_vmem == 0b1 then {
+        VMCNT = VMCNT + 0b0000001
     }
 }
 
@@ -195,6 +214,7 @@ val global_load_b32 : (
     ) -> unit
 function global_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
     let saddr_u = unsigned(saddr);
+    vmem_issue_load(vdst);
 
     foreach (lane from 0 to 31) {
         let lane_bv = get_slice_int(5, lane, 0);
@@ -212,8 +232,7 @@ function global_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve,
                 base + EXTZ(rVGPR(addr, lane_bv)) + EXTZ(offset)
             };
             let read_data = read_mem_32(final_addr);
-            wVGPR(vdst, lane_bv, read_data);
-            VMCNT = VMCNT + 1
+            wVGPR(vdst, lane_bv, read_data)
         }
     }
 }
@@ -233,6 +252,7 @@ val global_store_b32 : (
     ) -> unit
 function global_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
     let saddr_u = unsigned(saddr);
+    VMCNT = VMCNT + 0b0000001;
 
     foreach (lane from 0 to 31) {
         let lane_bv = get_slice_int(5, lane, 0);
@@ -250,8 +270,7 @@ function global_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve
                 base + EXTZ(rVGPR(addr, lane_bv)) + EXTZ(offset)
             };
             let write_data = rVGPR(data, lane_bv);
-            write_mem_32(final_addr, write_data);
-            VMCNT = VMCNT + 1
+            write_mem_32(final_addr, write_data)
         }
     }
 }
