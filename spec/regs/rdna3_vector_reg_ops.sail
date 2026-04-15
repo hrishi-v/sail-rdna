@@ -41,7 +41,7 @@ function vmem_mark_pending vdst = {
 val vmem_issue_load : vgpr_idx -> unit
 function vmem_issue_load vdst = {
     if unsigned(VMCNT) >= 63 then {
-        print("[HAZARD] vmcnt overflow: 64th VMEM load issued without s_waitcnt. Hardware counter would wrap to 0.\n");
+        print("[HAZARD] vmcnt overflow: 64th VMEM load issued without s_waitcnt. Hardware counter would wrap to 0.\n")
     };
     VMCNT = VMCNT + 1;
     let idx = unsigned(vdst);

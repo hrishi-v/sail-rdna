@@ -48,6 +48,7 @@ function vop2_decode instr = {
     let vdst = instr[24..17];
     let vsrc = instr[16..9];
     let src = instr[8..0];
+
     // src0 == 0xFF is the literal-constant marker: a 32-bit literal DWORD
     // immediately follows this instruction word. Consume it so PC stays correct.
     if src == 0b0_1111_1111 then {

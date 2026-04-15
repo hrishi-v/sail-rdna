@@ -1,14 +1,14 @@
 val flat_load_b32 : (
-        bits(12),
-        bits(1),
-        bits(1),
-        bits(1),
-        bits(2),
-        BYTE,
+        mem_offset_12,
+        flag_1,
+        flag_1,
+        flag_1,
+        seg_2,
+        opcode_8,
         vgpr_idx,
         vgpr_idx,
         sgpr_idx,
-        bits(1),
+        flag_1,
         vgpr_idx,
     ) -> unit
 function flat_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
@@ -48,16 +48,16 @@ function flat_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, v
 }
 
 val flat_store_b32 : (
-        bits(12),
-        bits(1),
-        bits(1),
-        bits(1),
-        bits(2),
-        BYTE,
+        mem_offset_12,
+        flag_1,
+        flag_1,
+        flag_1,
+        seg_2,
+        opcode_8,
         vgpr_idx,
         vgpr_idx,
         sgpr_idx,
-        bits(1),
+        flag_1,
         vgpr_idx,
     ) -> unit
 function flat_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
@@ -97,16 +97,16 @@ function flat_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, 
 }
 
 val flat_load_b64 : (
-        bits(12),
-        bits(1),
-        bits(1),
-        bits(1),
-        bits(2),
-        BYTE,
+        mem_offset_12,
+        flag_1,
+        flag_1,
+        flag_1,
+        seg_2,
+        opcode_8,
         vgpr_idx,
         vgpr_idx,
         sgpr_idx,
-        bits(1),
+        flag_1,
         vgpr_idx,
     ) -> unit
 function flat_load_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
@@ -148,16 +148,16 @@ function flat_load_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, v
 }
 
 val flat_store_b64 : (
-        bits(12),
-        bits(1),
-        bits(1),
-        bits(1),
-        bits(2),
-        BYTE,
+        mem_offset_12,
+        flag_1,
+        flag_1,
+        flag_1,
+        seg_2,
+        opcode_8,
         vgpr_idx,
         vgpr_idx,
         sgpr_idx,
-        bits(1),
+        flag_1,
         vgpr_idx,
     ) -> unit
 function flat_store_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
@@ -200,36 +200,69 @@ function flat_store_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, 
 }
 
 // SCRATCH Instructions (seg=11; per-thread private/spill memory).
-// We do not model the actual scratch buffer contents — we only track
-// the in-flight VMEM count so that hazard detection in s_sendmsg works.
-
 val scratch_store_b32 : (
-        bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-        vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx,
+        mem_offset_12,
+        flag_1,
+        flag_1,
+        flag_1,
+        seg_2,
+        opcode_8,
+        vgpr_idx,
+        vgpr_idx,
+        sgpr_idx,
+        flag_1,
+        vgpr_idx,
     ) -> unit
 function scratch_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
     VMCNT = VMCNT + 0b0000001
 }
 
 val scratch_store_b64 : (
-        bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-        vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx,
+        mem_offset_12,
+        flag_1,
+        flag_1,
+        flag_1,
+        seg_2,
+        opcode_8,
+        vgpr_idx,
+        vgpr_idx,
+        sgpr_idx,
+        flag_1,
+        vgpr_idx,
     ) -> unit
 function scratch_store_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
     VMCNT = VMCNT + 0b0000001
 }
 
 val scratch_load_b32 : (
-        bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-        vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx,
+        mem_offset_12,
+        flag_1,
+        flag_1,
+        flag_1,
+        seg_2,
+        opcode_8,
+        vgpr_idx,
+        vgpr_idx,
+        sgpr_idx,
+        flag_1,
+        vgpr_idx,
     ) -> unit
 function scratch_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
     vmem_issue_load(vdst)
 }
 
 val scratch_load_b64 : (
-        bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-        vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx,
+        mem_offset_12,
+        flag_1,
+        flag_1,
+        flag_1,
+        seg_2,
+        opcode_8,
+        vgpr_idx,
+        vgpr_idx,
+        sgpr_idx,
+        flag_1,
+        vgpr_idx,
     ) -> unit
 function scratch_load_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
     vmem_issue_load(vdst);
@@ -237,16 +270,16 @@ function scratch_load_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve
 }
 
 val global_load_b32 : (
-        bits(12),
-        bits(1),
-        bits(1),
-        bits(1),
-        bits(2),
-        BYTE,
+        mem_offset_12,
+        flag_1,
+        flag_1,
+        flag_1,
+        seg_2,
+        opcode_8,
         vgpr_idx,
         vgpr_idx,
         sgpr_idx,
-        bits(1),
+        flag_1,
         vgpr_idx,
     ) -> unit
 function global_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
@@ -275,16 +308,16 @@ function global_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve,
 }
 
 val global_store_b32 : (
-        bits(12),
-        bits(1),
-        bits(1),
-        bits(1),
-        bits(2),
-        BYTE,
+        mem_offset_12,
+        flag_1,
+        flag_1,
+        flag_1,
+        seg_2,
+        opcode_8,
         vgpr_idx,
         vgpr_idx,
         sgpr_idx,
-        bits(1),
+        flag_1,
         vgpr_idx,
     ) -> unit
 function global_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {

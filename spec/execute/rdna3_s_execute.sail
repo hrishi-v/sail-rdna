@@ -1,5 +1,4 @@
 // SOP2 Instructions
-
 val s_add_u32 : (sgpr_idx, sgpr_src, sgpr_src) -> unit
 function s_add_u32(sdst, ssrc0, ssrc1) = {
     let val0 = read_common_source(unsigned(ssrc0));
@@ -74,7 +73,6 @@ function s_and_not1_b32(sdst, ssrc0, ssrc1) = {
 val s_mov_b32 : (sgpr_idx, sgpr_src) -> unit
 function s_mov_b32(sdst, ssrc0) = {
     wSGPR(sdst, read_common_source(unsigned(ssrc0)))
-    // doesn't affect SCC!
 }
 
 val s_mov_b64 : (sgpr_idx, sgpr_src) -> unit
@@ -117,7 +115,6 @@ function s_cmp_lg_i32(ssrc0, ssrc1) = {
     }
 }
 
-// SOPC Instructions (stubs)
 val s_bitcmp0_b32 : (sgpr_src, sgpr_src) -> unit
 function s_bitcmp0_b32(ssrc0, ssrc1) = { () }
 
@@ -125,18 +122,14 @@ function s_bitcmp0_b32(ssrc0, ssrc1) = { () }
 val s_nop : unit -> unit
 function s_nop () = { () }
 
-val s_cbranch_scc1 : bits(16) -> unit
+val s_cbranch_scc1 : simm_16 -> unit
 function s_cbranch_scc1 simm = {
     // NOP stub: branch semantics not needed for hazard detection.
     ()
 }
 
-val s_sendmsg : bits(16) -> unit
+val s_sendmsg : simm_16 -> unit
 function s_sendmsg simm = {
-    // MSG_DEALLOC_VGPRS = message ID 3 (simm[3..0] == 0b0011).
-    // Issuing this message while VMEM operations are still in flight is a
-    // semantic hazard: the GPU will free VGPRs that are still named as
-    // destinations of pending loads/stores.
     if simm[3..0] == 0b0011 then {
         var queue_nonempty : bool = unsigned(VMCNT) > 0;
         foreach (i from 0 to 255) {
@@ -153,33 +146,24 @@ function s_sendmsg simm = {
 }
 
 val s_clause : unit -> unit
-function s_clause () = {
-    // TODO: Hardware only instruction? Check this!
-    ()
-}
+function s_clause () = { () }
 
 val s_delay_alu : unit -> unit
-function s_delay_alu () = {
-    // TODO: Hardware only instruction? Check this!
-    ()
-}
+function s_delay_alu () = { () }
 
 val s_endpgm : unit -> unit
 function s_endpgm () = {
-    // TODO: Hardware implicitly executes S_WAITCNT 0 and S_WAITCNT_VSCNT 0 here.
-    // Currently omitted.
-    // Is this where the predicted cycle count is output?
     print(">>> S_ENDPGM REACHED: Halting Wavefront <<<\n");
     set_halt_flag()
 }
 
-val s_branch : bits(16) -> unit
+val s_branch : simm_16 -> unit
 function s_branch simm = {
-    let offset : QWORD = get_slice_int(64, signed(simm) * 4, 0); // multiplied to convert from DWORDS (32-bit) to bytes!
+    let offset : QWORD = get_slice_int(64, signed(simm) * 4, 0); 
     PC = PC + offset
 }
 
-val s_waitcnt : bits(16) -> unit
+val s_waitcnt : simm_16 -> unit
 function s_waitcnt simm = {
     let vmcnt_target : bits(6) = simm[15..10];
     if vmcnt_target != 0b111111 then {
@@ -198,7 +182,6 @@ function s_waitcnt simm = {
         foreach (iteration from 0 to 15) {
             if unsigned(LGKMCNT) > unsigned(lgkm_target) then {
                 if unsigned(PLQ_COUNT) > 0 then {
-                    // Drain one SMEM PLQ entry (s_load_b32 / s_load_b64).
                     let dst : sgpr_idx = PLQ_DST[0];
                     if PLQ_NDW[0] == 0b0 then {
                         wSGPR(dst, PLQ_VAL[0][31..0])
@@ -217,7 +200,6 @@ function s_waitcnt simm = {
                     LGKMCNT = LGKMCNT + 0b111111
                 } else {
                     if unsigned(DS_PENDING) > 0 then {
-                        // Drain one DS credit (ds_read_b32 already wrote to VGPR).
                         DS_PENDING = DS_PENDING + 0b11111;
                         LGKMCNT = LGKMCNT + 0b111111
                     }
@@ -228,7 +210,7 @@ function s_waitcnt simm = {
 }
 
 // SMEM Instructions
-val s_load_b32 : (bits(6), sgpr_idx, bits(21), sgpr_idx) -> unit
+val s_load_b32 : (sbase, sgpr_idx, offset_21, sgpr_idx) -> unit
 function s_load_b32(sbase, sdata, offset, soffset) = {
     let base_idx = unsigned(sbase) * 2;
     let base_lo : sgpr_src = get_slice_int(8, base_idx, 0);
@@ -259,7 +241,7 @@ function s_load_b32(sbase, sdata, offset, soffset) = {
     }
 }
 
-val s_load_b64 : (bits(6), sgpr_idx, bits(21), sgpr_idx) -> unit
+val s_load_b64 : (sbase, sgpr_idx, offset_21, sgpr_idx) -> unit
 function s_load_b64(sbase, sdata, offset, soffset) = {
     let base_idx = unsigned(sbase) * 2;
     let base_lo : sgpr_src = get_slice_int(8, base_idx, 0);

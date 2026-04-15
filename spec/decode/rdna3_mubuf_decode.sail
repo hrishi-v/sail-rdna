@@ -15,6 +15,6 @@ function mubuf_decode instr = {
 
     match op {
         0b00010111 => Inst_BUFFER_LOAD_B128(vdata, vaddr, srsrc, soffset, offset, offen, idxen, glc, slc, dlc),
-        _ => Inst_INVALID()
+        _ => Inst_INVALID(),
     }
 }

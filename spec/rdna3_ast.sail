@@ -22,10 +22,10 @@ union ast = {
     Inst_S_NOP : unit,
     Inst_S_CLAUSE : unit,
     Inst_S_DELAY_ALU : unit,
-    Inst_S_WAITCNT : bits(16),
-    Inst_S_BRANCH : bits(16),
-    Inst_S_CBRANCH_SCC1 : bits(16),
-    Inst_S_SENDMSG : bits(16),
+    Inst_S_WAITCNT : simm_16,
+    Inst_S_BRANCH : simm_16,
+    Inst_S_CBRANCH_SCC1 : simm_16,
+    Inst_S_SENDMSG : simm_16,
     Inst_S_ENDPGM : unit,
 
     // VOP3SD Instructions
@@ -51,44 +51,40 @@ union ast = {
     Inst_V_MOV_B32 : (vgpr_idx, vop_src),
 
     // SMEM Instructions
-    // sbase: bits(6) — 6-bit SGPR pair base (unique width, not sgpr_idx)
-    Inst_S_LOAD_B32 : (bits(6), sgpr_idx, bits(21), sgpr_idx),
-    Inst_S_LOAD_B64 : (bits(6), sgpr_idx, bits(21), sgpr_idx),
+    Inst_S_LOAD_B32 : (sbase, sgpr_idx, offset_21, sgpr_idx),
+    Inst_S_LOAD_B64 : (sbase, sgpr_idx, offset_21, sgpr_idx),
 
-    // SCRATCH Instructions (seg=01; per-thread private/spill memory — increments VMCNT)
-    Inst_SCRATCH_LOAD_B32 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-                              vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
-    Inst_SCRATCH_LOAD_B64 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-                              vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
-    Inst_SCRATCH_STORE_B32 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-                               vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
-    Inst_SCRATCH_STORE_B64 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-                               vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
+    // SCRATCH Instructions
+    Inst_SCRATCH_LOAD_B32 : (mem_offset_12, flag_1, flag_1, flag_1, seg_2, opcode_8,
+                              vgpr_idx, vgpr_idx, sgpr_idx, flag_1, vgpr_idx),
+    Inst_SCRATCH_LOAD_B64 : (mem_offset_12, flag_1, flag_1, flag_1, seg_2, opcode_8,
+                              vgpr_idx, vgpr_idx, sgpr_idx, flag_1, vgpr_idx),
+    Inst_SCRATCH_STORE_B32 : (mem_offset_12, flag_1, flag_1, flag_1, seg_2, opcode_8,
+                               vgpr_idx, vgpr_idx, sgpr_idx, flag_1, vgpr_idx),
+    Inst_SCRATCH_STORE_B64 : (mem_offset_12, flag_1, flag_1, flag_1, seg_2, opcode_8,
+                               vgpr_idx, vgpr_idx, sgpr_idx, flag_1, vgpr_idx),
 
     // FLAT Instructions
-    // fields: offset(12), dlc(1), glc(1), slc(1), seg(2), op(8),
-    //         addr(vgpr_idx), data(vgpr_idx), saddr(sgpr_idx), sve(1), vdst(vgpr_idx)
-    Inst_FLAT_LOAD_B32 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-                          vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
-    Inst_FLAT_STORE_B32 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-                           vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
-    Inst_FLAT_LOAD_B64 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-                          vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
-    Inst_FLAT_STORE_B64 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-                           vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
+    Inst_FLAT_LOAD_B32 : (mem_offset_12, flag_1, flag_1, flag_1, seg_2, opcode_8,
+                          vgpr_idx, vgpr_idx, sgpr_idx, flag_1, vgpr_idx),
+    Inst_FLAT_STORE_B32 : (mem_offset_12, flag_1, flag_1, flag_1, seg_2, opcode_8,
+                           vgpr_idx, vgpr_idx, sgpr_idx, flag_1, vgpr_idx),
+    Inst_FLAT_LOAD_B64 : (mem_offset_12, flag_1, flag_1, flag_1, seg_2, opcode_8,
+                          vgpr_idx, vgpr_idx, sgpr_idx, flag_1, vgpr_idx),
+    Inst_FLAT_STORE_B64 : (mem_offset_12, flag_1, flag_1, flag_1, seg_2, opcode_8,
+                           vgpr_idx, vgpr_idx, sgpr_idx, flag_1, vgpr_idx),
 
-    // GLOBAL Instructions (seg=01; saddr=0x7F → VGPR pair addr, else SGPR base + VGPR offset)
-    Inst_GLOBAL_LOAD_B32 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-                             vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
-    Inst_GLOBAL_STORE_B32 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
-                              vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
+    // GLOBAL Instructions
+    Inst_GLOBAL_LOAD_B32 : (mem_offset_12, flag_1, flag_1, flag_1, seg_2, opcode_8,
+                             vgpr_idx, vgpr_idx, sgpr_idx, flag_1, vgpr_idx),
+    Inst_GLOBAL_STORE_B32 : (mem_offset_12, flag_1, flag_1, flag_1, seg_2, opcode_8,
+                              vgpr_idx, vgpr_idx, sgpr_idx, flag_1, vgpr_idx),
 
     // DS (Local Data Share) Instructions
-    // vdst: VGPR destination, vaddr: VGPR per-lane byte address, offset: 8-bit immediate offset
-    Inst_DS_READ_B32 : (vgpr_idx, vgpr_idx, bits(8)),
+    Inst_DS_READ_B32 : (vgpr_idx, vgpr_idx, offset_8),
 
     // MUBUF Instructions
-    Inst_BUFFER_LOAD_B128 : (vgpr_idx, vgpr_idx, bits(5), BYTE, bits(12), bits(1), bits(1), bits(1), bits(1), bits(1)),
+    Inst_BUFFER_LOAD_B128 : (vgpr_idx, vgpr_idx, srsrc_5, soffset_8, mem_offset_12, flag_1, flag_1, flag_1, flag_1, flag_1),
 
     Inst_INVALID : unit
 }
