@@ -117,7 +117,41 @@ function s_cmp_lg_i32(ssrc0, ssrc1) = {
     }
 }
 
+// SOPC Instructions (stubs)
+val s_bitcmp0_b32 : (sgpr_src, sgpr_src) -> unit
+function s_bitcmp0_b32(ssrc0, ssrc1) = { () }
+
 // SOPP Instructions
+val s_nop : unit -> unit
+function s_nop () = { () }
+
+val s_cbranch_scc1 : bits(16) -> unit
+function s_cbranch_scc1 simm = {
+    // NOP stub: branch semantics not needed for hazard detection.
+    ()
+}
+
+val s_sendmsg : bits(16) -> unit
+function s_sendmsg simm = {
+    // MSG_DEALLOC_VGPRS = message ID 3 (simm[3..0] == 0b0011).
+    // Issuing this message while VMEM operations are still in flight is a
+    // semantic hazard: the GPU will free VGPRs that are still named as
+    // destinations of pending loads/stores.
+    if simm[3..0] == 0b0011 then {
+        var queue_nonempty : bool = unsigned(VMCNT) > 0;
+        foreach (i from 0 to 255) {
+            if VMQ_PENDING[i] == 0b1 then {
+                queue_nonempty = true
+            }
+        };
+        if queue_nonempty then {
+            print("[DIAG] Fatal Semantic Hazard: MSG_DEALLOC_VGPRS issued while VMEM queue is not empty.\n");
+            halt_flag = 0b1;
+            error_flag = 0b1
+        }
+    }
+}
+
 val s_clause : unit -> unit
 function s_clause () = {
     // TODO: Hardware only instruction? Check this!

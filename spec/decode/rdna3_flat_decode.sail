@@ -23,6 +23,11 @@ function flat_decode instr = {
         // GLOBAL (seg=10)
         (0b10, 0b00010100) => Inst_GLOBAL_LOAD_B32(offset, dlc, glc, slc, seg, opc, addr, data, saddr, sve, vdst), // 20
         (0b10, 0b00011010) => Inst_GLOBAL_STORE_B32(offset, dlc, glc, slc, seg, opc, addr, data, saddr, sve, vdst), // 26
+        // SCRATCH (seg=01; per-thread private/spill memory)
+        (0b01, 0b00010100) => Inst_SCRATCH_LOAD_B32(offset, dlc, glc, slc, seg, opc, addr, data, saddr, sve, vdst),
+        (0b01, 0b00010101) => Inst_SCRATCH_LOAD_B64(offset, dlc, glc, slc, seg, opc, addr, data, saddr, sve, vdst),
+        (0b01, 0b00011010) => Inst_SCRATCH_STORE_B32(offset, dlc, glc, slc, seg, opc, addr, data, saddr, sve, vdst),
+        (0b01, 0b00011011) => Inst_SCRATCH_STORE_B64(offset, dlc, glc, slc, seg, opc, addr, data, saddr, sve, vdst),
         _ => Inst_INVALID(),
     }
 }

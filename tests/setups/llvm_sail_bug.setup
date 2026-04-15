@@ -1,0 +1,19 @@
+# llvm_sail_bug: hazard detection test
+#
+# This kernel issues s_sendmsg(MSG_DEALLOC_VGPRS) while flat_store_b32 has
+# left a pending VMEM write in the queue (VMCNT > 0).  The Sail spec must
+# detect this and set error_flag.  EXPECT_ERROR makes the test PASS when
+# error_flag fires.
+
+# Give v0 realistic per-lane thread IDs (simulates v0 = thread_id_in_group).
+VGPR_LANE_ID 0
+
+# flat_load_b32 reads from {v1:v0} = {0:lane*4}.  With memory at address 0
+# initialised to 0, v0 ends up all-zeros after the load, and flat_store_b32
+# would treat address 0 as LDS (SHARED_BASE=0, SHARED_LIMIT=0) rather than
+# VMEM — so VMCNT never increments.  Seed one non-zero word so lane 0 reads
+# a non-zero address value (1), giving flat_store_b32 at least one VMEM lane.
+MEM32 0x0 0x00000001
+
+# The test is expected to trigger the hazard trap.
+EXPECT_ERROR

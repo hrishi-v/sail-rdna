@@ -15,11 +15,15 @@ function execute inst = {
         // SOPC
         Inst_S_CMP_EQ_I32(s0, s1) => s_cmp_eq_i32(s0, s1),
         Inst_S_CMP_LG_I32(s0, s1) => s_cmp_lg_i32(s0, s1),
+        Inst_S_BITCMP0_B32(s0, s1) => s_bitcmp0_b32(s0, s1),
         // SOPP
+        Inst_S_NOP() => s_nop(),
         Inst_S_CLAUSE() => s_clause(),
         Inst_S_DELAY_ALU() => s_delay_alu(),
         Inst_S_WAITCNT(simm) => s_waitcnt(simm),
         Inst_S_BRANCH(simm) => s_branch(simm),
+        Inst_S_CBRANCH_SCC1(simm) => s_cbranch_scc1(simm),
+        Inst_S_SENDMSG(simm) => s_sendmsg(simm),
         Inst_S_ENDPGM() => s_endpgm(),
         // VOP3
         Inst_V_LSHLREV_B64(vd, s0, s1) => v_lshlrev_b64(vd, s0, s1),
@@ -32,6 +36,7 @@ function execute inst = {
         Inst_V_CMP_GT_I32(vd, s0, s1) => v_cmp_gt_i32(vd, s0, s1),
         Inst_V_CNDMASK_B32_VOP3(vd, s0, s1, s2) => v_cndmask_b32_vop3(vd, s0, s1, s2),
         // VOP2
+        Inst_V_AND_B32(vd, s0, s1) => v_and_b32(vd, s0, s1),
         Inst_V_CNDMASK_B32(vd, s0, s1) => v_cndmask_b32(vd, s0, s1),
         Inst_V_ADD_CO_CI_U32(vd, vs, s) => v_add_co_ci_u32(vd, vs, s),
         Inst_V_ASHRREV_I32(vd, vs, s) => v_ashrrev_i32(vd, vs, s),
@@ -44,6 +49,11 @@ function execute inst = {
         Inst_DS_READ_B32(vdst, vaddr, offset) => ds_read_b32(vdst, vaddr, offset),
         // VOP1
         Inst_V_MOV_B32(vd, s) => v_mov_b32(vd, s),
+        // SCRATCH
+        Inst_SCRATCH_STORE_B32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) => scratch_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst),
+        Inst_SCRATCH_STORE_B64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) => scratch_store_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst),
+        Inst_SCRATCH_LOAD_B32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) => scratch_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst),
+        Inst_SCRATCH_LOAD_B64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) => scratch_load_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst),
         // FLAT
         Inst_FLAT_LOAD_B32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) => flat_load_b32(
             offset,

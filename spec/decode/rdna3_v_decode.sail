@@ -48,11 +48,17 @@ function vop2_decode instr = {
     let vdst = instr[24..17];
     let vsrc = instr[16..9];
     let src = instr[8..0];
+    // src0 == 0xFF is the literal-constant marker: a 32-bit literal DWORD
+    // immediately follows this instruction word. Consume it so PC stays correct.
+    if src == 0b0_1111_1111 then {
+        PC = PC + 4
+    };
     match opc {
         // VOP2
         0b000001 => Inst_V_CNDMASK_B32(vdst, src, 0b1 @ vsrc), // 1
         0b011000 => Inst_V_LSHLREV_B32(vdst, 0b1 @ vsrc, src), // 24
         0b011010 => Inst_V_ASHRREV_I32(vdst, 0b1 @ vsrc, src), // 26
+        0b011011 => Inst_V_AND_B32(vdst, src, 0b1 @ vsrc), // 27
         0b100000 => Inst_V_ADD_CO_CI_U32(vdst, 0b1 @ vsrc, src), // 32
         0b100101 => Inst_V_ADD_NC_U32(vdst, 0b1 @ vsrc, src), // 37
         _ => Inst_INVALID(),

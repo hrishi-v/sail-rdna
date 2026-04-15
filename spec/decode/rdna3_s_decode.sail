@@ -36,6 +36,7 @@ function sopc_decode instr = {
     match opc {
         0b0000000 => Inst_S_CMP_EQ_I32(ssrc0, ssrc1),
         0b0000001 => Inst_S_CMP_LG_I32(ssrc0, ssrc1),
+        0b0001100 => Inst_S_BITCMP0_B32(ssrc0, ssrc1),
         _ => Inst_INVALID(),
     }
 }
@@ -46,9 +47,12 @@ function sopp_decode instr = {
     let simm16 = instr[15..0];
 
     match opc {
+        0b0000000 => Inst_S_NOP(),
+        0b0100010 => Inst_S_CBRANCH_SCC1(simm16),
         0b0000101 => Inst_S_CLAUSE(),
         0b0000111 => Inst_S_DELAY_ALU(), // 7
         0b0001001 => Inst_S_WAITCNT(simm16),
+        0b0110110 => Inst_S_SENDMSG(simm16),
         0b0100000 => Inst_S_BRANCH(simm16),
         0b0110000 => Inst_S_ENDPGM(),
         _ => Inst_INVALID(),

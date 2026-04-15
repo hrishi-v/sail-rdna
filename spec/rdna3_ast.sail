@@ -16,12 +16,16 @@ union ast = {
     // SOPC Instructions
     Inst_S_CMP_EQ_I32 : (sgpr_src, sgpr_src),
     Inst_S_CMP_LG_I32 : (sgpr_src, sgpr_src),
+    Inst_S_BITCMP0_B32 : (sgpr_src, sgpr_src),
 
     // SOPP Instructions
+    Inst_S_NOP : unit,
     Inst_S_CLAUSE : unit,
     Inst_S_DELAY_ALU : unit,
     Inst_S_WAITCNT : bits(16),
     Inst_S_BRANCH : bits(16),
+    Inst_S_CBRANCH_SCC1 : bits(16),
+    Inst_S_SENDMSG : bits(16),
     Inst_S_ENDPGM : unit,
 
     // VOP3SD Instructions
@@ -41,6 +45,7 @@ union ast = {
     Inst_V_ASHRREV_I32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_ADD_NC_U32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_LSHLREV_B32 : (vgpr_idx, vop_src, vop_src),
+    Inst_V_AND_B32 : (vgpr_idx, vop_src, vop_src),
 
     // VOP1 Instructions
     Inst_V_MOV_B32 : (vgpr_idx, vop_src),
@@ -49,6 +54,16 @@ union ast = {
     // sbase: bits(6) — 6-bit SGPR pair base (unique width, not sgpr_idx)
     Inst_S_LOAD_B32 : (bits(6), sgpr_idx, bits(21), sgpr_idx),
     Inst_S_LOAD_B64 : (bits(6), sgpr_idx, bits(21), sgpr_idx),
+
+    // SCRATCH Instructions (seg=01; per-thread private/spill memory — increments VMCNT)
+    Inst_SCRATCH_LOAD_B32 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
+                              vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
+    Inst_SCRATCH_LOAD_B64 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
+                              vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
+    Inst_SCRATCH_STORE_B32 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
+                               vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
+    Inst_SCRATCH_STORE_B64 : (bits(12), bits(1), bits(1), bits(1), bits(2), BYTE,
+                               vgpr_idx, vgpr_idx, sgpr_idx, bits(1), vgpr_idx),
 
     // FLAT Instructions
     // fields: offset(12), dlc(1), glc(1), slc(1), seg(2), op(8),

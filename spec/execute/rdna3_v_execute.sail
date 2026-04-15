@@ -1,5 +1,9 @@
 // VOP2 Instructions
 
+// NOP stub: we only need the parser to not crash; results are irrelevant.
+val v_and_b32 : (vgpr_idx, vop_src, vop_src) -> unit
+function v_and_b32(vdst, src0, src1) = { () }
+
 val v_ashrrev_i32 : (vgpr_idx, vop_src, vop_src) -> unit
 function v_ashrrev_i32(vdst, vsrc, src0) = {
     let src0_u = unsigned(src0);
