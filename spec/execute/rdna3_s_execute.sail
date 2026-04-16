@@ -151,8 +151,18 @@ function s_clause () = { () }
 val s_delay_alu : unit -> unit
 function s_delay_alu () = { () }
 
+val s_waitcnt_vscnt : simm_16 -> unit
+function s_waitcnt_vscnt simm = {
+    VSCNT = 0b000000
+}
+
 val s_endpgm : unit -> unit
 function s_endpgm () = {
+    if unsigned(VSCNT) > 0 then {
+        print("[HAZARD] s_endpgm with outstanding vector stores (vscnt=");
+        print_int("", unsigned(VSCNT));
+        print(") — missing s_waitcnt_vscnt\n")
+    };
     print(">>> S_ENDPGM REACHED: Halting Wavefront <<<\n");
     set_halt_flag()
 }
@@ -172,6 +182,7 @@ function s_waitcnt simm = {
             VMCNT = target_ext
         };
         if vmcnt_target == 0b000000 then {
+            vmem_flush_vlq();
             foreach (i from 0 to 255) {
                 VMQ_PENDING[i] = 0b0
             }

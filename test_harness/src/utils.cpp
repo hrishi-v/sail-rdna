@@ -255,8 +255,11 @@ void reset_emulator_state() {
     zreset_halt_flag(UNIT);
     zreset_error_flag(UNIT);
     zreset_vmcnt(UNIT);
+    zreset_vmq(UNIT);
     zreset_lgkmcnt(UNIT);
     zreset_pending_load_queue(UNIT);
+    zreset_vscnt(UNIT);
+    zreset_vlq(UNIT);
     zEXEC_LO = 0xFFFFFFFF;
     zEXEC_HI = 0xFFFFFFFF;
 

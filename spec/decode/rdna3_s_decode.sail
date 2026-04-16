@@ -52,6 +52,7 @@ function sopp_decode instr = {
         0b0000101 => Inst_S_CLAUSE(),
         0b0000111 => Inst_S_DELAY_ALU(), // 7
         0b0001001 => Inst_S_WAITCNT(simm16),
+        0b0001010 => Inst_S_WAITCNT_VSCNT(simm16),
         0b0110110 => Inst_S_SENDMSG(simm16),
         0b0100000 => Inst_S_BRANCH(simm16),
         0b0110000 => Inst_S_ENDPGM(),

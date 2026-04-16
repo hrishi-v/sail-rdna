@@ -48,6 +48,8 @@ _SAIL_ALLOWED_NONZERO: dict[str, frozenset[str]] = {
     "global_load_store_test": frozenset({"v0", "v1", "v2"}),
     "s_and_b32_test": frozenset({"s0", "s1", "s2"}),
     "s_load_b32_test": frozenset({"s0", "s2", "v0", "v2"}),
+    "vmcnt_stale_read": frozenset({"v0", "v2", "v3", "v4"}),
+    "vscnt_endpgm":    frozenset({"v0", "v2"}),
 }
 
 # ---------------------------------------------------------------------------

@@ -27,6 +27,7 @@ union ast = {
     Inst_S_CBRANCH_SCC1 : simm_16,
     Inst_S_SENDMSG : simm_16,
     Inst_S_ENDPGM : unit,
+    Inst_S_WAITCNT_VSCNT : simm_16,
 
     // VOP3SD Instructions
     Inst_V_ADD_CO_CI_U32_VOP3 : (vgpr_idx, sgpr_idx, vop_src, vop_src, vop_src),

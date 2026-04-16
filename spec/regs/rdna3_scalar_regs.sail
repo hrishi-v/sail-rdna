@@ -15,6 +15,16 @@ register LGKMCNT : bits(6)
 // VMEM load that has not yet been drained by s_waitcnt vmcnt(0).
 register VMQ_PENDING : vector(256, dec, bits(1))
 
+// VSCNT: vector store credit counter (outstanding VMEM writes).
+register VSCNT : bits(6)
+
+// VLQ: Vector Load Queue — defers VGPR writes until s_waitcnt vmcnt(0),
+// matching the issue-commit semantics of real VMEM loads.
+register VLQ_DST   : vector(128, dec, bits(8))
+register VLQ_VAL   : vector(128, dec, vector(32, dec, DWORD))
+register VLQ_COUNT : bits(7)
+register VLQ_STAGE : vector(32, dec, DWORD)
+
 // Set while step() is executing an instruction. Stale-read diagnostics
 // only fire during instruction execution, not during host/harness probes.
 register IN_EXECUTE : bits(1)

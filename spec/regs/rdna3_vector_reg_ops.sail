@@ -25,7 +25,7 @@ function check_vgpr_vmq reg_idx = {
         if VMQ_PENDING[reg_idx] == 0b1 then {
             print("[HAZARD] read of v");
             print_int("", reg_idx);
-            print(" before s_waitcnt vmcnt(0) - destination has pending VMEM load\n")
+            print(" with pending VMEM load — missing s_waitcnt vmcnt(0)\n")
         }
     }
 }
@@ -70,6 +70,32 @@ function wVGPR(reg_id, lane_id, value) = {
     if reg_idx <= 255 & lane_idx <= 31 then {
         VGPR[reg_idx][lane_idx] = value
     }
+}
+
+val vmem_push_vlq : vgpr_idx -> unit
+function vmem_push_vlq vdst = {
+    let q_idx = unsigned(VLQ_COUNT);
+    if q_idx < 128 then {
+        VLQ_DST[q_idx] = vdst;
+        foreach (lane from 0 to 31) {
+            VLQ_VAL[q_idx][lane] = VLQ_STAGE[lane]
+        };
+        VLQ_COUNT = VLQ_COUNT + 1
+    }
+}
+
+val vmem_flush_vlq : unit -> unit
+function vmem_flush_vlq () = {
+    foreach (entry from 0 to 127) {
+        if entry < unsigned(VLQ_COUNT) then {
+            let dst : vgpr_idx = VLQ_DST[entry];
+            foreach (lane from 0 to 31) {
+                let lane_bv = get_slice_int(5, lane, 0);
+                wVGPR(dst, lane_bv, VLQ_VAL[entry][lane])
+            }
+        }
+    };
+    VLQ_COUNT = 0b0000000
 }
 
 // Route the VGPR Instructions

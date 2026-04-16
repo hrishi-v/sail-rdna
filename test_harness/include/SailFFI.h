@@ -24,8 +24,11 @@ extern "C"
   unit zwVGPR(uint64_t reg, uint64_t lane_id, uint32_t data);
 
   unit zreset_vmcnt(unit);
+  unit zreset_vmq(unit);
   unit zreset_lgkmcnt(unit);
   unit zreset_pending_load_queue(unit);
+  unit zreset_vscnt(unit);
+  unit zreset_vlq(unit);
   unit zreset_halt_flag(unit);
   bool zget_error_flag(unit);
   unit zreset_error_flag(unit);

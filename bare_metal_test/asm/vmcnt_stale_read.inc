@@ -1,0 +1,7 @@
+"v_mov_b32 v0, s24\n\t"
+"v_mov_b32 v1, s25\n\t"
+"v_mov_b32 v2, 0x11111111\n\t"
+"global_load_b32 v2, v[0:1], off\n\t"
+"v_mov_b32 v3, v2\n\t"
+"s_waitcnt vmcnt(0)\n\t"
+"v_mov_b32 v4, v2\n\t"

@@ -85,6 +85,16 @@ function reset_ds_pending () = {
     DS_PENDING = 0b00000
 }
 
+val reset_vscnt : unit -> unit
+function reset_vscnt () = {
+    VSCNT = 0b000000
+}
+
+val reset_vlq : unit -> unit
+function reset_vlq () = {
+    VLQ_COUNT = 0b0000000
+}
+
 // LDS_BASE default: 0x8000 (32 KB mark in the 64 KB MEM array).
 // Sandboxes LDS away from code/SMEM regions near address 0.
 val reset_lds_base : unit -> unit
@@ -138,6 +148,8 @@ function main () = {
     reset_halt_flag();
     reset_ds_pending();
     reset_lds_base();
+    reset_vscnt();
+    reset_vlq();
 
     write_mem_8(dummy_addr, dummy_data8);
     write_mem_32(dummy_addr, dummy_data32);

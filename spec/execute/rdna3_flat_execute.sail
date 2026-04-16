@@ -31,19 +31,23 @@ function flat_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, v
                 shared_limit[31..0],
             );
             let read_data = read_mem_32(final_addr);
-            wVGPR(vdst, lane_bv, read_data);
+            VLQ_STAGE[lane] = read_data;
             if is_shared then {
+                wVGPR(vdst, lane_bv, read_data);
                 any_lds = 0b1
             } else {
                 any_vmem = 0b1
             }
+        } else {
+            VLQ_STAGE[lane] = 0x00000000
         }
     };
     if any_lds == 0b1 then {
         LGKMCNT = LGKMCNT + 1
     };
     if any_vmem == 0b1 then {
-        vmem_issue_load(vdst)
+        vmem_issue_load(vdst);
+        vmem_push_vlq(vdst)
     }
 }
 
@@ -92,7 +96,8 @@ function flat_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, 
         LGKMCNT = LGKMCNT + 0b000001
     };
     if any_vmem == 0b1 then {
-        VMCNT = VMCNT + 0b0000001
+        VMCNT = VMCNT + 0b0000001;
+        VSCNT = VSCNT + 1
     }
 }
 
@@ -195,7 +200,8 @@ function flat_store_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, 
         LGKMCNT = LGKMCNT + 1
     };
     if any_vmem == 0b1 then {
-        VMCNT = VMCNT + 0b0000001
+        VMCNT = VMCNT + 0b0000001;
+        VSCNT = VSCNT + 1
     }
 }
 
@@ -290,21 +296,22 @@ function global_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve,
         let lane_bv = get_slice_int(5, lane, 0);
         if EXEC_LO[lane..lane] == 0b1 then {
             let final_addr : QWORD = if saddr_u == unsigned(0x7F) then {
-                // saddr=null: VGPR pair is the full 64-bit address
                 let addr_lo = rVGPR(addr, lane_bv);
                 let addr_hi = rVGPR(addr + 0x01, lane_bv);
                 (addr_hi @ addr_lo) + EXTZ(offset)
             } else {
-                // SGPR pair is the 64-bit base; VGPR is a 32-bit per-lane offset
                 let base_lo : DWORD = rSGPR(saddr);
                 let base_hi : DWORD = rSGPR(get_slice_int(7, saddr_u + 1, 0));
                 let base : QWORD = base_hi @ base_lo;
                 base + EXTZ(rVGPR(addr, lane_bv)) + EXTZ(offset)
             };
             let read_data = read_mem_32(final_addr);
-            wVGPR(vdst, lane_bv, read_data)
+            VLQ_STAGE[lane] = read_data
+        } else {
+            VLQ_STAGE[lane] = 0x00000000
         }
-    }
+    };
+    vmem_push_vlq(vdst)
 }
 
 val global_store_b32 : (
@@ -323,6 +330,7 @@ val global_store_b32 : (
 function global_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
     let saddr_u = unsigned(saddr);
     VMCNT = VMCNT + 0b0000001;
+    VSCNT = VSCNT + 1;
 
     foreach (lane from 0 to 31) {
         let lane_bv = get_slice_int(5, lane, 0);
