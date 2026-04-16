@@ -39,7 +39,7 @@ function flat_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, v
                 any_vmem = 0b1
             }
         } else {
-            VLQ_STAGE[lane] = 0x00000000
+            VLQ_STAGE[lane] = rVGPR(vdst, lane_bv)
         }
     };
     if any_lds == 0b1 then {
@@ -308,7 +308,7 @@ function global_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve,
             let read_data = read_mem_32(final_addr);
             VLQ_STAGE[lane] = read_data
         } else {
-            VLQ_STAGE[lane] = 0x00000000
+            VLQ_STAGE[lane] = rVGPR(vdst, lane_bv)
         }
     };
     vmem_push_vlq(vdst)
