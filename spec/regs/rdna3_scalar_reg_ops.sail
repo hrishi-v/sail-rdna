@@ -11,14 +11,13 @@ function rSGPR id = {
     } else { 0x00000000 }
 }
 
-// Write SGPR registers
 val wSGPR : (sgpr_idx, DWORD) -> unit
 function wSGPR(id, value) = {
     let idx = unsigned(id);
     if idx <= 107 then {
         SGPR[idx] = value
     } else {
-        if idx == 124 then {
+        if idx == 125 then {
             M0 = value
         } else {
             if idx == 126 then {
@@ -44,8 +43,8 @@ function read_common_source idx = {
             SGPR[idx]
         } else {
             if idx >= 108 & idx <= 123 then { 0x00000000 } else {
-                if idx == 124 then { M0 } else {
-                    if idx == 125 then { 0x00000000 } else {
+                if idx == 124 then { 0x00000000 } else {
+                    if idx == 125 then { M0 } else {
                         if idx == 126 then { EXEC_LO } else {
                             if idx == 127 then { EXEC_HI } else {
                                 if idx == 128 then { 0x00000000 } else {

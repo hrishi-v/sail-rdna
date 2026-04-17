@@ -12,14 +12,12 @@ register VMCNT : bits(7)
 register LGKMCNT : bits(6)
 
 // VMEM pending destination bitmap: bit[i] = 1 means VGPR[i] has a pending
-// VMEM load that has not yet been drained by s_waitcnt vmcnt(0).
 register VMQ_PENDING : vector(256, dec, bits(1))
 
 // VSCNT: vector store credit counter (outstanding VMEM writes).
 register VSCNT : bits(6)
 
-// VLQ: Vector Load Queue — defers VGPR writes until s_waitcnt vmcnt(0),
-// matching the issue-commit semantics of real VMEM loads.
+// VLQ: Vector Load Queue — defers VGPR writes until s_waitcnt vmcnt(0)
 register VLQ_DST   : vector(128, dec, bits(8))
 register VLQ_VAL   : vector(128, dec, vector(32, dec, DWORD))
 register VLQ_COUNT : bits(7)
@@ -32,12 +30,10 @@ register IN_EXECUTE : bits(1)
 register SHARED_BASE : DWORD
 register SHARED_LIMIT : DWORD
 
-// M0: special scalar register (encoding 124) used as LDS base offset in DS instructions
+// M0: special scalar register (encoding 125) used as LDS base offset in DS instructions
 register M0 : DWORD
 
 // LDS_BASE: sandbox base address in the unified MEM array for LDS operations.
-// Default 0x8000 keeps LDS in the upper half of the 64 KB MEM array,
-// well above code/SMEM regions that live near address 0.
 register LDS_BASE : DWORD
 
 // DS_PENDING: count of ds_read_b32 results already written to VGPRs but
@@ -51,7 +47,7 @@ register PLQ_NDW :
 register PLQ_VAL :
     vector(16, dec, bits(64)) // fetched value (lower 32 used when ndw=0)
 register PLQ_COUNT :
-    bits(5) // number of entries in the queue (0..16)
+    bits(5)
 register PLQ_READY : vector(16, dec, bits(16))
 register CYCLE_COUNT : bits(16)
 
