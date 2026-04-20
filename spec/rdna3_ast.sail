@@ -27,6 +27,8 @@ union ast = {
     Inst_S_CBRANCH_SCC1 : simm_16,
     Inst_S_SENDMSG : simm_16,
     Inst_S_ENDPGM : unit,
+
+    // SOPK Instructions
     Inst_S_WAITCNT_VSCNT : simm_16,
 
     // VOP3SD Instructions

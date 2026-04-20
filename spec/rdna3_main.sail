@@ -35,8 +35,7 @@ function step () = {
     let ast_node = decode(instr);
     IN_EXECUTE = 0b1;
     execute(ast_node);
-    IN_EXECUTE = 0b0;
-    CYCLE_COUNT = CYCLE_COUNT + 1
+    IN_EXECUTE = 0b0
 }
 
 val get_pc : unit -> QWORD
@@ -71,8 +70,7 @@ function reset_lgkmcnt () = {
 
 val reset_pending_load_queue : unit -> unit
 function reset_pending_load_queue () = {
-    PLQ_COUNT = 0b00000;
-    CYCLE_COUNT = 0x0000
+    PLQ_COUNT = 0b00000
 }
 
 val reset_halt_flag : unit -> unit
@@ -88,6 +86,11 @@ function reset_ds_pending () = {
 val reset_vscnt : unit -> unit
 function reset_vscnt () = {
     VSCNT = 0b000000
+}
+
+val reset_psq_src_lock : unit -> unit
+function reset_psq_src_lock () = {
+    PSQ_SRC_LOCK_COUNT = 0b0000000
 }
 
 val reset_vlq : unit -> unit
@@ -149,6 +152,7 @@ function main () = {
     reset_ds_pending();
     reset_lds_base();
     reset_vscnt();
+    reset_psq_src_lock();
     reset_vlq();
 
     write_mem_8(dummy_addr, dummy_data8);

@@ -61,6 +61,44 @@ function rVGPR(reg_id, lane_id) = {
     } else { 0x00000000 }
 }
 
+val check_vgpr_psq : int -> unit
+function check_vgpr_psq reg_idx = {
+    if IN_EXECUTE == 0b1 & reg_idx >= 0 & reg_idx < 256 then {
+        let count = unsigned(PSQ_SRC_LOCK_COUNT);
+        foreach (i from 0 to 62) {
+            if i < count then {
+                if unsigned(PSQ_SRC_LOCK_IDX[i]) == reg_idx then {
+                    print("[HAZARD] overwrite of v");
+                    print_int("", reg_idx);
+                    print(" while store in flight (missing s_waitcnt_vscnt)\n")
+                }
+            }
+        }
+    }
+}
+
+val psq_push_src_lock : vgpr_idx -> unit
+function psq_push_src_lock src = {
+    let count = unsigned(PSQ_SRC_LOCK_COUNT);
+    if count < 63 then {
+        PSQ_SRC_LOCK_IDX[count] = src;
+        PSQ_SRC_LOCK_COUNT = PSQ_SRC_LOCK_COUNT + 1
+    }
+}
+
+val psq_pop_oldest : unit -> unit
+function psq_pop_oldest () = {
+    let count = unsigned(PSQ_SRC_LOCK_COUNT);
+    if count > 0 then {
+        foreach (i from 0 to 61) {
+            if i < count - 1 then {
+                PSQ_SRC_LOCK_IDX[i] = PSQ_SRC_LOCK_IDX[i + 1]
+            }
+        };
+        PSQ_SRC_LOCK_COUNT = PSQ_SRC_LOCK_COUNT + 0b1111111
+    }
+}
+
 // Write VGPR registers
 val wVGPR : (vgpr_idx, lane_id, DWORD) -> unit
 function wVGPR(reg_id, lane_id, value) = {
@@ -68,6 +106,7 @@ function wVGPR(reg_id, lane_id, value) = {
     let lane_idx = unsigned(lane_id);
 
     if reg_idx <= 255 & lane_idx <= 31 then {
+        check_vgpr_psq(reg_idx);
         VGPR[reg_idx][lane_idx] = value
     }
 }

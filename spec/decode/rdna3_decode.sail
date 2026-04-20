@@ -41,7 +41,11 @@ function decode instr = {
                                     if instr[29..23] == 0b1111111 then {
                                         sopp_decode(instr)
                                     } else {
+                                      if instr[29..28] == 0b11 then {
+                                        sopk_decode(instr)
+                                      } else {
                                         sop2_decode(instr)
+                                      }
                                     }
                                 }
                             }

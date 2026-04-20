@@ -25,6 +25,7 @@ function execute inst = {
         Inst_S_CBRANCH_SCC1(simm) => s_cbranch_scc1(simm),
         Inst_S_SENDMSG(simm) => s_sendmsg(simm),
         Inst_S_ENDPGM() => s_endpgm(),
+        // SOPK
         Inst_S_WAITCNT_VSCNT(simm) => s_waitcnt_vscnt(simm),
         // VOP3
         Inst_V_LSHLREV_B64(vd, s0, s1) => v_lshlrev_b64(vd, s0, s1),

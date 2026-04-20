@@ -1,0 +1,31 @@
+{
+  "name": "vscnt_partial_wait",
+  "capture_prefix": "v",
+  "initial_memory_hex": [
+    "00000000",
+    "00000000",
+    "00000000",
+    "00000000"
+  ],
+  "memory_base_addr": "0x2000",
+  "memory_sgprs": [
+    0,
+    1
+  ],
+  "registers": {
+    "vgprs": {
+      "count": 4,
+      "indices": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "sgprs": {
+      "count": 0,
+      "indices": []
+    }
+  },
+  "binary_path": "bare_metal_test/outputs/binaries/vscnt_partial_wait.co"
+}

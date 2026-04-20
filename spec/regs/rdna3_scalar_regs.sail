@@ -17,6 +17,15 @@ register VMQ_PENDING : vector(256, dec, bits(1))
 // VSCNT: vector store credit counter (outstanding VMEM writes).
 register VSCNT : bits(6)
 
+// PSQ_SRC_LOCK: Pending Store source-register lock. Each entry holds the
+// VGPR index that is the source operand of an in-flight VMEM store. The
+// memory write commits synchronously (so intra-wavefront reads see the new
+// value via cache forwarding), but the source VGPRs remain locked until
+// s_waitcnt_vscnt drains them. Overwriting a locked VGPR is a hazard.
+// Sized to 63 — matches the 6-bit VSCNT saturation point.
+register PSQ_SRC_LOCK_IDX   : vector(63, dec, bits(8))
+register PSQ_SRC_LOCK_COUNT : bits(7)
+
 // VLQ: Vector Load Queue — defers VGPR writes until s_waitcnt vmcnt(0)
 register VLQ_DST   : vector(128, dec, bits(8))
 register VLQ_VAL   : vector(128, dec, vector(32, dec, DWORD))
@@ -48,8 +57,6 @@ register PLQ_VAL :
     vector(16, dec, bits(64)) // fetched value (lower 32 used when ndw=0)
 register PLQ_COUNT :
     bits(5)
-register PLQ_READY : vector(16, dec, bits(16))
-register CYCLE_COUNT : bits(16)
 
 val EXTZ : forall 'n 'm, 'm >= 'n. (implicit('m), bits('n)) -> bits('m)
 function EXTZ(m, v) = sail_zero_extend(v, m)

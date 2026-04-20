@@ -151,11 +151,6 @@ function s_clause () = { () }
 val s_delay_alu : unit -> unit
 function s_delay_alu () = { () }
 
-val s_waitcnt_vscnt : simm_16 -> unit
-function s_waitcnt_vscnt simm = {
-    VSCNT = 0b000000
-}
-
 val s_endpgm : unit -> unit
 function s_endpgm () = {
     if unsigned(VSCNT) > 0 then {
@@ -203,8 +198,7 @@ function s_waitcnt simm = {
                         if j < unsigned(PLQ_COUNT) - 1 then {
                             PLQ_DST[j] = PLQ_DST[j + 1];
                             PLQ_NDW[j] = PLQ_NDW[j + 1];
-                            PLQ_VAL[j] = PLQ_VAL[j + 1];
-                            PLQ_READY[j] = PLQ_READY[j + 1]
+                            PLQ_VAL[j] = PLQ_VAL[j + 1]
                         }
                     };
                     PLQ_COUNT = PLQ_COUNT + 0b11111;
@@ -216,6 +210,18 @@ function s_waitcnt simm = {
                     }
                 }
             }
+        }
+    }
+}
+
+// SOPK Instructions
+val s_waitcnt_vscnt : simm_16 -> unit
+function s_waitcnt_vscnt simm = {
+    let target : bits(6) = simm[5..0];
+    foreach (i from 0 to 62) {
+        if unsigned(VSCNT) > unsigned(target) then {
+            VSCNT = VSCNT + 0b111111;
+            psq_pop_oldest()
         }
     }
 }
@@ -247,7 +253,6 @@ function s_load_b32(sbase, sdata, offset, soffset) = {
         PLQ_NDW[idx] = 0b0;
         PLQ_VAL[idx] = EXTZ(data);
         PLQ_COUNT = PLQ_COUNT + 1;
-        PLQ_READY[idx] = CYCLE_COUNT + 46;
         LGKMCNT = LGKMCNT + 1
     }
 }
@@ -279,7 +284,6 @@ function s_load_b64(sbase, sdata, offset, soffset) = {
         PLQ_NDW[idx] = 0b1;
         PLQ_VAL[idx] = EXTZ(data_hi) @ data_lo;
         PLQ_COUNT = PLQ_COUNT + 1;
-        PLQ_READY[idx] = CYCLE_COUNT + 44;
         LGKMCNT = LGKMCNT + 1
     }
 }

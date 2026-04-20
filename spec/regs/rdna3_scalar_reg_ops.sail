@@ -105,11 +105,9 @@ function check_sgpr_plq sgpr_n = {
             let is_base = dst_n == sgpr_n;
             let is_upper = PLQ_NDW[i] == 0b1 & dst_n + 1 == sgpr_n;
             if is_base | is_upper then {
-                if unsigned(CYCLE_COUNT) < unsigned(PLQ_READY[i]) then {
-                    print(
-                        "[DIAGNOSTIC] Load result used without synchronisation primitives. This may return stale data on bare metal. Use s_waitcnt to avoid stale loads.\n",
-                    )
-                }
+                print(
+                    "[DIAGNOSTIC] Load result used without synchronisation primitives. This may return stale data on bare metal. Use s_waitcnt to avoid stale loads.\n",
+                )
             }
         }
     }

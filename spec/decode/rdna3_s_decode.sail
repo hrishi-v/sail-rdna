@@ -60,6 +60,18 @@ function sopp_decode instr = {
     }
 }
 
+val sopk_decode : DWORD -> ast
+function sopk_decode instr = {
+  let opc = instr[27..23];
+  let sdst : sgpr_idx = instr[22..16];
+  let simm16 : simm_16 = instr[15..0];
+  
+  match opc {
+    0b11000 => Inst_S_WAITCNT_VSCNT(simm16),
+    _ => Inst_INVALID(),
+  }
+}
+
 val smem_decode : QWORD -> ast
 function smem_decode instr = {
     let sbase = instr[5..0];
