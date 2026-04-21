@@ -1,0 +1,141 @@
+from __future__ import annotations
+
+import itertools
+import json
+from pathlib import Path
+
+OUT_DIR = Path(__file__).resolve().parent / "generated"
+
+HEADER = '#include <hip/hip_runtime.h>\n\n'
+
+OPS = ["+", "-", "&", "|", "^"]
+CONSTS = [1, 3, 7, 42]
+INDICES = [0, 1, 7]
+LOOP_N = [2, 4, 8]
+
+_OP_TAG = {"+": "add", "-": "sub", "&": "and", "|": "or", "^": "xor"}
+
+
+def _kernel(name: str, params: str, body: str) -> str:
+    return (
+        HEADER
+        + f'extern "C" __global__ void {name}({params}) {{\n'
+        '    int tid = threadIdx.x + blockIdx.x * blockDim.x;\n'
+        f'{body}\n'
+        '}\n'
+    )
+
+
+def gen_rmw(op, const):
+    name = f"rmw_{_OP_TAG[op]}_c{const}"
+    body = f"    buf[tid] = buf[tid] {op} {const};"
+    return name, _kernel(name, "int* buf", body), {
+        "template": "rmw", "op": op, "const": const,
+    }
+
+
+def gen_rmw_idx(op, const, idx):
+    name = f"rmwidx_{_OP_TAG[op]}_c{const}_i{idx}"
+    body = (
+        f"    int v = buf[{idx}];\n"
+        f"    buf[{idx}] = v {op} {const};"
+    )
+    return name, _kernel(name, "int* buf", body), {
+        "template": "rmw_idx", "op": op, "const": const, "idx": idx,
+    }
+
+
+def gen_chained(op, i1, i2):
+    if i1 == i2:
+        return None
+    name = f"chain_{_OP_TAG[op]}_i{i1}_i{i2}"
+    body = (
+        f"    int a = buf[{i1}];\n"
+        f"    int b = buf[{i2}];\n"
+        f"    out[tid] = a {op} b;"
+    )
+    return name, _kernel(name, "int* out, int* buf", body), {
+        "template": "chained", "op": op, "i1": i1, "i2": i2,
+    }
+
+
+def gen_two_buf(op):
+    name = f"twobuf_{_OP_TAG[op]}"
+    body = f"    out[tid] = bufA[tid] {op} bufB[tid];"
+    return name, _kernel(name, "int* out, int* bufA, int* bufB", body), {
+        "template": "two_buf", "op": op,
+    }
+
+
+def gen_accum_loop(op, N):
+    name = f"accum_{_OP_TAG[op]}_n{N}"
+    init = "-1" if op == "&" else "0"
+    body = (
+        f"    int s = {init};\n"
+        f"    for (int i = 0; i < {N}; i++) s {op}= buf[i];\n"
+        f"    out[tid] = s;"
+    )
+    return name, _kernel(name, "int* out, int* buf", body), {
+        "template": "accum_loop", "op": op, "N": N,
+    }
+
+
+def gen_mixed_const(op1, c1, op2, c2):
+    name = f"mixed_{_OP_TAG[op1]}_c{c1}_{_OP_TAG[op2]}_c{c2}"
+    body = f"    out[tid] = (buf[tid] {op1} {c1}) {op2} {c2};"
+    return name, _kernel(name, "int* out, int* buf", body), {
+        "template": "mixed_const", "op1": op1, "c1": c1, "op2": op2, "c2": c2,
+    }
+
+
+def gen_store_reload(c1, c2):
+    name = f"storeload_c{c1}_c{c2}"
+    body = (
+        f"    out[tid] = {c1};\n"
+        f"    int x = out[tid] + {c2};\n"
+        f"    out[tid] = x;"
+    )
+    return name, _kernel(name, "int* out", body), {
+        "template": "store_reload", "c1": c1, "c2": c2,
+    }
+
+
+def generate_all():
+    kernels = []
+    for op, c in itertools.product(OPS, CONSTS):
+        kernels.append(gen_rmw(op, c))
+    for op, c, i in itertools.product(OPS, CONSTS, INDICES):
+        kernels.append(gen_rmw_idx(op, c, i))
+    for op, i1, i2 in itertools.product(OPS, INDICES, INDICES):
+        r = gen_chained(op, i1, i2)
+        if r:
+            kernels.append(r)
+    for op in OPS:
+        kernels.append(gen_two_buf(op))
+    for op, N in itertools.product(OPS, LOOP_N):
+        kernels.append(gen_accum_loop(op, N))
+    for op1, c1, op2, c2 in itertools.product(OPS, CONSTS[:2], OPS, CONSTS[:2]):
+        kernels.append(gen_mixed_const(op1, c1, op2, c2))
+    for c1, c2 in itertools.product(CONSTS, CONSTS[:2]):
+        kernels.append(gen_store_reload(c1, c2))
+    return kernels
+
+
+def main():
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    for p in OUT_DIR.glob("*.hip"):
+        p.unlink()
+    seen = set()
+    entries = []
+    for name, src, meta in generate_all():
+        if name in seen:
+            continue
+        seen.add(name)
+        (OUT_DIR / f"{name}.hip").write_text(src)
+        entries.append({"name": name, **meta})
+    (OUT_DIR / "manifest.json").write_text(json.dumps(entries, indent=2))
+    print(f"Generated {len(entries)} kernels in {OUT_DIR}")
+
+
+if __name__ == "__main__":
+    main()

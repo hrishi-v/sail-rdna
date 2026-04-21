@@ -7,11 +7,12 @@ import pytest
 
 from conftest import (
     EXP_BUILD_DIR, REPO_ROOT,
-    _DUMP_HOOK_PLACEHOLDER, _build_manifest, _compare_dumps,
-    _compile_for_sail, _diff, _format_manifest_summary,
-    _format_register_dump, _inject_dump_hook, _parse_kernel_name,
-    _run_sail_single, _write_setup_file, parse,
+    _build_manifest, _compare_dumps, _compile_for_sail, _diff,
+    _format_manifest_summary, _format_register_dump,
+    _inject_dump_hook, _parse_kernel_name,
+    _run_hip_experimental, _run_sail_single, _write_setup_file, parse,
 )
+from conftest import _detect_capture_prefix, _detect_vgprs
 
 
 def test_experimental_pipeline(
@@ -25,29 +26,28 @@ def test_experimental_pipeline(
     assert kernel_name, f"No __global__ kernel function found in {hip_kernel_path}"
 
     exp_name = f"_exp_{hip_kernel_path.stem}"
-    manifest = _build_manifest(exp_name, kernel_name, src)
-
     instrumented_src = _inject_dump_hook(src)
 
-    # --- Setup file (consumed by Sail's run_test) ---
+    vgprs = _detect_vgprs(src)
+    capture_prefix = _detect_capture_prefix(src)
+
+    # Compile first so we can read the emitted AMDGPU metadata note.
+    bin_src, elf_path = _compile_for_sail(
+        instrumented_src, exp_name, kernel_name,
+        vgpr_indices=vgprs, capture_prefix=capture_prefix,
+    )
+
+    manifest = _build_manifest(exp_name, kernel_name, src, elf_path)
+
     setup_path = _diff.SETUP_DIR / f"{exp_name}.setup"
     _write_setup_file(manifest, setup_path)
 
-    # --- Sail side: compile kernel-only .hip to .co, strip to .bin, run ---
-    bin_src = _compile_for_sail(instrumented_src, manifest, exp_name)
     sail_bin = REPO_ROOT / "tests" / "bin" / f"{exp_name}.bin"
     shutil.copy(bin_src, sail_bin)
 
-    # --- HIP side: drop instrumented source into tests/kernels/ so that
-    #     _run_hip_kernel (which expects src_path = tests/kernels/<name>.hip)
-    #     can pick it up. The file still uses the DUMP_HOOK placeholder; the
-    #     diff/conftest helper substitutes in the same dump asm for consistency.
-    hip_kernel_dst = _diff.KERNEL_DIR / f"{exp_name}.hip"
-    hip_kernel_dst.write_text(instrumented_src)
-
     try:
         _run_sail_single(sail_bin)
-        _diff._run_hip_kernel(exp_name, manifest)
+        _run_hip_experimental(manifest, instrumented_src)
 
         sail_vec = REPO_ROOT / "outputs" / "register_dumps" / f"vec_{exp_name}.log"
         hip_vec = _diff.HIP_OUTPUT_DIR / f"{exp_name}_vector_registers"
@@ -89,8 +89,6 @@ def test_experimental_pipeline(
             report.extend(details)
         report.append("=" * 72)
 
-        # Emit report directly so pytest -s prints it, and keep it on the
-        # terminal even when the test passes.
         print("\n".join(report))
 
         assert all_ok, (
@@ -98,7 +96,7 @@ def test_experimental_pipeline(
             "register(s) failed -- see report above"
         )
     finally:
-        for p in (sail_bin, setup_path, hip_kernel_dst):
+        for p in (sail_bin, setup_path):
             try:
                 p.unlink()
             except FileNotFoundError:

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import subprocess
 from pathlib import Path
@@ -61,7 +62,10 @@ _SAIL_ALLOWED_NONZERO: dict[str, frozenset[str]] = {
 
 def _run(cmd: list[str], cwd: Path, label: str) -> None:
     """Run a shell command, streaming its output live.  Raises on failure."""
-    result = subprocess.run(cmd, cwd=cwd)
+    try:
+        result = subprocess.run(cmd, cwd=cwd, timeout=60)
+    except subprocess.TimeoutExpired as e:
+        raise RuntimeError(f"{label} timed out after {e.timeout}s") from e
     if result.returncode != 0:
         raise RuntimeError(f"{label} failed (exit {result.returncode})")
 
@@ -209,9 +213,35 @@ def _run_hip_kernel(test_name: str, manifest: dict) -> None:
     # Read user's kernel source and inject dump logic at the DUMP_HOOK
     kernel_code = src_path.read_text()
     dump_asm = _generate_dump_logic(manifest)
+
+    # The dump asm hard-codes s20:s21 as the output buffer pointer.  hipcc
+    # does not place kernel args there by ABI, so mirror the universal_harness
+    # pattern (bare_metal_test/harness/kernel.hip): extract the first pointer
+    # parameter of the kernel and move it into s20:s21 via inline-asm "s"
+    # constraints just before the dump.
+    param_match = re.search(
+        rf'{re.escape(kernel_name)}\s*\([^)]*?\*\s*(\w+)', kernel_code
+    )
+    first_param = param_match.group(1) if param_match else 'vgpr_dump'
+
+    dump_hook_replacement = (
+        "{\n"
+        f"    unsigned int _dump_lo = (unsigned int)((unsigned long long){first_param} & 0xFFFFFFFFULL);\n"
+        f"    unsigned int _dump_hi = (unsigned int)((unsigned long long){first_param} >> 32);\n"
+        "    asm volatile(\n"
+        '        "s_mov_b32 s20, %0\\n\\t"\n'
+        '        "s_mov_b32 s21, %1\\n\\t"\n'
+        f"{dump_asm}\n"
+        "        :\n"
+        '        : "s"(_dump_lo), "s"(_dump_hi)\n'
+        '        : "v30", "v31", "v32", "v33",\n'
+        '          "s20", "s21", "vcc", "exec", "memory"\n'
+        "    );\n"
+        "}\n"
+    )
     kernel_code = kernel_code.replace(
         'asm volatile("// DUMP_HOOK");',
-        f"asm volatile(\n{dump_asm}\n);",
+        dump_hook_replacement,
     )
 
     # Build the mem_buf initialiser

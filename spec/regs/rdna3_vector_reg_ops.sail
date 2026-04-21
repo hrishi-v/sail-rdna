@@ -40,9 +40,6 @@ function vmem_mark_pending vdst = {
 
 val vmem_issue_load : vgpr_idx -> unit
 function vmem_issue_load vdst = {
-    if unsigned(VMCNT) >= 63 then {
-        print("[HAZARD] vmcnt overflow: 64th VMEM load issued without s_waitcnt. Hardware counter would wrap to 0.\n")
-    };
     VMCNT = VMCNT + 1;
     let idx = unsigned(vdst);
     if idx < 256 then {
@@ -135,6 +132,40 @@ function vmem_flush_vlq () = {
         }
     };
     VLQ_COUNT = 0b0000000
+}
+
+val vlq_pop_oldest : unit -> unit
+function vlq_pop_oldest () = {
+    let count = unsigned(VLQ_COUNT);
+    if count > 0 then {
+        let dst : vgpr_idx = VLQ_DST[0];
+        foreach (lane from 0 to 31) {
+            let lane_bv = get_slice_int(5, lane, 0);
+            wVGPR(dst, lane_bv, VLQ_VAL[0][lane])
+        };
+        foreach (j from 0 to 126) {
+            if j < count - 1 then {
+                VLQ_DST[j] = VLQ_DST[j + 1];
+                VLQ_VAL[j] = VLQ_VAL[j + 1]
+            }
+        };
+        VLQ_COUNT = VLQ_COUNT + 0b1111111
+    }
+}
+
+val vmq_rebuild_pending : unit -> unit
+function vmq_rebuild_pending () = {
+    foreach (i from 0 to 255) {
+        VMQ_PENDING[i] = 0b0
+    };
+    foreach (entry from 0 to 127) {
+        if entry < unsigned(VLQ_COUNT) then {
+            let idx = unsigned(VLQ_DST[entry]);
+            if idx < 256 then {
+                VMQ_PENDING[idx] = 0b1
+            }
+        }
+    }
 }
 
 // Route the VGPR Instructions

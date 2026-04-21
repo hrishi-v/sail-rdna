@@ -18,6 +18,9 @@ generated/*
 # ASM files
 tests/bin
 tests/elf
+tests/generated
+tests/fuzzer/generated
+tests/mutation
 
 # Generated logs
 outputs/

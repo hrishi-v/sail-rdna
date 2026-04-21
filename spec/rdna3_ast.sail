@@ -38,17 +38,28 @@ union ast = {
     Inst_V_LSHLREV_B64 : (vgpr_idx, vop_src, vop_src),
     Inst_V_LSHL_ADD_U32 : (vgpr_idx, sgpr_idx, vop_src, vop_src, vop_src),
     Inst_V_ADD3_U32 : (vgpr_idx, vop_src, vop_src, vop_src),
+    Inst_V_XOR3_B32 : (vgpr_idx, vop_src, vop_src, vop_src),
+    Inst_V_OR3_B32 : (vgpr_idx, vop_src, vop_src, vop_src),
+    Inst_V_XAD_U32 : (vgpr_idx, vop_src, vop_src, vop_src),
+    Inst_V_MUL_LO_U32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_CMP_LT_U32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_CMP_GT_I32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_CNDMASK_B32_VOP3 : (vgpr_idx, vop_src, vop_src, vop_src),
+    Inst_V_MBCNT_LO_U32_B32 : (vgpr_idx, vop_src, vop_src),
 
     // VOP2 Instructions
     Inst_V_CNDMASK_B32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_ADD_CO_CI_U32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_ASHRREV_I32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_ADD_NC_U32 : (vgpr_idx, vop_src, vop_src),
+    Inst_V_SUB_NC_U32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_LSHLREV_B32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_AND_B32 : (vgpr_idx, vop_src, vop_src),
+    Inst_V_OR_B32 : (vgpr_idx, vop_src, vop_src),
+    Inst_V_XOR_B32 : (vgpr_idx, vop_src, vop_src),
+    Inst_V_MUL_U32_U24 : (vgpr_idx, vop_src, vop_src),
+    Inst_V_WRITELANE_B32 : (vgpr_idx, vop_src, vop_src),
+    Inst_V_READLANE_B32 : (sgpr_idx, vop_src, vop_src),
 
     // VOP1 Instructions
     Inst_V_MOV_B32 : (vgpr_idx, vop_src),
@@ -56,6 +67,8 @@ union ast = {
     // SMEM Instructions
     Inst_S_LOAD_B32 : (sbase, sgpr_idx, offset_21, sgpr_idx),
     Inst_S_LOAD_B64 : (sbase, sgpr_idx, offset_21, sgpr_idx),
+    Inst_S_LOAD_B128 : (sbase, sgpr_idx, offset_21, sgpr_idx),
+    Inst_S_LOAD_B256 : (sbase, sgpr_idx, offset_21, sgpr_idx),
 
     // SCRATCH Instructions
     Inst_SCRATCH_LOAD_B32 : (mem_offset_12, flag_1, flag_1, flag_1, seg_2, opcode_8,

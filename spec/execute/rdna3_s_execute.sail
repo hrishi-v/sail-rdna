@@ -138,7 +138,7 @@ function s_sendmsg simm = {
             }
         };
         if queue_nonempty then {
-            print("[DIAG] Fatal Semantic Hazard: MSG_DEALLOC_VGPRS issued while VMEM queue is not empty.\n");
+            print("[HAZARD] Fatal Semantic Hazard: MSG_DEALLOC_VGPRS issued while VMEM queue is not empty.\n");
             halt_flag = 0b1;
             error_flag = 0b1
         }
@@ -174,13 +174,14 @@ function s_waitcnt simm = {
     if vmcnt_target != 0b111111 then {
         let target_ext : bits(7) = 0b0 @ vmcnt_target;
         if unsigned(VMCNT) > unsigned(target_ext) then {
-            VMCNT = target_ext
-        };
-        if vmcnt_target == 0b000000 then {
-            vmem_flush_vlq();
-            foreach (i from 0 to 255) {
-                VMQ_PENDING[i] = 0b0
-            }
+            let to_drain : int = unsigned(VMCNT) - unsigned(target_ext);
+            foreach (iteration from 0 to 127) {
+                if iteration < to_drain then {
+                    vlq_pop_oldest()
+                }
+            };
+            VMCNT = target_ext;
+            vmq_rebuild_pending()
         }
     };
     let lgkm_target : bits(6) = simm[9..4];
@@ -188,11 +189,13 @@ function s_waitcnt simm = {
         foreach (iteration from 0 to 15) {
             if unsigned(LGKMCNT) > unsigned(lgkm_target) then {
                 if unsigned(PLQ_COUNT) > 0 then {
-                    let dst : sgpr_idx = PLQ_DST[0];
-                    if PLQ_NDW[0] == 0b0 then {
-                        wSGPR(dst, PLQ_VAL[0][31..0])
-                    } else {
-                        write_scalar_dst64(dst, PLQ_VAL[0])
+                    let dst_base : int = unsigned(PLQ_DST[0]);
+                    let ndw : int = unsigned(PLQ_NDW[0]);
+                    foreach (k from 0 to 7) {
+                        if k < ndw then {
+                            let dst_k : sgpr_idx = get_slice_int(7, dst_base + k, 0);
+                            wSGPR(dst_k, PLQ_VAL[0][k])
+                        }
                     };
                     foreach (j from 0 to 14) {
                         if j < unsigned(PLQ_COUNT) - 1 then {
@@ -227,8 +230,8 @@ function s_waitcnt_vscnt simm = {
 }
 
 // SMEM Instructions
-val s_load_b32 : (sbase, sgpr_idx, offset_21, sgpr_idx) -> unit
-function s_load_b32(sbase, sdata, offset, soffset) = {
+val smem_final_addr : (sbase, offset_21, sgpr_idx) -> QWORD
+function smem_final_addr(sbase, offset, soffset) = {
     let base_idx = unsigned(sbase) * 2;
     let base_lo : sgpr_src = get_slice_int(8, base_idx, 0);
     let base_hi : sgpr_src = get_slice_int(8, base_idx + 1, 0);
@@ -243,15 +246,19 @@ function s_load_b32(sbase, sdata, offset, soffset) = {
         EXTZ(read_common_source(unsigned(soffset)))
     };
 
-    let final_addr = base_addr + imm_offset + soff;
+    base_addr + imm_offset + soff
+}
 
+val s_load_b32 : (sbase, sgpr_idx, offset_21, sgpr_idx) -> unit
+function s_load_b32(sbase, sdata, offset, soffset) = {
+    let final_addr = smem_final_addr(sbase, offset, soffset);
     let data = read_mem_32(final_addr);
     let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
     let idx = unsigned(PLQ_COUNT);
     if idx < 16 then {
         PLQ_DST[idx] = dst;
-        PLQ_NDW[idx] = 0b0;
-        PLQ_VAL[idx] = EXTZ(data);
+        PLQ_NDW[idx] = 0b0001;
+        PLQ_VAL[idx][0] = data;
         PLQ_COUNT = PLQ_COUNT + 1;
         LGKMCNT = LGKMCNT + 1
     }
@@ -259,30 +266,48 @@ function s_load_b32(sbase, sdata, offset, soffset) = {
 
 val s_load_b64 : (sbase, sgpr_idx, offset_21, sgpr_idx) -> unit
 function s_load_b64(sbase, sdata, offset, soffset) = {
-    let base_idx = unsigned(sbase) * 2;
-    let base_lo : sgpr_src = get_slice_int(8, base_idx, 0);
-    let base_hi : sgpr_src = get_slice_int(8, base_idx + 1, 0);
-
-    let addr_lo = read_common_source(unsigned(base_lo));
-    let addr_hi = read_common_source(unsigned(base_hi));
-    let base_addr : QWORD = EXTZ(addr_hi) @ addr_lo;
-
-    let imm_offset : QWORD = EXTS(offset);
-
-    let soff : QWORD = if unsigned(soffset) == 127 then { 0x0000000000000000 } else {
-        EXTZ(read_common_source(unsigned(soffset)))
-    };
-
-    let final_addr = base_addr + imm_offset + soff;
-
-    let data_lo = read_mem_32(final_addr);
-    let data_hi = read_mem_32(final_addr + 4);
+    let final_addr = smem_final_addr(sbase, offset, soffset);
     let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
     let idx = unsigned(PLQ_COUNT);
     if idx < 16 then {
         PLQ_DST[idx] = dst;
-        PLQ_NDW[idx] = 0b1;
-        PLQ_VAL[idx] = EXTZ(data_hi) @ data_lo;
+        PLQ_NDW[idx] = 0b0010;
+        PLQ_VAL[idx][0] = read_mem_32(final_addr);
+        PLQ_VAL[idx][1] = read_mem_32(final_addr + 4);
+        PLQ_COUNT = PLQ_COUNT + 1;
+        LGKMCNT = LGKMCNT + 1
+    }
+}
+
+val s_load_b128 : (sbase, sgpr_idx, offset_21, sgpr_idx) -> unit
+function s_load_b128(sbase, sdata, offset, soffset) = {
+    let final_addr = smem_final_addr(sbase, offset, soffset);
+    let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
+    let idx = unsigned(PLQ_COUNT);
+    if idx < 16 then {
+        PLQ_DST[idx] = dst;
+        PLQ_NDW[idx] = 0b0100;
+        foreach (k from 0 to 3) {
+            let off : QWORD = get_slice_int(64, k * 4, 0);
+            PLQ_VAL[idx][k] = read_mem_32(final_addr + off)
+        };
+        PLQ_COUNT = PLQ_COUNT + 1;
+        LGKMCNT = LGKMCNT + 1
+    }
+}
+
+val s_load_b256 : (sbase, sgpr_idx, offset_21, sgpr_idx) -> unit
+function s_load_b256(sbase, sdata, offset, soffset) = {
+    let final_addr = smem_final_addr(sbase, offset, soffset);
+    let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
+    let idx = unsigned(PLQ_COUNT);
+    if idx < 16 then {
+        PLQ_DST[idx] = dst;
+        PLQ_NDW[idx] = 0b1000;
+        foreach (k from 0 to 7) {
+            let off : QWORD = get_slice_int(64, k * 4, 0);
+            PLQ_VAL[idx][k] = read_mem_32(final_addr + off)
+        };
         PLQ_COUNT = PLQ_COUNT + 1;
         LGKMCNT = LGKMCNT + 1
     }

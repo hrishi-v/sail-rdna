@@ -1,0 +1,213 @@
+[1/124] accum_add_16
+[2/124] accum_add_32
+[3/124] accum_add_4
+[4/124] accum_add_64
+[5/124] accum_add_8
+[6/124] accum_add_96
+[7/124] accum_and_16
+[8/124] accum_and_32
+[9/124] accum_and_4
+[10/124] accum_and_64
+[11/124] accum_and_8
+[12/124] accum_and_96
+[13/124] accum_or_16
+[14/124] accum_or_32
+[15/124] accum_or_4
+[16/124] accum_or_64
+[17/124] accum_or_8
+[18/124] accum_or_96
+[19/124] accum_sub_16
+[20/124] accum_sub_32
+[21/124] accum_sub_4
+[22/124] accum_sub_64
+[23/124] accum_sub_8
+[24/124] accum_sub_96
+[25/124] accum_xor_16
+[26/124] accum_xor_32
+[27/124] accum_xor_4
+[28/124] accum_xor_64
+[29/124] accum_xor_8
+[30/124] accum_xor_96
+[31/124] deep_chain_16
+[32/124] deep_chain_32
+[33/124] deep_chain_64
+[34/124] fanout
+[35/124] load_compute_store_16
+[36/124] load_compute_store_4
+[37/124] load_compute_store_8
+[38/124] load_overwrite
+[39/124] loop_accum_add_128
+[40/124] loop_accum_add_16
+[41/124] loop_accum_add_32
+[42/124] loop_accum_add_64
+[43/124] loop_accum_add_8
+[44/124] loop_accum_xor_128
+[45/124] loop_accum_xor_16
+[46/124] loop_accum_xor_32
+[47/124] loop_accum_xor_64
+[48/124] loop_accum_xor_8
+[49/124] mixed_add_c0x2A_add_c0x2A
+[50/124] mixed_add_c0x2A_add_c1
+[51/124] mixed_add_c0x2A_xor_c0x2A
+[52/124] mixed_add_c0x2A_xor_c1
+[53/124] mixed_add_c1_add_c0x2A
+[54/124] mixed_add_c1_add_c1
+[55/124] mixed_add_c1_xor_c0x2A
+[56/124] mixed_add_c1_xor_c1
+[57/124] mixed_loads_16
+[58/124] mixed_loads_32
+[59/124] mixed_loads_8
+[60/124] mixed_xor_c0x2A_add_c0x2A
+[61/124] mixed_xor_c0x2A_add_c1
+[62/124] mixed_xor_c0x2A_xor_c0x2A
+[63/124] mixed_xor_c0x2A_xor_c1
+[64/124] mixed_xor_c1_add_c0x2A
+[65/124] mixed_xor_c1_add_c1
+[66/124] mixed_xor_c1_xor_c0x2A
+[67/124] mixed_xor_c1_xor_c1
+[68/124] regs_pressure_128
+[69/124] regs_pressure_32
+[70/124] regs_pressure_64
+[71/124] rmw_add_c0x2A
+[72/124] rmw_add_c0xDEAD
+[73/124] rmw_add_c1
+[74/124] rmw_add_c7
+[75/124] rmw_and_c0x2A
+[76/124] rmw_and_c0xDEAD
+[77/124] rmw_and_c1
+[78/124] rmw_and_c7
+[79/124] rmw_idx_add_c0x2A_i0
+[80/124] rmw_idx_add_c0x2A_i1
+[81/124] rmw_idx_add_c0x2A_i8
+[82/124] rmw_idx_add_c1_i0
+[83/124] rmw_idx_add_c1_i1
+[84/124] rmw_idx_add_c1_i8
+[85/124] rmw_idx_xor_c0x2A_i0
+[86/124] rmw_idx_xor_c0x2A_i1
+[87/124] rmw_idx_xor_c0x2A_i8
+[88/124] rmw_idx_xor_c1_i0
+[89/124] rmw_idx_xor_c1_i1
+[90/124] rmw_idx_xor_c1_i8
+[91/124] rmw_mul_c0x2A
+[92/124] rmw_mul_c0xDEAD
+[93/124] rmw_mul_c1
+[94/124] rmw_mul_c7
+[95/124] rmw_or_c0x2A
+[96/124] rmw_or_c0xDEAD
+[97/124] rmw_or_c1
+[98/124] rmw_or_c7
+[99/124] rmw_sub_c0x2A
+[100/124] rmw_sub_c0xDEAD
+[101/124] rmw_sub_c1
+[102/124] rmw_sub_c7
+[103/124] rmw_xor_c0x2A
+[104/124] rmw_xor_c0xDEAD
+[105/124] rmw_xor_c1
+[106/124] rmw_xor_c7
+[107/124] store_chain_16
+[108/124] store_chain_32
+[109/124] store_chain_4
+[110/124] store_chain_64
+[111/124] store_chain_8
+[112/124] store_then_load
+[113/124] storeload_c0x2A_c1
+[114/124] storeload_c0x2A_c7
+[115/124] storeload_c0xDEAD_c1
+[116/124] storeload_c0xDEAD_c7
+[117/124] storeload_c1_c1
+[118/124] storeload_c1_c7
+[119/124] two_buf_add
+[120/124] two_buf_and
+[121/124] two_buf_mul
+[122/124] two_buf_or
+[123/124] two_buf_sub
+[124/124] two_buf_xor
+
+Total kernels        : 124
+Compiled             : 124
+Sail executed ok     : 109
+Sail unsupported     : 11
+Oracle hazards flagged: 72
+Hazard on clean output: 68  <-- INTERESTING
+
+Clean-compilation hazards:
+  accum_add_16: [HAZARD] read of v12 | [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_add_32: [HAZARD] read of v12 | [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_add_4: [HAZARD] read of v2
+  accum_add_64: [HAZARD] read of v34 | [HAZARD] read of v12 | [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_add_8: [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_and_16: [HAZARD] read of v6 | [HAZARD] read of v4 | [HAZARD] read of v2
+  accum_and_32: [HAZARD] read of v6 | [HAZARD] read of v4 | [HAZARD] read of v2
+  accum_and_4: [HAZARD] read of v4 | [HAZARD] read of v2
+  accum_and_64: [HAZARD] read of v2 | [HAZARD] read of v8 | [HAZARD] read of v13 | [HAZARD] read of v15
+  accum_and_8: [HAZARD] read of v6 | [HAZARD] read of v4 | [HAZARD] read of v2
+  accum_and_96: [HAZARD] read of v61 | [HAZARD] read of v59 | [HAZARD] read of v49 | [HAZARD] read of v30 | [HAZARD] read of v41 | [HAZARD] read of v17 | [HAZARD] read of v21 | [HAZARD] read of v8 | [HAZARD] read of v10 | [HAZARD] read of v6 | [HAZARD] read of v4 | [HAZARD] read of v2
+  accum_or_16: [HAZARD] read of v12 | [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_or_32: [HAZARD] read of v12 | [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_or_4: [HAZARD] read of v2
+  accum_or_64: [HAZARD] read of v34 | [HAZARD] read of v12 | [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_or_8: [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_sub_16: [HAZARD] read of v12 | [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_sub_32: [HAZARD] read of v12 | [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_sub_4: [HAZARD] read of v2
+  accum_sub_64: [HAZARD] read of v34 | [HAZARD] read of v12 | [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_sub_8: [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_xor_16: [HAZARD] read of v12 | [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_xor_32: [HAZARD] read of v12 | [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_xor_4: [HAZARD] read of v2
+  accum_xor_64: [HAZARD] read of v34 | [HAZARD] read of v12 | [HAZARD] read of v6 | [HAZARD] read of v2
+  accum_xor_8: [HAZARD] read of v6 | [HAZARD] read of v2
+  deep_chain_16: [HAZARD] read of v0
+  deep_chain_32: [HAZARD] read of v0
+  deep_chain_64: [HAZARD] read of v0
+  loop_accum_add_128: [HAZARD] read of v6 | [HAZARD] read of v4 | [HAZARD] read of v8 | [HAZARD] read of v2
+  loop_accum_add_16: [HAZARD] read of v2
+  loop_accum_add_32: [HAZARD] read of v2
+  loop_accum_add_64: [HAZARD] read of v2 | [HAZARD] read of v4
+  loop_accum_add_8: [HAZARD] read of v2
+  loop_accum_xor_128: [HAZARD] read of v6 | [HAZARD] read of v4 | [HAZARD] read of v8 | [HAZARD] read of v2
+  loop_accum_xor_16: [HAZARD] read of v2
+  loop_accum_xor_32: [HAZARD] read of v2
+  loop_accum_xor_64: [HAZARD] read of v2 | [HAZARD] read of v4
+  loop_accum_xor_8: [HAZARD] read of v2
+  mixed_add_c0x2A_add_c0x2A: [HAZARD] read of v2
+  mixed_add_c0x2A_add_c1: [HAZARD] read of v2
+  mixed_add_c0x2A_xor_c0x2A: [HAZARD] read of v2
+  mixed_add_c0x2A_xor_c1: [HAZARD] read of v2
+  mixed_add_c1_add_c0x2A: [HAZARD] read of v2
+  mixed_add_c1_add_c1: [HAZARD] read of v2
+  mixed_add_c1_xor_c0x2A: [HAZARD] read of v2
+  mixed_add_c1_xor_c1: [HAZARD] read of v2
+  mixed_xor_c0x2A_add_c0x2A: [HAZARD] read of v2
+  mixed_xor_c0x2A_add_c1: [HAZARD] read of v2
+  mixed_xor_c0x2A_xor_c0x2A: [HAZARD] read of v2
+  mixed_xor_c0x2A_xor_c1: [HAZARD] read of v2
+  mixed_xor_c1_add_c0x2A: [HAZARD] read of v2
+  mixed_xor_c1_add_c1: [HAZARD] read of v2
+  mixed_xor_c1_xor_c0x2A: [HAZARD] read of v2
+  mixed_xor_c1_xor_c1: [HAZARD] read of v2
+  regs_pressure_32: [HAZARD] read of v2
+  regs_pressure_64: [HAZARD] read of v2 | [HAZARD] read of v4
+  rmw_mul_c1: [HAZARD] read of v0
+  store_chain_16: [HAZARD] overwrite of v0 | [HAZARD] overwrite of v10 | [HAZARD] overwrite of v16 | [HAZARD] overwrite of v11 | [HAZARD] overwrite of v17
+  store_chain_32: [HAZARD] overwrite of v0 | [HAZARD] overwrite of v14 | [HAZARD] overwrite of v15 | [HAZARD] overwrite of v16 | [HAZARD] overwrite of v17
+  store_chain_64: [HAZARD] overwrite of v0 | [HAZARD] overwrite of v4 | [HAZARD] overwrite of v5 | [HAZARD] overwrite of v6 | [HAZARD] overwrite of v7 | [HAZARD] overwrite of v8 | [HAZARD] overwrite of v10 | [HAZARD] overwrite of v11 | [HAZARD] overwrite of v12 | [HAZARD] overwrite of v13 | [HAZARD] overwrite of v14 | [HAZARD] overwrite of v15 | [HAZARD] overwrite of v16 | [HAZARD] overwrite of v17
+  store_chain_8: [HAZARD] overwrite of v0
+  two_buf_add: [HAZARD] read of v2
+  two_buf_and: [HAZARD] read of v2
+  two_buf_mul: [HAZARD] read of v2
+  two_buf_or: [HAZARD] read of v2
+  two_buf_sub: [HAZARD] read of v2
+  two_buf_xor: [HAZARD] read of v2
+
+Frequency CSV: /home/hrishi/Documents/sail-rdna/tests/generated/instruction_frequency.csv
+Top 10 unsupported instructions:
+     56  ds_load_b32
+      3  v_mad_u32_u24
+      3  ds_store_b32
+      3  s_barrier
+      3  buffer_gl0_inv
+      1  s_movk_i32
+      1  v_subrev_nc_u32_e32
+
+Results CSV: /home/hrishi/Documents/sail-rdna/tests/fuzzer/results.csv

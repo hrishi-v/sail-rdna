@@ -20,13 +20,14 @@
           inherit system;
           overlays = [ overlayZ3 ];
         };
-
-        pythonEnv = pkgs.python311.withPackages (ps: with ps; [
-          lxml
-          numpy
-          pytest
-          matplotlib
-        ]);
+      pythonEnv = pkgs.python311.withPackages (ps: with ps; [
+        lxml
+        numpy
+        pytest
+        matplotlib
+        pyelftools
+        msgpack
+      ]);
       in
       {
         devShells.default = pkgs.mkShell {

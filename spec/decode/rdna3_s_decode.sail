@@ -87,6 +87,8 @@ function smem_decode instr = {
     match opc {
         0b00000000 => Inst_S_LOAD_B32(sbase, sdata, offset, soffset),
         0b00000001 => Inst_S_LOAD_B64(sbase, sdata, offset, soffset),
+        0b00000010 => Inst_S_LOAD_B128(sbase, sdata, offset, soffset),
+        0b00000011 => Inst_S_LOAD_B256(sbase, sdata, offset, soffset),
         _ => Inst_INVALID(),
     }
 }

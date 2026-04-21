@@ -52,9 +52,9 @@ register DS_PENDING : bits(5)
 // Pending Load Queue to simulate the issue-commit nature of in-flight loads.
 register PLQ_DST : vector(16, dec, bits(7))
 register PLQ_NDW :
-    vector(16, dec, bits(1)) // 0 = 1 dword (b32), 1 = 2 dwords (b64)
+    vector(16, dec, bits(4)) // dword count: 1 (b32), 2 (b64), 4 (b128), 8 (b256)
 register PLQ_VAL :
-    vector(16, dec, bits(64)) // fetched value (lower 32 used when ndw=0)
+    vector(16, dec, vector(8, dec, DWORD)) // up to 8 fetched dwords per entry
 register PLQ_COUNT :
     bits(5)
 

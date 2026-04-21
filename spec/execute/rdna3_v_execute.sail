@@ -162,6 +162,353 @@ function v_add_nc_u32(vdst, vsrc, src0) = {
     }
 }
 
+val v_sub_nc_u32 : (vgpr_idx, vop_src, vop_src) -> unit
+function v_sub_nc_u32(vdst, src0, src1) = {
+    let src0_u = unsigned(src0);
+    let src1_u = unsigned(src1);
+
+    let op0_common : DWORD = if src0_u <= 255 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if src1_u <= 255 then {
+        read_vector_source(src1, 0b00000)
+    } else { 0x00000000 };
+
+    var results : vector(32, dec, bits(32)) = undefined;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 : DWORD = if src0_u <= 255 then { op0_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            };
+            let op1 : DWORD = if src1_u <= 255 then { op1_common } else {
+                rVGPR(get_slice_int(8, src1_u - 256, 0), lane_bv)
+            };
+            results[lane] = get_slice_int(32, unsigned(op0) - unsigned(op1), 0)
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        wVGPR(vdst, lane_bv, results[lane])
+    }
+}
+
+val v_or_b32 : (vgpr_idx, vop_src, vop_src) -> unit
+function v_or_b32(vdst, src0, src1) = {
+    let src0_u = unsigned(src0);
+    let src1_u = unsigned(src1);
+
+    let op0_common : DWORD = if src0_u <= 255 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if src1_u <= 255 then {
+        read_vector_source(src1, 0b00000)
+    } else { 0x00000000 };
+
+    var results : vector(32, dec, bits(32)) = undefined;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 : DWORD = if src0_u <= 255 then { op0_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            };
+            let op1 : DWORD = if src1_u <= 255 then { op1_common } else {
+                rVGPR(get_slice_int(8, src1_u - 256, 0), lane_bv)
+            };
+            results[lane] = op0 | op1
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        wVGPR(vdst, lane_bv, results[lane])
+    }
+}
+
+val v_xor_b32 : (vgpr_idx, vop_src, vop_src) -> unit
+function v_xor_b32(vdst, src0, src1) = {
+    let src0_u = unsigned(src0);
+    let src1_u = unsigned(src1);
+
+    let op0_common : DWORD = if src0_u <= 255 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if src1_u <= 255 then {
+        read_vector_source(src1, 0b00000)
+    } else { 0x00000000 };
+
+    var results : vector(32, dec, bits(32)) = undefined;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 : DWORD = if src0_u <= 255 then { op0_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            };
+            let op1 : DWORD = if src1_u <= 255 then { op1_common } else {
+                rVGPR(get_slice_int(8, src1_u - 256, 0), lane_bv)
+            };
+            results[lane] = xor_vec(op0, op1)
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        wVGPR(vdst, lane_bv, results[lane])
+    }
+}
+
+val v_mul_lo_u32 : (vgpr_idx, vop_src, vop_src) -> unit
+function v_mul_lo_u32(vdst, src0, src1) = {
+    let src0_u = unsigned(src0);
+    let src1_u = unsigned(src1);
+
+    let op0_common : DWORD = if src0_u <= 255 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if src1_u <= 255 then {
+        read_vector_source(src1, 0b00000)
+    } else { 0x00000000 };
+
+    var results : vector(32, dec, bits(32)) = undefined;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 : DWORD = if src0_u <= 255 then { op0_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            };
+            let op1 : DWORD = if src1_u <= 255 then { op1_common } else {
+                rVGPR(get_slice_int(8, src1_u - 256, 0), lane_bv)
+            };
+            results[lane] = get_slice_int(32, unsigned(op0) * unsigned(op1), 0)
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        wVGPR(vdst, lane_bv, results[lane])
+    }
+}
+
+val v_xor3_b32 : (vgpr_idx, vop_src, vop_src, vop_src) -> unit
+function v_xor3_b32(vdst, src0, src1, src2) = {
+    let src0_u = unsigned(src0);
+    let src1_u = unsigned(src1);
+    let src2_u = unsigned(src2);
+
+    let op0_common : DWORD = if src0_u < 256 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if src1_u < 256 then {
+        read_vector_source(src1, 0b00000)
+    } else { 0x00000000 };
+    let op2_common : DWORD = if src2_u < 256 then {
+        read_vector_source(src2, 0b00000)
+    } else { 0x00000000 };
+
+    var results : vector(32, dec, bits(32)) = undefined;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 : DWORD = if src0_u < 256 then { op0_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            };
+            let op1 : DWORD = if src1_u < 256 then { op1_common } else {
+                rVGPR(get_slice_int(8, src1_u - 256, 0), lane_bv)
+            };
+            let op2 : DWORD = if src2_u < 256 then { op2_common } else {
+                rVGPR(get_slice_int(8, src2_u - 256, 0), lane_bv)
+            };
+            results[lane] = xor_vec(xor_vec(op0, op1), op2)
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        wVGPR(vdst, lane_bv, results[lane])
+    }
+}
+
+val v_or3_b32 : (vgpr_idx, vop_src, vop_src, vop_src) -> unit
+function v_or3_b32(vdst, src0, src1, src2) = {
+    let src0_u = unsigned(src0);
+    let src1_u = unsigned(src1);
+    let src2_u = unsigned(src2);
+
+    let op0_common : DWORD = if src0_u < 256 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if src1_u < 256 then {
+        read_vector_source(src1, 0b00000)
+    } else { 0x00000000 };
+    let op2_common : DWORD = if src2_u < 256 then {
+        read_vector_source(src2, 0b00000)
+    } else { 0x00000000 };
+
+    var results : vector(32, dec, bits(32)) = undefined;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 : DWORD = if src0_u < 256 then { op0_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            };
+            let op1 : DWORD = if src1_u < 256 then { op1_common } else {
+                rVGPR(get_slice_int(8, src1_u - 256, 0), lane_bv)
+            };
+            let op2 : DWORD = if src2_u < 256 then { op2_common } else {
+                rVGPR(get_slice_int(8, src2_u - 256, 0), lane_bv)
+            };
+            results[lane] = op0 | op1 | op2
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        wVGPR(vdst, lane_bv, results[lane])
+    }
+}
+
+val v_xad_u32 : (vgpr_idx, vop_src, vop_src, vop_src) -> unit
+function v_xad_u32(vdst, src0, src1, src2) = {
+    let src0_u = unsigned(src0);
+    let src1_u = unsigned(src1);
+    let src2_u = unsigned(src2);
+
+    let op0_common : DWORD = if src0_u < 256 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if src1_u < 256 then {
+        read_vector_source(src1, 0b00000)
+    } else { 0x00000000 };
+    let op2_common : DWORD = if src2_u < 256 then {
+        read_vector_source(src2, 0b00000)
+    } else { 0x00000000 };
+
+    var results : vector(32, dec, bits(32)) = undefined;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 : DWORD = if src0_u < 256 then { op0_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            };
+            let op1 : DWORD = if src1_u < 256 then { op1_common } else {
+                rVGPR(get_slice_int(8, src1_u - 256, 0), lane_bv)
+            };
+            let op2 : DWORD = if src2_u < 256 then { op2_common } else {
+                rVGPR(get_slice_int(8, src2_u - 256, 0), lane_bv)
+            };
+            let sum : DWORD = get_slice_int(32, unsigned(op0) + unsigned(op1), 0);
+            results[lane] = xor_vec(sum, op2)
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        wVGPR(vdst, lane_bv, results[lane])
+    }
+}
+
+// ISA §16.12: v_writelane_b32 writes src0 into lane src1 of vdst. Stubbed
+// here as a broadcast (writes src0 into every EXEC-enabled lane) — full
+// cross-lane semantics are not modelled.
+val v_writelane_b32 : (vgpr_idx, vop_src, vop_src) -> unit
+function v_writelane_b32(vdst, src0, src1) = {
+    let src0_u = unsigned(src0);
+    let val_common : DWORD = if src0_u <= 255 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+
+    var results : vector(32, dec, bits(32)) = undefined;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            results[lane] = if src0_u <= 255 then { val_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            }
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        wVGPR(vdst, lane_bv, results[lane])
+    }
+}
+
+// ISA §16.12: v_readlane_b32 reads lane src1 of src0 into scalar sdst and
+// ignores EXEC. Stubbed here to always read lane 0 — full cross-lane
+// semantics are not modelled.
+val v_readlane_b32 : (sgpr_idx, vop_src, vop_src) -> unit
+function v_readlane_b32(sdst, src0, src1) = {
+    let src0_u = unsigned(src0);
+    let value : DWORD = if src0_u <= 255 then {
+        read_vector_source(src0, 0b00000)
+    } else {
+        rVGPR(get_slice_int(8, src0_u - 256, 0), 0b00000)
+    };
+    wSGPR(sdst, value)
+}
+
+val v_mul_u32_u24 : (vgpr_idx, vop_src, vop_src) -> unit
+function v_mul_u32_u24(vdst, src0, src1) = {
+    let src0_u = unsigned(src0);
+    let src1_u = unsigned(src1);
+
+    let op0_common : DWORD = if src0_u <= 255 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if src1_u <= 255 then {
+        read_vector_source(src1, 0b00000)
+    } else { 0x00000000 };
+
+    var results : vector(32, dec, bits(32)) = undefined;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 : DWORD = if src0_u <= 255 then { op0_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            };
+            let op1 : DWORD = if src1_u <= 255 then { op1_common } else {
+                rVGPR(get_slice_int(8, src1_u - 256, 0), lane_bv)
+            };
+            let a24 : int = unsigned(op0[23..0]);
+            let b24 : int = unsigned(op1[23..0]);
+            results[lane] = get_slice_int(32, a24 * b24, 0)
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        wVGPR(vdst, lane_bv, results[lane])
+    }
+}
+
 val v_add_co_ci_u32 : (vgpr_idx, vop_src, vop_src) -> unit
 function v_add_co_ci_u32(vdst, vsrc, src0) = {
     let src0_u = unsigned(src0);
@@ -523,6 +870,48 @@ function v_cndmask_b32(vdst, vsrc0, vsrc1) = {
             results[lane] = rVGPR(vdst, lane_bv)
         }
     };
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        wVGPR(vdst, lane_bv, results[lane])
+    }
+}
+
+val v_mbcnt_lo_u32_b32 : (vgpr_idx, vop_src, vop_src) -> unit
+function v_mbcnt_lo_u32_b32(vdst, src0, src1) = {
+    let src0_u = unsigned(src0);
+    let src1_u = unsigned(src1);
+
+    let op0_common : DWORD = if src0_u < 256 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if src1_u < 256 then {
+        read_vector_source(src1, 0b00000)
+    } else { 0x00000000 };
+
+    var results : vector(32, dec, bits(32)) = undefined;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 : DWORD = if src0_u < 256 then { op0_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            };
+            let op1 : DWORD = if src1_u < 256 then { op1_common } else {
+                rVGPR(get_slice_int(8, src1_u - 256, 0), lane_bv)
+            };
+            let mask_int : int = if lane == 0 then 0 else shl_int(1, lane) - 1;
+            let mask : DWORD = get_slice_int(32, mask_int, 0);
+            let masked : DWORD = op0 & mask;
+            var count : int = 0;
+            foreach (bit from 0 to 31) {
+                if masked[bit..bit] == 0b1 then { count = count + 1 }
+            };
+            results[lane] = get_slice_int(32, count + unsigned(op1), 0)
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
     foreach (lane from 0 to 31) {
         let lane_bv = get_slice_int(5, lane, 0);
         wVGPR(vdst, lane_bv, results[lane])

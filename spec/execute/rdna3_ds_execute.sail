@@ -43,7 +43,7 @@ function ds_read_b32(vdst, vaddr, offset) = {
         }
     };
     if max_hits > 1 then {
-        print("[DIAG] ds_read_b32: ");
+        print("[HAZARD] ds_read_b32: ");
         print_int("", max_hits);
         print("-way bank conflict on bank ");
         print_int("", worst_bank);
