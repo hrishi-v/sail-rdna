@@ -98,7 +98,7 @@ function flat_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, 
     if any_vmem == 0b1 then {
         VMCNT = VMCNT + 0b0000001;
         VSCNT = VSCNT + 1;
-        psq_push_src_lock(data)
+        vsq_push_src_lock(data)
     }
 }
 
@@ -203,8 +203,8 @@ function flat_store_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, 
     if any_vmem == 0b1 then {
         VMCNT = VMCNT + 0b0000001;
         VSCNT = VSCNT + 1;
-        psq_push_src_lock(data);
-        psq_push_src_lock(data + 0x01)
+        vsq_push_src_lock(data);
+        vsq_push_src_lock(data + 0x01)
     }
 }
 
@@ -334,7 +334,7 @@ function global_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve
     let saddr_u = unsigned(saddr);
     VMCNT = VMCNT + 0b0000001;
     VSCNT = VSCNT + 1;
-    psq_push_src_lock(data);
+    vsq_push_src_lock(data);
 
     foreach (lane from 0 to 31) {
         let lane_bv = get_slice_int(5, lane, 0);

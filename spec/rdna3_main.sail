@@ -88,9 +88,9 @@ function reset_vscnt () = {
     VSCNT = 0b000000
 }
 
-val reset_psq_src_lock : unit -> unit
-function reset_psq_src_lock () = {
-    PSQ_SRC_LOCK_COUNT = 0b0000000
+val reset_vsq_src_lock : unit -> unit
+function reset_vsq_src_lock () = {
+    VSQ_SRC_LOCK_COUNT = 0b0000000
 }
 
 val reset_vlq : unit -> unit
@@ -152,7 +152,7 @@ function main () = {
     reset_ds_pending();
     reset_lds_base();
     reset_vscnt();
-    reset_psq_src_lock();
+    reset_vsq_src_lock();
     reset_vlq();
 
     write_mem_8(dummy_addr, dummy_data8);

@@ -224,7 +224,7 @@ function s_waitcnt_vscnt simm = {
     foreach (i from 0 to 62) {
         if unsigned(VSCNT) > unsigned(target) then {
             VSCNT = VSCNT + 0b111111;
-            psq_pop_oldest()
+            vsq_pop_oldest()
         }
     }
 }

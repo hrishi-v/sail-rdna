@@ -17,14 +17,14 @@ register VMQ_PENDING : vector(256, dec, bits(1))
 // VSCNT: vector store credit counter (outstanding VMEM writes).
 register VSCNT : bits(6)
 
-// PSQ_SRC_LOCK: Pending Store source-register lock. Each entry holds the
+// VSQ_SRC_LOCK: Pending Store source-register lock. Each entry holds the
 // VGPR index that is the source operand of an in-flight VMEM store. The
 // memory write commits synchronously (so intra-wavefront reads see the new
 // value via cache forwarding), but the source VGPRs remain locked until
 // s_waitcnt_vscnt drains them. Overwriting a locked VGPR is a hazard.
 // Sized to 63 — matches the 6-bit VSCNT saturation point.
-register PSQ_SRC_LOCK_IDX   : vector(63, dec, bits(8))
-register PSQ_SRC_LOCK_COUNT : bits(7)
+register VSQ_SRC_LOCK_IDX   : vector(63, dec, bits(8))
+register VSQ_SRC_LOCK_COUNT : bits(7)
 
 // VLQ: Vector Load Queue — defers VGPR writes until s_waitcnt vmcnt(0)
 register VLQ_DST   : vector(128, dec, bits(8))

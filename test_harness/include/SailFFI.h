@@ -28,7 +28,7 @@ extern "C"
   unit zreset_lgkmcnt(unit);
   unit zreset_pending_load_queue(unit);
   unit zreset_vscnt(unit);
-  unit zreset_psq_src_lock(unit);
+  unit zreset_vsq_src_lock(unit);
   unit zreset_vlq(unit);
   unit zreset_halt_flag(unit);
   bool zget_error_flag(unit);
