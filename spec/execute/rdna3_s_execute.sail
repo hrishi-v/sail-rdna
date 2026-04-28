@@ -116,7 +116,17 @@ function s_cmp_lg_i32(ssrc0, ssrc1) = {
 }
 
 val s_bitcmp0_b32 : (sgpr_src, sgpr_src) -> unit
-function s_bitcmp0_b32(ssrc0, ssrc1) = { () }
+function s_bitcmp0_b32(ssrc0, ssrc1) = {
+    let val0 : DWORD = read_common_source(unsigned(ssrc0));
+    let val1 : DWORD = read_common_source(unsigned(ssrc1));
+    let bit_idx : int = unsigned(val1[4..0]);
+    let sel : DWORD = get_slice_int(32, shl_int(1, bit_idx), 0);
+    if (val0 & sel) == 0x00000000 then {
+        wSCC(bitone)
+    } else {
+        wSCC(bitzero)
+    }
+}
 
 // SOPP Instructions
 val s_nop : unit -> unit

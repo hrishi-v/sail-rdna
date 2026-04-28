@@ -3,12 +3,6 @@ val buffer_load_b128 : (
         flag_1, flag_1, flag_1, flag_1, flag_1
     ) -> unit
 function buffer_load_b128(vdata, vaddr, srsrc, soffset, offset, offen, idxen, glc, slc, dlc) = {
-    // A 128-bit load on GFX11 consumes 4 VMCNT credits!
-    vmem_issue_load(vdata);
-    vmem_issue_load(vdata + 0x01);
-    vmem_issue_load(vdata + 0x02);
-    vmem_issue_load(vdata + 0x03);
-
     let rsrc_base_sgpr = unsigned(srsrc) * 4;
     let rsrc_word0 : DWORD = rSGPR(get_slice_int(7, rsrc_base_sgpr, 0));
     let rsrc_word1 : DWORD = rSGPR(get_slice_int(7, rsrc_base_sgpr + 1, 0));
@@ -39,5 +33,10 @@ function buffer_load_b128(vdata, vaddr, srsrc, soffset, offset, offen, idxen, gl
             wVGPR(vdata + 0x02, lane_bv, data2);
             wVGPR(vdata + 0x03, lane_bv, data3)
         }
-    }
+    };
+    // A 128-bit load on GFX11 consumes 4 VMCNT credits!
+    vmem_issue_load(vdata);
+    vmem_issue_load(vdata + 0x01);
+    vmem_issue_load(vdata + 0x02);
+    vmem_issue_load(vdata + 0x03)
 }

@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 HERE = Path(__file__).resolve().parent
 DEFAULT_CSV = HERE / "cache_pressure_sweep.csv"
-DEFAULT_OUT = HERE / "cache_pressure_sweep.png"
+DEFAULT_OUT = HERE / "cache_pressure_sweep.pdf"
 
 
 def load(csv_path):

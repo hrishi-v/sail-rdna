@@ -119,7 +119,8 @@ function flat_load_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, v
     let actual_offset : QWORD = EXTZ(offset[11..0]);
     let shared_base = SHARED_BASE;
     let shared_limit = SHARED_LIMIT;
-    var any_vmem : bits(1) = 0b0;
+    var any_vmem_lo : bits(1) = 0b0;
+    var any_vmem_hi : bits(1) = 0b0;
     var any_lds : bits(1) = 0b0;
 
     foreach (lane from 0 to 31) {
@@ -134,22 +135,52 @@ function flat_load_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, v
             let is_shared = unsigned(final_addr[31..0]) >= unsigned(shared_base[31..0]) & unsigned(final_addr[31..0]) <= unsigned(
                 shared_limit[31..0],
             );
-            let read_data : QWORD = read_mem_64(final_addr);
-            wVGPR(vdst, lane_bv, read_data[31..0]);
-            wVGPR(vdst + 0x01, lane_bv, read_data[63..32]);
+            let read_data_lo : DWORD = read_mem_32(final_addr);
+            VLQ_STAGE[lane] = read_data_lo;
             if is_shared then {
+                wVGPR(vdst, lane_bv, read_data_lo);
                 any_lds = 0b1
             } else {
-                any_vmem = 0b1
+                any_vmem_lo = 0b1
             }
+        } else {
+            VLQ_STAGE[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+    if any_vmem_lo == 0b1 then {
+        vmem_issue_load(vdst);
+        vmem_push_vlq(vdst)
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let addr_lo = rVGPR(addr, lane_bv);
+            let addr_hi = rVGPR(addr + 0x01, lane_bv);
+            let v_addr : QWORD = addr_hi @ addr_lo;
+            let final_addr_hi = v_addr + actual_offset + 0x0000000000000004;
+
+            let is_shared = unsigned(final_addr_hi[31..0]) >= unsigned(shared_base[31..0]) & unsigned(final_addr_hi[31..0]) <= unsigned(
+                shared_limit[31..0],
+            );
+            let read_data_hi : DWORD = read_mem_32(final_addr_hi);
+            VLQ_STAGE[lane] = read_data_hi;
+            if is_shared then {
+                wVGPR(vdst + 0x01, lane_bv, read_data_hi)
+            } else {
+                any_vmem_hi = 0b1
+            }
+        } else {
+            VLQ_STAGE[lane] = rVGPR(vdst + 0x01, lane_bv)
         }
     };
     if any_lds == 0b1 then {
         LGKMCNT = LGKMCNT + 1
     };
-    if any_vmem == 0b1 then {
-        vmem_issue_load(vdst);
-        vmem_mark_pending(vdst + 0x01)
+    if any_vmem_hi == 0b1 then {
+        vmem_issue_load(vdst + 0x01);
+        vmem_push_vlq(vdst + 0x01)
     }
 }
 
@@ -293,7 +324,6 @@ val global_load_b32 : (
     ) -> unit
 function global_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
     let saddr_u = unsigned(saddr);
-    vmem_issue_load(vdst);
 
     foreach (lane from 0 to 31) {
         let lane_bv = get_slice_int(5, lane, 0);
@@ -314,6 +344,7 @@ function global_load_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve,
             VLQ_STAGE[lane] = rVGPR(vdst, lane_bv)
         }
     };
+    vmem_issue_load(vdst);
     vmem_push_vlq(vdst)
 }
 

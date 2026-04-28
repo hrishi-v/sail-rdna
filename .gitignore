@@ -38,3 +38,6 @@ __pycache__
 
 # RTL related
 verilator_include/
+
+scratch/
+tests/setups/_*

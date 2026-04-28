@@ -1,8 +1,39 @@
 // VOP2 Instructions
 
-// NOP stub: we only need the parser to not crash; results are irrelevant.
 val v_and_b32 : (vgpr_idx, vop_src, vop_src) -> unit
-function v_and_b32(vdst, src0, src1) = { () }
+function v_and_b32(vdst, src0, src1) = {
+    let src0_u = unsigned(src0);
+    let src1_u = unsigned(src1);
+
+    let op0_common : DWORD = if src0_u <= 255 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if src1_u <= 255 then {
+        read_vector_source(src1, 0b00000)
+    } else { 0x00000000 };
+
+    var results : vector(32, dec, bits(32)) = undefined;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 : DWORD = if src0_u <= 255 then { op0_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            };
+            let op1 : DWORD = if src1_u <= 255 then { op1_common } else {
+                rVGPR(get_slice_int(8, src1_u - 256, 0), lane_bv)
+            };
+            results[lane] = op0 & op1
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        wVGPR(vdst, lane_bv, results[lane])
+    }
+}
 
 val v_ashrrev_i32 : (vgpr_idx, vop_src, vop_src) -> unit
 function v_ashrrev_i32(vdst, vsrc, src0) = {

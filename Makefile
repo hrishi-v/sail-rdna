@@ -22,7 +22,7 @@ RAW_BINS     := $(patsubst $(ASM_DIR)/%.asm, $(BIN_DIR)/%.bin, $(ASM_SRCS))
 
 OBJCOPY      := $(shell which llvm-objcopy 2>/dev/null || which objcopy)
 AS           := clang
-ASFLAGS      := -target amdgcn-amd-amdhsa -mcpu=gfx1100 -c
+ASFLAGS      := -target amdgcn-amd-amdhsa -mcpu=gfx1101 -c
 
 .PHONY: all type emu test assemble fmt clean
 

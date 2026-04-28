@@ -1,6 +1,5 @@
 union ast = {
     // SOP2 Instructions
-    Inst_S_ADD_I32 : (sgpr_idx, sgpr_src, sgpr_src),
     Inst_S_SUB_U32 : (sgpr_idx, sgpr_src, sgpr_src),
     Inst_S_ADD_U32 : (sgpr_idx, sgpr_src, sgpr_src),
     Inst_S_AND_B32 : (sgpr_idx, sgpr_src, sgpr_src),
