@@ -2,6 +2,8 @@
 // Read VCC register, specific SGPRs 106 and 107, return QWORD
 val rVCC : unit -> QWORD
 function rVCC () = {
+    check_sgpr_plq(106);
+    check_sgpr_plq(107);
     let vcc_lo = SGPR[106];
     let vcc_hi = SGPR[107];
     vcc_hi @ vcc_lo
@@ -79,20 +81,6 @@ function vmem_push_vlq vdst = {
         };
         VLQ_COUNT = VLQ_COUNT + 1
     }
-}
-
-val vmem_flush_vlq : unit -> unit
-function vmem_flush_vlq () = {
-    foreach (entry from 0 to 127) {
-        if entry < unsigned(VLQ_COUNT) then {
-            let e = VLQ[entry];
-            foreach (lane from 0 to 31) {
-                let lane_bv = get_slice_int(5, lane, 0);
-                wVGPR(e.dst, lane_bv, e.data[lane])
-            }
-        }
-    };
-    VLQ_COUNT = 0b0000000
 }
 
 val vlq_pop_oldest : unit -> unit

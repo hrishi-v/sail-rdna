@@ -42,6 +42,9 @@ function ds_read_b32(vdst, vaddr, offset) = {
             worst_bank = b
         }
     };
+    // Not gated on IN_EXECUTE: bank-conflict diagnostics describe the access
+    // pattern itself, which is the same whether reached during step() or via
+    // a host probe. The corpus only invokes ds_read_b32 from step().
     if max_hits > 1 then {
         print("[HAZARD] ds_read_b32: ");
         print_int("", max_hits);
