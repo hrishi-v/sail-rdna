@@ -19,8 +19,8 @@ function wVCC value = {
     }
 }
 
-val check_vgpr_vmq : int -> unit
-function check_vgpr_vmq reg_idx = {
+val check_vgpr_vlq : int -> unit
+function check_vgpr_vlq reg_idx = {
     if IN_EXECUTE == 0b1 & reg_idx >= 0 & reg_idx < 256 then {
         if VMQ_PENDING[reg_idx] == 0b1 then {
             print("[HAZARD] read of v");
@@ -53,47 +53,9 @@ function rVGPR(reg_id, lane_id) = {
     let reg_idx = unsigned(reg_id);
     let lane_idx = unsigned(lane_id);
     if reg_idx < 256 & lane_idx <= 31 then {
-        check_vgpr_vmq(reg_idx);
+        check_vgpr_vlq(reg_idx);
         VGPR[reg_idx][lane_idx]
     } else { 0x00000000 }
-}
-
-val check_vgpr_vsq : int -> unit
-function check_vgpr_vsq reg_idx = {
-    if IN_EXECUTE == 0b1 & reg_idx >= 0 & reg_idx < 256 then {
-        let count = unsigned(VSQ_SRC_LOCK_COUNT);
-        foreach (i from 0 to 62) {
-            if i < count then {
-                if unsigned(VSQ_SRC_LOCK_IDX[i]) == reg_idx then {
-                    print("[HAZARD] overwrite of v");
-                    print_int("", reg_idx);
-                    print(" while store in flight (missing s_waitcnt_vscnt)\n")
-                }
-            }
-        }
-    }
-}
-
-val vsq_push_src_lock : vgpr_idx -> unit
-function vsq_push_src_lock src = {
-    let count = unsigned(VSQ_SRC_LOCK_COUNT);
-    if count < 63 then {
-        VSQ_SRC_LOCK_IDX[count] = src;
-        VSQ_SRC_LOCK_COUNT = VSQ_SRC_LOCK_COUNT + 1
-    }
-}
-
-val vsq_pop_oldest : unit -> unit
-function vsq_pop_oldest () = {
-    let count = unsigned(VSQ_SRC_LOCK_COUNT);
-    if count > 0 then {
-        foreach (i from 0 to 61) {
-            if i < count - 1 then {
-                VSQ_SRC_LOCK_IDX[i] = VSQ_SRC_LOCK_IDX[i + 1]
-            }
-        };
-        VSQ_SRC_LOCK_COUNT = VSQ_SRC_LOCK_COUNT + 0b1111111
-    }
 }
 
 // Write VGPR registers
@@ -103,7 +65,6 @@ function wVGPR(reg_id, lane_id, value) = {
     let lane_idx = unsigned(lane_id);
 
     if reg_idx <= 255 & lane_idx <= 31 then {
-        check_vgpr_vsq(reg_idx);
         VGPR[reg_idx][lane_idx] = value
     }
 }

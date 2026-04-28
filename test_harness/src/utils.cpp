@@ -259,7 +259,6 @@ void reset_emulator_state() {
     zreset_lgkmcnt(UNIT);
     zreset_pending_load_queue(UNIT);
     zreset_vscnt(UNIT);
-    zreset_vsq_src_lock(UNIT);
     zreset_vlq(UNIT);
     zEXEC_LO = 0xFFFFFFFF;
     zEXEC_HI = 0xFFFFFFFF;

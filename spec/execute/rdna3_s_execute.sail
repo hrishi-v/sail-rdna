@@ -233,8 +233,7 @@ function s_waitcnt_vscnt simm = {
     let target : bits(6) = simm[5..0];
     foreach (i from 0 to 62) {
         if unsigned(VSCNT) > unsigned(target) then {
-            VSCNT = VSCNT + 0b111111;
-            vsq_pop_oldest()
+            VSCNT = VSCNT + 0b111111
         }
     }
 }
