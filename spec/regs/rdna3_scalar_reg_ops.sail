@@ -101,8 +101,9 @@ function write_scalar_dst64(id, value) = {
 function check_sgpr_plq sgpr_n = {
     foreach (i from 0 to 15) {
         if i < unsigned(PLQ_COUNT) then {
-            let dst_n = unsigned(PLQ_DST[i]);
-            let ndw = unsigned(PLQ_NDW[i]);
+            let entry = PLQ[i];
+            let dst_n = unsigned(entry.dst);
+            let ndw = unsigned(entry.ndw);
             if sgpr_n >= dst_n & sgpr_n < dst_n + ndw then {
                 print(
                     "[HAZARD] Load result used without synchronisation primitives. This may return stale data on bare metal. Use s_waitcnt to avoid stale loads.\n",

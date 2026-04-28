@@ -18,8 +18,11 @@ register VMQ_PENDING : vector(256, dec, bits(1))
 register VSCNT : bits(6)
 
 // VLQ: Vector Load Queue — defers VGPR writes until s_waitcnt vmcnt(0)
-register VLQ_DST   : vector(128, dec, bits(8))
-register VLQ_VAL   : vector(128, dec, vector(32, dec, DWORD))
+struct VLQEntry = {
+    dst : bits(8),
+    data : vector(32, dec, DWORD)
+}
+register VLQ : vector(128, dec, VLQEntry)
 register VLQ_COUNT : bits(7)
 register VLQ_STAGE : vector(32, dec, DWORD)
 
@@ -41,13 +44,14 @@ register LDS_BASE : DWORD
 register DS_PENDING : bits(5)
 
 // Pending Load Queue to simulate the issue-commit nature of in-flight loads.
-register PLQ_DST : vector(16, dec, bits(7))
-register PLQ_NDW :
-    vector(16, dec, bits(4)) // dword count: 1 (b32), 2 (b64), 4 (b128), 8 (b256)
-register PLQ_VAL :
-    vector(16, dec, vector(8, dec, DWORD)) // up to 8 fetched dwords per entry
-register PLQ_COUNT :
-    bits(5)
+// ndw: dword count — 1 (b32), 2 (b64), 4 (b128), 8 (b256). data holds up to 8 fetched dwords.
+struct PLQEntry = {
+    dst : bits(7),
+    ndw : bits(4),
+    data : vector(8, dec, DWORD)
+}
+register PLQ : vector(16, dec, PLQEntry)
+register PLQ_COUNT : bits(5)
 
 val EXTZ : forall 'n 'm, 'm >= 'n. (implicit('m), bits('n)) -> bits('m)
 function EXTZ(m, v) = sail_zero_extend(v, m)

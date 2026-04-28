@@ -73,9 +73,9 @@ val vmem_push_vlq : vgpr_idx -> unit
 function vmem_push_vlq vdst = {
     let q_idx = unsigned(VLQ_COUNT);
     if q_idx < 128 then {
-        VLQ_DST[q_idx] = vdst;
+        VLQ[q_idx].dst = vdst;
         foreach (lane from 0 to 31) {
-            VLQ_VAL[q_idx][lane] = VLQ_STAGE[lane]
+            VLQ[q_idx].data[lane] = VLQ_STAGE[lane]
         };
         VLQ_COUNT = VLQ_COUNT + 1
     }
@@ -85,10 +85,10 @@ val vmem_flush_vlq : unit -> unit
 function vmem_flush_vlq () = {
     foreach (entry from 0 to 127) {
         if entry < unsigned(VLQ_COUNT) then {
-            let dst : vgpr_idx = VLQ_DST[entry];
+            let e = VLQ[entry];
             foreach (lane from 0 to 31) {
                 let lane_bv = get_slice_int(5, lane, 0);
-                wVGPR(dst, lane_bv, VLQ_VAL[entry][lane])
+                wVGPR(e.dst, lane_bv, e.data[lane])
             }
         }
     };
@@ -99,15 +99,14 @@ val vlq_pop_oldest : unit -> unit
 function vlq_pop_oldest () = {
     let count = unsigned(VLQ_COUNT);
     if count > 0 then {
-        let dst : vgpr_idx = VLQ_DST[0];
+        let head = VLQ[0];
         foreach (lane from 0 to 31) {
             let lane_bv = get_slice_int(5, lane, 0);
-            wVGPR(dst, lane_bv, VLQ_VAL[0][lane])
+            wVGPR(head.dst, lane_bv, head.data[lane])
         };
         foreach (j from 0 to 126) {
             if j < count - 1 then {
-                VLQ_DST[j] = VLQ_DST[j + 1];
-                VLQ_VAL[j] = VLQ_VAL[j + 1]
+                VLQ[j] = VLQ[j + 1]
             }
         };
         VLQ_COUNT = VLQ_COUNT + 0b1111111
@@ -121,7 +120,7 @@ function vmq_rebuild_pending () = {
     };
     foreach (entry from 0 to 127) {
         if entry < unsigned(VLQ_COUNT) then {
-            let idx = unsigned(VLQ_DST[entry]);
+            let idx = unsigned(VLQ[entry].dst);
             if idx < 256 then {
                 VMQ_PENDING[idx] = 0b1
             }

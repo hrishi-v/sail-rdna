@@ -141,7 +141,7 @@ function s_cbranch_scc1 simm = {
 val s_sendmsg : simm_16 -> unit
 function s_sendmsg simm = {
     if simm[3..0] == 0b0011 then {
-        var queue_nonempty : bool = unsigned(VMCNT) > 0;
+        var queue_nonempty : bool = unsigned(VMCNT) > 0 | unsigned(VSCNT) > 0;
         foreach (i from 0 to 255) {
             if VMQ_PENDING[i] == 0b1 then {
                 queue_nonempty = true
@@ -199,19 +199,18 @@ function s_waitcnt simm = {
         foreach (iteration from 0 to 15) {
             if unsigned(LGKMCNT) > unsigned(lgkm_target) then {
                 if unsigned(PLQ_COUNT) > 0 then {
-                    let dst_base : int = unsigned(PLQ_DST[0]);
-                    let ndw : int = unsigned(PLQ_NDW[0]);
+                    let head = PLQ[0];
+                    let dst_base : int = unsigned(head.dst);
+                    let ndw : int = unsigned(head.ndw);
                     foreach (k from 0 to 7) {
                         if k < ndw then {
                             let dst_k : sgpr_idx = get_slice_int(7, dst_base + k, 0);
-                            wSGPR(dst_k, PLQ_VAL[0][k])
+                            wSGPR(dst_k, head.data[k])
                         }
                     };
                     foreach (j from 0 to 14) {
                         if j < unsigned(PLQ_COUNT) - 1 then {
-                            PLQ_DST[j] = PLQ_DST[j + 1];
-                            PLQ_NDW[j] = PLQ_NDW[j + 1];
-                            PLQ_VAL[j] = PLQ_VAL[j + 1]
+                            PLQ[j] = PLQ[j + 1]
                         }
                     };
                     PLQ_COUNT = PLQ_COUNT + 0b11111;
@@ -265,9 +264,9 @@ function s_load_b32(sbase, sdata, offset, soffset) = {
     let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
     let idx = unsigned(PLQ_COUNT);
     if idx < 16 then {
-        PLQ_DST[idx] = dst;
-        PLQ_NDW[idx] = 0b0001;
-        PLQ_VAL[idx][0] = data;
+        PLQ[idx].dst = dst;
+        PLQ[idx].ndw = 0b0001;
+        PLQ[idx].data[0] = data;
         PLQ_COUNT = PLQ_COUNT + 1;
         LGKMCNT = LGKMCNT + 1
     }
@@ -279,10 +278,10 @@ function s_load_b64(sbase, sdata, offset, soffset) = {
     let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
     let idx = unsigned(PLQ_COUNT);
     if idx < 16 then {
-        PLQ_DST[idx] = dst;
-        PLQ_NDW[idx] = 0b0010;
-        PLQ_VAL[idx][0] = read_mem_32(final_addr);
-        PLQ_VAL[idx][1] = read_mem_32(final_addr + 4);
+        PLQ[idx].dst = dst;
+        PLQ[idx].ndw = 0b0010;
+        PLQ[idx].data[0] = read_mem_32(final_addr);
+        PLQ[idx].data[1] = read_mem_32(final_addr + 4);
         PLQ_COUNT = PLQ_COUNT + 1;
         LGKMCNT = LGKMCNT + 1
     }
@@ -294,11 +293,11 @@ function s_load_b128(sbase, sdata, offset, soffset) = {
     let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
     let idx = unsigned(PLQ_COUNT);
     if idx < 16 then {
-        PLQ_DST[idx] = dst;
-        PLQ_NDW[idx] = 0b0100;
+        PLQ[idx].dst = dst;
+        PLQ[idx].ndw = 0b0100;
         foreach (k from 0 to 3) {
             let off : QWORD = get_slice_int(64, k * 4, 0);
-            PLQ_VAL[idx][k] = read_mem_32(final_addr + off)
+            PLQ[idx].data[k] = read_mem_32(final_addr + off)
         };
         PLQ_COUNT = PLQ_COUNT + 1;
         LGKMCNT = LGKMCNT + 1
@@ -311,11 +310,11 @@ function s_load_b256(sbase, sdata, offset, soffset) = {
     let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
     let idx = unsigned(PLQ_COUNT);
     if idx < 16 then {
-        PLQ_DST[idx] = dst;
-        PLQ_NDW[idx] = 0b1000;
+        PLQ[idx].dst = dst;
+        PLQ[idx].ndw = 0b1000;
         foreach (k from 0 to 7) {
             let off : QWORD = get_slice_int(64, k * 4, 0);
-            PLQ_VAL[idx][k] = read_mem_32(final_addr + off)
+            PLQ[idx].data[k] = read_mem_32(final_addr + off)
         };
         PLQ_COUNT = PLQ_COUNT + 1;
         LGKMCNT = LGKMCNT + 1

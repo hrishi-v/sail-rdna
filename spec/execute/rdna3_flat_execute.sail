@@ -96,7 +96,6 @@ function flat_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, 
         LGKMCNT = LGKMCNT + 0b000001
     };
     if any_vmem == 0b1 then {
-        VMCNT = VMCNT + 0b0000001;
         VSCNT = VSCNT + 1
     }
 }
@@ -231,7 +230,6 @@ function flat_store_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, 
         LGKMCNT = LGKMCNT + 1
     };
     if any_vmem == 0b1 then {
-        VMCNT = VMCNT + 0b0000001;
         VSCNT = VSCNT + 1
     }
 }
@@ -251,7 +249,7 @@ val scratch_store_b32 : (
         vgpr_idx,
     ) -> unit
 function scratch_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
-    VMCNT = VMCNT + 0b0000001
+    VSCNT = VSCNT + 1
 }
 
 val scratch_store_b64 : (
@@ -268,7 +266,7 @@ val scratch_store_b64 : (
         vgpr_idx,
     ) -> unit
 function scratch_store_b64(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
-    VMCNT = VMCNT + 0b0000001
+    VSCNT = VSCNT + 1
 }
 
 val scratch_load_b32 : (
@@ -360,7 +358,6 @@ val global_store_b32 : (
     ) -> unit
 function global_store_b32(offset, dlc, glc, slc, seg, op, addr, data, saddr, sve, vdst) = {
     let saddr_u = unsigned(saddr);
-    VMCNT = VMCNT + 0b0000001;
     VSCNT = VSCNT + 1;
 
     foreach (lane from 0 to 31) {
