@@ -163,10 +163,18 @@ function s_delay_alu () = { () }
 
 val s_endpgm : unit -> unit
 function s_endpgm () = {
-    if unsigned(VSCNT) > 0 then {
-        print("[HAZARD] s_endpgm with outstanding vector stores (vscnt=");
+    var queue_nonempty : bool = unsigned(VMCNT) > 0 | unsigned(VSCNT) > 0;
+    foreach (i from 0 to 255) {
+        if VMQ_PENDING[i] == 0b1 then {
+            queue_nonempty = true
+        }
+    };
+    if queue_nonempty then {
+        print("[HAZARD] s_endpgm with outstanding VMEM activity (vmcnt=");
+        print_int("", unsigned(VMCNT));
+        print(", vscnt=");
         print_int("", unsigned(VSCNT));
-        print(") — missing s_waitcnt_vscnt\n")
+        print(") — missing s_waitcnt vmcnt(0) / s_waitcnt_vscnt\n")
     };
     print(">>> S_ENDPGM REACHED: Halting Wavefront <<<\n");
     set_halt_flag()
