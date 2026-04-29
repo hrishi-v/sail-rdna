@@ -111,15 +111,17 @@ function plq_push(dst, ndw, data) = {
 }
 
 function check_sgpr_plq sgpr_n = {
-    foreach (i from 0 to 15) {
-        if i < unsigned(PLQ_COUNT) then {
-            let entry = PLQ[i];
-            let dst_n = unsigned(entry.dst);
-            let ndw = unsigned(entry.ndw);
-            if sgpr_n >= dst_n & sgpr_n < dst_n + ndw then {
-                print(
-                    "[HAZARD] Load result used without synchronisation primitives. This may return stale data on bare metal. Use s_waitcnt to avoid stale loads.\n",
-                )
+    if IN_EXECUTE == 0b1 then {
+        foreach (i from 0 to 15) {
+            if i < unsigned(PLQ_COUNT) then {
+                let entry = PLQ[i];
+                let dst_n = unsigned(entry.dst);
+                let ndw = unsigned(entry.ndw);
+                if sgpr_n >= dst_n & sgpr_n < dst_n + ndw then {
+                    print(
+                        "[HAZARD] Load result used without synchronisation primitives. This may return stale data on bare metal. Use s_waitcnt to avoid stale loads.\n",
+                    )
+                }
             }
         }
     }
