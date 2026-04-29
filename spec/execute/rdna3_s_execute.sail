@@ -268,63 +268,42 @@ function smem_final_addr(sbase, offset, soffset) = {
 val s_load_b32 : (sbase, sgpr_idx, offset_21, sgpr_idx) -> unit
 function s_load_b32(sbase, sdata, offset, soffset) = {
     let final_addr = smem_final_addr(sbase, offset, soffset);
-    let data = read_mem_32(final_addr);
     let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
-    let idx = unsigned(PLQ_COUNT);
-    if idx < 16 then {
-        PLQ[idx].dst = dst;
-        PLQ[idx].ndw = 0b0001;
-        PLQ[idx].data[0] = data;
-        PLQ_COUNT = PLQ_COUNT + 1;
-        LGKMCNT = LGKMCNT + 1
-    }
+    var d : vector(8, dec, DWORD) = undefined;
+    d[0] = read_mem_32(final_addr);
+    plq_push(dst, 0b0001, d)
 }
 
 val s_load_b64 : (sbase, sgpr_idx, offset_21, sgpr_idx) -> unit
 function s_load_b64(sbase, sdata, offset, soffset) = {
     let final_addr = smem_final_addr(sbase, offset, soffset);
     let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
-    let idx = unsigned(PLQ_COUNT);
-    if idx < 16 then {
-        PLQ[idx].dst = dst;
-        PLQ[idx].ndw = 0b0010;
-        PLQ[idx].data[0] = read_mem_32(final_addr);
-        PLQ[idx].data[1] = read_mem_32(final_addr + 4);
-        PLQ_COUNT = PLQ_COUNT + 1;
-        LGKMCNT = LGKMCNT + 1
-    }
+    var d : vector(8, dec, DWORD) = undefined;
+    d[0] = read_mem_32(final_addr);
+    d[1] = read_mem_32(final_addr + 4);
+    plq_push(dst, 0b0010, d)
 }
 
 val s_load_b128 : (sbase, sgpr_idx, offset_21, sgpr_idx) -> unit
 function s_load_b128(sbase, sdata, offset, soffset) = {
     let final_addr = smem_final_addr(sbase, offset, soffset);
     let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
-    let idx = unsigned(PLQ_COUNT);
-    if idx < 16 then {
-        PLQ[idx].dst = dst;
-        PLQ[idx].ndw = 0b0100;
-        foreach (k from 0 to 3) {
-            let off : QWORD = get_slice_int(64, k * 4, 0);
-            PLQ[idx].data[k] = read_mem_32(final_addr + off)
-        };
-        PLQ_COUNT = PLQ_COUNT + 1;
-        LGKMCNT = LGKMCNT + 1
-    }
+    var d : vector(8, dec, DWORD) = undefined;
+    foreach (k from 0 to 3) {
+        let off : QWORD = get_slice_int(64, k * 4, 0);
+        d[k] = read_mem_32(final_addr + off)
+    };
+    plq_push(dst, 0b0100, d)
 }
 
 val s_load_b256 : (sbase, sgpr_idx, offset_21, sgpr_idx) -> unit
 function s_load_b256(sbase, sdata, offset, soffset) = {
     let final_addr = smem_final_addr(sbase, offset, soffset);
     let dst : sgpr_idx = get_slice_int(7, unsigned(sdata), 0);
-    let idx = unsigned(PLQ_COUNT);
-    if idx < 16 then {
-        PLQ[idx].dst = dst;
-        PLQ[idx].ndw = 0b1000;
-        foreach (k from 0 to 7) {
-            let off : QWORD = get_slice_int(64, k * 4, 0);
-            PLQ[idx].data[k] = read_mem_32(final_addr + off)
-        };
-        PLQ_COUNT = PLQ_COUNT + 1;
-        LGKMCNT = LGKMCNT + 1
-    }
+    var d : vector(8, dec, DWORD) = undefined;
+    foreach (k from 0 to 7) {
+        let off : QWORD = get_slice_int(64, k * 4, 0);
+        d[k] = read_mem_32(final_addr + off)
+    };
+    plq_push(dst, 0b1000, d)
 }

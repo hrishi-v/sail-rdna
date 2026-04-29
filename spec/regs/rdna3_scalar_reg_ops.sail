@@ -98,6 +98,18 @@ function write_scalar_dst64(id, value) = {
     wSGPR(id_plus_1, upper32)
 }
 
+val plq_push : (bits(7), bits(4), vector(8, dec, DWORD)) -> unit
+function plq_push(dst, ndw, data) = {
+    let idx = unsigned(PLQ_COUNT);
+    if idx < 16 then {
+        PLQ[idx].dst = dst;
+        PLQ[idx].ndw = ndw;
+        PLQ[idx].data = data;
+        PLQ_COUNT = PLQ_COUNT + 1;
+        LGKMCNT = LGKMCNT + 1
+    }
+}
+
 function check_sgpr_plq sgpr_n = {
     foreach (i from 0 to 15) {
         if i < unsigned(PLQ_COUNT) then {

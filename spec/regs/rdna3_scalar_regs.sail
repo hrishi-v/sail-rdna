@@ -11,13 +11,10 @@ register EXEC_HI : DWORD
 register VMCNT : bits(7)
 register LGKMCNT : bits(6)
 
-// VMEM pending destination bitmap: bit[i] = 1 means VGPR[i] has a pending
-register VMQ_PENDING : vector(256, dec, bits(1))
-
 // VSCNT: vector store credit counter (outstanding VMEM writes).
 register VSCNT : bits(6)
 
-// VLQ: Vector Load Queue — defers VGPR writes until s_waitcnt vmcnt(0)
+// VLQ: Vector Load Queue — defers VGPR writes until a s_waitcnt is issued
 struct VLQEntry = {
     dst : bits(8),
     data : vector(32, dec, DWORD)
@@ -25,6 +22,8 @@ struct VLQEntry = {
 register VLQ : vector(128, dec, VLQEntry)
 register VLQ_COUNT : bits(7)
 register VLQ_STAGE : vector(32, dec, DWORD)
+register VMQ_PENDING : vector(256, dec, bits(1))
+
 
 // Set while step() is executing an instruction. Stale-read diagnostics
 // only fire during instruction execution, not during host/harness probes.

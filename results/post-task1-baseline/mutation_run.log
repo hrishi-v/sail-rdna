@@ -1,0 +1,124 @@
+sail-ok kernels: 109
+[1/109] accum_add_16: 10 mutants
+[2/109] accum_add_32: 18 mutants
+[3/109] accum_add_4: 4 mutants
+[4/109] accum_add_64: 36 mutants
+[5/109] accum_add_8: 6 mutants
+[6/109] accum_and_16: 17 mutants
+[7/109] accum_and_32: 33 mutants
+[8/109] accum_and_4: 5 mutants
+[9/109] accum_and_64: 68 mutants
+[10/109] accum_and_8: 9 mutants
+[11/109] accum_and_96: 100 mutants
+[12/109] accum_or_16: 10 mutants
+[13/109] accum_or_32: 18 mutants
+[14/109] accum_or_4: 4 mutants
+[15/109] accum_or_64: 36 mutants
+[16/109] accum_or_8: 6 mutants
+[17/109] accum_sub_16: 10 mutants
+[18/109] accum_sub_32: 18 mutants
+[19/109] accum_sub_4: 4 mutants
+[20/109] accum_sub_64: 36 mutants
+[21/109] accum_sub_8: 6 mutants
+[22/109] accum_xor_16: 10 mutants
+[23/109] accum_xor_32: 18 mutants
+[24/109] accum_xor_4: 4 mutants
+[25/109] accum_xor_64: 36 mutants
+[26/109] accum_xor_8: 6 mutants
+[27/109] deep_chain_16: 18 mutants
+[28/109] deep_chain_32: 34 mutants
+[29/109] deep_chain_64: 66 mutants
+[30/109] load_compute_store_16: 20 mutants
+[31/109] load_compute_store_4: 6 mutants
+[32/109] load_compute_store_8: 10 mutants
+[33/109] load_overwrite: 1 mutants
+[34/109] loop_accum_add_128: 35 mutants
+[35/109] loop_accum_add_16: 9 mutants
+[36/109] loop_accum_add_32: 17 mutants
+[37/109] loop_accum_add_64: 33 mutants
+[38/109] loop_accum_add_8: 5 mutants
+[39/109] loop_accum_xor_128: 35 mutants
+[40/109] loop_accum_xor_16: 9 mutants
+[41/109] loop_accum_xor_32: 17 mutants
+[42/109] loop_accum_xor_64: 33 mutants
+[43/109] loop_accum_xor_8: 5 mutants
+[44/109] mixed_add_c0x2A_add_c1: 2 mutants
+[45/109] mixed_add_c0x2A_xor_c0x2A: 2 mutants
+[46/109] mixed_add_c0x2A_xor_c1: 2 mutants
+[47/109] mixed_add_c1_add_c0x2A: 2 mutants
+[48/109] mixed_add_c1_add_c1: 2 mutants
+[49/109] mixed_add_c1_xor_c0x2A: 2 mutants
+[50/109] mixed_add_c1_xor_c1: 2 mutants
+[51/109] mixed_xor_c0x2A_add_c0x2A: 2 mutants
+[52/109] mixed_xor_c0x2A_add_c1: 2 mutants
+[53/109] mixed_xor_c0x2A_xor_c0x2A: 2 mutants
+[54/109] mixed_xor_c0x2A_xor_c1: 2 mutants
+[55/109] mixed_xor_c1_add_c0x2A: 2 mutants
+[56/109] mixed_xor_c1_add_c1: 2 mutants
+[57/109] mixed_xor_c1_xor_c0x2A: 2 mutants
+[58/109] mixed_xor_c1_xor_c1: 2 mutants
+[59/109] regs_pressure_32: 32 mutants
+[60/109] regs_pressure_64: 63 mutants
+[61/109] rmw_add_c0x2A: 2 mutants
+[62/109] rmw_add_c1: 2 mutants
+[63/109] rmw_add_c7: 2 mutants
+[64/109] rmw_and_c0x2A: 2 mutants
+[65/109] rmw_and_c0xDEAD: 2 mutants
+[66/109] rmw_and_c1: 2 mutants
+[67/109] rmw_and_c7: 2 mutants
+[68/109] rmw_idx_add_c0x2A_i0: 2 mutants
+[69/109] rmw_idx_add_c0x2A_i1: 2 mutants
+[70/109] rmw_idx_add_c0x2A_i8: 2 mutants
+[71/109] rmw_idx_add_c1_i0: 2 mutants
+[72/109] rmw_idx_add_c1_i1: 2 mutants
+[73/109] rmw_idx_add_c1_i8: 2 mutants
+[74/109] rmw_idx_xor_c0x2A_i0: 2 mutants
+[75/109] rmw_idx_xor_c0x2A_i1: 2 mutants
+[76/109] rmw_idx_xor_c0x2A_i8: 2 mutants
+[77/109] rmw_idx_xor_c1_i0: 2 mutants
+[78/109] rmw_idx_xor_c1_i1: 2 mutants
+[79/109] rmw_idx_xor_c1_i8: 2 mutants
+[80/109] rmw_mul_c0x2A: 2 mutants
+[81/109] rmw_mul_c0xDEAD: 2 mutants
+[82/109] rmw_mul_c1: 2 mutants
+[83/109] rmw_mul_c7: 2 mutants
+[84/109] rmw_or_c0x2A: 2 mutants
+[85/109] rmw_or_c1: 2 mutants
+[86/109] rmw_or_c7: 2 mutants
+[87/109] rmw_sub_c1: 2 mutants
+[88/109] rmw_sub_c7: 2 mutants
+[89/109] rmw_xor_c0x2A: 2 mutants
+[90/109] rmw_xor_c1: 2 mutants
+[91/109] rmw_xor_c7: 2 mutants
+[92/109] store_chain_16: 2 mutants
+[93/109] store_chain_32: 2 mutants
+[94/109] store_chain_4: 2 mutants
+[95/109] store_chain_64: 4 mutants
+[96/109] store_chain_8: 2 mutants
+[97/109] store_then_load: 1 mutants
+[98/109] storeload_c0x2A_c1: 1 mutants
+[99/109] storeload_c0x2A_c7: 1 mutants
+[100/109] storeload_c0xDEAD_c1: 1 mutants
+[101/109] storeload_c0xDEAD_c7: 1 mutants
+[102/109] storeload_c1_c1: 1 mutants
+[103/109] storeload_c1_c7: 1 mutants
+[104/109] two_buf_add: 3 mutants
+[105/109] two_buf_and: 3 mutants
+[106/109] two_buf_mul: 3 mutants
+[107/109] two_buf_or: 3 mutants
+[108/109] two_buf_sub: 3 mutants
+[109/109] two_buf_xor: 3 mutants
+
+Total mutants tested   : 1105
+New hazard detected    : 897  (81.2%)
+No new hazard          : 208  (candidate redundant waitcnts)
+Assemble/emu errors    : 0
+
+By waitcnt kind:
+  lgkmcnt                   total= 168  detected= 168  rate=100.0%
+  vmcnt                     total= 937  detected= 729  rate=77.8%
+
+Skipped kernels: 0
+
+Results CSV: /home/hrishi/Documents/sail-rdna/tests/mutation/mutation_results.csv
+Elapsed: 78s

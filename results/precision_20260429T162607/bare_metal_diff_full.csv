@@ -1,0 +1,1189 @@
+kernel,waitcnt_line,original_matches_expected,mutant_matches_original,mutant_matches_expected,notes
+accum_add_16,17,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_add_16,47,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+accum_add_16,80,yes,yes,yes,
+accum_add_16,82,yes,yes,yes,
+accum_add_16,85,yes,no,no,v5 lane00 orig=ead01100 mut=3df66fa0 (32 lanes differ)
+accum_add_16,87,yes,yes,yes,
+accum_add_16,90,yes,no,no,v5 lane00 orig=ead01100 mut=0c232560 (32 lanes differ)
+accum_add_16,92,yes,yes,yes,
+accum_add_16,95,yes,yes,yes,
+accum_add_16,97,yes,yes,yes,
+accum_add_32,20,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_add_32,86,yes,yes,yes,
+accum_add_32,132,yes,yes,yes,
+accum_add_32,134,yes,yes,yes,
+accum_add_32,137,yes,yes,yes,
+accum_add_32,139,yes,yes,yes,
+accum_add_32,142,yes,yes,yes,
+accum_add_32,144,yes,yes,yes,
+accum_add_32,147,yes,yes,yes,
+accum_add_32,149,yes,yes,yes,
+accum_add_32,152,yes,yes,yes,
+accum_add_32,154,yes,yes,yes,
+accum_add_32,157,yes,yes,yes,
+accum_add_32,159,yes,yes,yes,
+accum_add_32,162,yes,yes,yes,
+accum_add_32,164,yes,yes,yes,
+accum_add_32,167,yes,yes,yes,
+accum_add_32,169,yes,no,no,v5 lane00 orig=d5a04200 mut=f6f3b060 (32 lanes differ)
+accum_add_4,15,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_add_4,30,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_add_4,39,yes,no,no,v5 lane00 orig=7ab40140 mut=9c070100 (32 lanes differ)
+accum_add_4,41,yes,yes,yes,
+accum_add_64,21,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+accum_add_64,42,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_add_64,85,yes,no,no,v5 lane00 orig=ab410400 mut=ab411480 (32 lanes differ)
+accum_add_64,253,yes,yes,yes,
+accum_add_64,260,yes,yes,yes,
+accum_add_64,262,yes,yes,yes,
+accum_add_64,265,yes,yes,yes,
+accum_add_64,267,yes,yes,yes,
+accum_add_64,270,yes,yes,yes,
+accum_add_64,272,yes,yes,yes,
+accum_add_64,275,yes,yes,yes,
+accum_add_64,277,yes,yes,yes,
+accum_add_64,280,yes,yes,yes,
+accum_add_64,282,yes,yes,yes,
+accum_add_64,285,yes,yes,yes,
+accum_add_64,287,yes,yes,yes,
+accum_add_64,290,yes,yes,yes,
+accum_add_64,292,yes,yes,yes,
+accum_add_64,295,yes,yes,yes,
+accum_add_64,297,yes,yes,yes,
+accum_add_64,300,yes,yes,yes,
+accum_add_64,302,yes,yes,yes,
+accum_add_64,305,yes,yes,yes,
+accum_add_64,307,yes,yes,yes,
+accum_add_64,310,yes,yes,yes,
+accum_add_64,312,yes,yes,yes,
+accum_add_64,315,yes,yes,yes,
+accum_add_64,317,yes,yes,yes,
+accum_add_64,320,yes,yes,yes,
+accum_add_64,322,yes,yes,yes,
+accum_add_64,325,yes,yes,yes,
+accum_add_64,327,yes,yes,yes,
+accum_add_64,330,yes,yes,yes,
+accum_add_64,332,yes,yes,yes,
+accum_add_64,335,yes,yes,yes,
+accum_add_64,337,yes,yes,yes,
+accum_add_8,17,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_add_8,44,yes,yes,yes,
+accum_add_8,53,yes,yes,yes,
+accum_add_8,55,yes,yes,yes,
+accum_add_8,58,yes,yes,yes,
+accum_add_8,60,yes,yes,yes,
+accum_and_16,17,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_and_16,49,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_and_16,80,yes,yes,yes,
+accum_and_16,82,yes,yes,yes,
+accum_and_16,85,yes,yes,yes,
+accum_and_16,87,yes,yes,yes,
+accum_and_16,90,yes,yes,yes,
+accum_and_16,92,yes,no,no,v5 lane00 orig=dead0000 mut=00000000 (32 lanes differ)
+accum_and_16,95,yes,no,no,v5 lane00 orig=dead0000 mut=00000000 (32 lanes differ)
+accum_and_16,97,yes,no,no,v5 lane00 orig=dead0000 mut=00000000 (32 lanes differ)
+accum_and_16,100,yes,yes,yes,
+accum_and_16,102,yes,yes,yes,
+accum_and_16,105,yes,yes,yes,
+accum_and_16,107,yes,yes,yes,
+accum_and_16,110,yes,yes,yes,
+accum_and_16,112,yes,yes,yes,
+accum_and_16,115,yes,yes,yes,
+accum_and_32,20,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_and_32,89,yes,yes,yes,
+accum_and_32,132,yes,yes,yes,
+accum_and_32,134,yes,yes,yes,
+accum_and_32,137,yes,yes,yes,
+accum_and_32,139,yes,yes,yes,
+accum_and_32,142,yes,yes,yes,
+accum_and_32,144,yes,yes,yes,
+accum_and_32,147,yes,yes,yes,
+accum_and_32,149,yes,yes,yes,
+accum_and_32,152,yes,yes,yes,
+accum_and_32,154,yes,yes,yes,
+accum_and_32,157,yes,yes,yes,
+accum_and_32,159,yes,yes,yes,
+accum_and_32,162,yes,yes,yes,
+accum_and_32,164,yes,yes,yes,
+accum_and_32,167,yes,yes,yes,
+accum_and_32,169,yes,yes,yes,
+accum_and_32,172,yes,yes,yes,
+accum_and_32,174,yes,yes,yes,
+accum_and_32,177,yes,yes,yes,
+accum_and_32,179,yes,yes,yes,
+accum_and_32,182,yes,yes,yes,
+accum_and_32,184,yes,yes,yes,
+accum_and_32,187,yes,yes,yes,
+accum_and_32,189,yes,yes,yes,
+accum_and_32,192,yes,yes,yes,
+accum_and_32,194,yes,yes,yes,
+accum_and_32,197,yes,yes,yes,
+accum_and_32,199,yes,yes,yes,
+accum_and_32,202,yes,yes,yes,
+accum_and_32,204,yes,yes,yes,
+accum_and_32,207,yes,yes,yes,
+accum_and_4,15,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_and_4,32,yes,yes,yes,
+accum_and_4,39,yes,no,no,v5 lane00 orig=dead0000 mut=00000000 (32 lanes differ)
+accum_and_4,41,yes,yes,yes,
+accum_and_4,44,yes,yes,yes,
+accum_and_64,20,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_and_64,80,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+accum_and_64,138,yes,yes,yes,
+accum_and_64,217,yes,yes,yes,
+accum_and_64,243,yes,yes,yes,
+accum_and_64,272,yes,yes,yes,
+accum_and_64,277,yes,yes,yes,
+accum_and_64,280,yes,yes,yes,
+accum_and_64,283,yes,yes,yes,
+accum_and_64,285,yes,yes,yes,
+accum_and_64,288,yes,yes,yes,
+accum_and_64,290,yes,yes,yes,
+accum_and_64,293,yes,yes,yes,
+accum_and_64,295,yes,yes,yes,
+accum_and_64,298,yes,yes,yes,
+accum_and_64,300,yes,yes,yes,
+accum_and_64,303,yes,yes,yes,
+accum_and_64,305,yes,yes,yes,
+accum_and_64,308,yes,yes,yes,
+accum_and_64,310,yes,yes,yes,
+accum_and_64,313,yes,yes,yes,
+accum_and_64,315,yes,yes,yes,
+accum_and_64,318,yes,yes,yes,
+accum_and_64,320,yes,yes,yes,
+accum_and_64,323,yes,yes,yes,
+accum_and_64,325,yes,yes,yes,
+accum_and_64,328,yes,yes,yes,
+accum_and_64,330,yes,yes,yes,
+accum_and_64,333,yes,yes,yes,
+accum_and_64,335,yes,yes,yes,
+accum_and_64,338,yes,yes,yes,
+accum_and_64,340,yes,yes,yes,
+accum_and_64,343,yes,yes,yes,
+accum_and_64,345,yes,yes,yes,
+accum_and_64,348,yes,yes,yes,
+accum_and_64,350,yes,yes,yes,
+accum_and_64,353,yes,yes,yes,
+accum_and_64,355,yes,yes,yes,
+accum_and_64,358,yes,yes,yes,
+accum_and_64,360,yes,yes,yes,
+accum_and_64,363,yes,yes,yes,
+accum_and_64,365,yes,yes,yes,
+accum_and_64,368,yes,yes,yes,
+accum_and_64,370,yes,yes,yes,
+accum_and_64,373,yes,yes,yes,
+accum_and_64,375,yes,yes,yes,
+accum_and_64,378,yes,yes,yes,
+accum_and_64,380,yes,yes,yes,
+accum_and_64,383,yes,yes,yes,
+accum_and_64,385,yes,yes,yes,
+accum_and_64,388,yes,yes,yes,
+accum_and_64,390,yes,yes,yes,
+accum_and_64,393,yes,yes,yes,
+accum_and_64,395,yes,yes,yes,
+accum_and_64,398,yes,yes,yes,
+accum_and_64,400,yes,yes,yes,
+accum_and_64,403,yes,yes,yes,
+accum_and_64,405,yes,yes,yes,
+accum_and_64,408,yes,yes,yes,
+accum_and_64,410,yes,yes,yes,
+accum_and_64,413,yes,yes,yes,
+accum_and_64,415,yes,yes,yes,
+accum_and_64,418,yes,yes,yes,
+accum_and_64,420,yes,yes,yes,
+accum_and_64,423,yes,yes,yes,
+accum_and_64,425,yes,yes,yes,
+accum_and_64,428,yes,yes,yes,
+accum_and_64,430,yes,yes,yes,
+accum_and_8,17,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_and_8,46,yes,yes,yes,
+accum_and_8,53,yes,yes,yes,
+accum_and_8,55,yes,yes,yes,
+accum_and_8,58,yes,yes,yes,
+accum_and_8,60,yes,yes,yes,
+accum_and_8,63,yes,yes,yes,
+accum_and_8,65,yes,yes,yes,
+accum_and_8,68,yes,yes,yes,
+accum_and_96,19,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+accum_and_96,53,yes,yes,yes,
+accum_and_96,70,yes,yes,yes,
+accum_and_96,107,yes,yes,yes,
+accum_and_96,208,yes,yes,yes,
+accum_and_96,253,yes,yes,yes,
+accum_and_96,257,yes,yes,yes,
+accum_and_96,260,yes,yes,yes,
+accum_and_96,263,yes,yes,yes,
+accum_and_96,268,yes,yes,yes,
+accum_and_96,273,yes,yes,yes,
+accum_and_96,278,yes,yes,yes,
+accum_and_96,282,yes,yes,yes,
+accum_and_96,287,yes,yes,yes,
+accum_and_96,291,yes,yes,yes,
+accum_and_96,296,yes,yes,yes,
+accum_and_96,301,yes,yes,yes,
+accum_and_96,308,yes,yes,yes,
+accum_and_96,313,yes,yes,yes,
+accum_and_96,317,yes,yes,yes,
+accum_and_96,324,yes,yes,yes,
+accum_and_96,330,yes,yes,yes,
+accum_and_96,334,yes,yes,yes,
+accum_and_96,340,yes,yes,yes,
+accum_and_96,344,yes,yes,yes,
+accum_and_96,351,yes,yes,yes,
+accum_and_96,357,yes,yes,yes,
+accum_and_96,361,yes,yes,yes,
+accum_and_96,366,yes,yes,yes,
+accum_and_96,372,yes,yes,yes,
+accum_and_96,378,yes,yes,yes,
+accum_and_96,382,yes,yes,yes,
+accum_and_96,393,yes,yes,yes,
+accum_and_96,397,yes,yes,yes,
+accum_and_96,410,yes,yes,yes,
+accum_and_96,418,yes,yes,yes,
+accum_and_96,424,yes,yes,yes,
+accum_and_96,433,yes,yes,yes,
+accum_and_96,440,yes,yes,yes,
+accum_and_96,443,yes,yes,yes,
+accum_and_96,446,yes,yes,yes,
+accum_and_96,448,yes,yes,yes,
+accum_and_96,451,yes,yes,yes,
+accum_and_96,453,yes,yes,yes,
+accum_and_96,456,yes,yes,yes,
+accum_and_96,458,yes,yes,yes,
+accum_and_96,461,yes,yes,yes,
+accum_and_96,463,yes,yes,yes,
+accum_and_96,466,yes,yes,yes,
+accum_and_96,468,yes,yes,yes,
+accum_and_96,471,yes,yes,yes,
+accum_and_96,473,yes,yes,yes,
+accum_and_96,476,yes,yes,yes,
+accum_and_96,478,yes,yes,yes,
+accum_and_96,481,yes,yes,yes,
+accum_and_96,483,yes,yes,yes,
+accum_and_96,486,yes,yes,yes,
+accum_and_96,488,yes,yes,yes,
+accum_and_96,491,yes,yes,yes,
+accum_and_96,493,yes,yes,yes,
+accum_and_96,496,yes,yes,yes,
+accum_and_96,498,yes,yes,yes,
+accum_and_96,501,yes,yes,yes,
+accum_and_96,503,yes,yes,yes,
+accum_and_96,506,yes,yes,yes,
+accum_and_96,508,yes,yes,yes,
+accum_and_96,511,yes,yes,yes,
+accum_and_96,513,yes,yes,yes,
+accum_and_96,516,yes,yes,yes,
+accum_and_96,518,yes,yes,yes,
+accum_and_96,521,yes,yes,yes,
+accum_and_96,523,yes,yes,yes,
+accum_and_96,526,yes,yes,yes,
+accum_and_96,528,yes,yes,yes,
+accum_and_96,531,yes,yes,yes,
+accum_and_96,533,yes,yes,yes,
+accum_and_96,536,yes,yes,yes,
+accum_and_96,538,yes,yes,yes,
+accum_and_96,541,yes,yes,yes,
+accum_and_96,543,yes,yes,yes,
+accum_and_96,546,yes,yes,yes,
+accum_and_96,548,yes,yes,yes,
+accum_and_96,551,yes,yes,yes,
+accum_and_96,553,yes,yes,yes,
+accum_and_96,556,yes,yes,yes,
+accum_and_96,558,yes,yes,yes,
+accum_and_96,561,yes,yes,yes,
+accum_and_96,563,yes,yes,yes,
+accum_and_96,566,yes,yes,yes,
+accum_and_96,568,yes,yes,yes,
+accum_and_96,571,yes,yes,yes,
+accum_and_96,573,yes,yes,yes,
+accum_and_96,576,yes,yes,yes,
+accum_and_96,578,yes,yes,yes,
+accum_and_96,581,yes,yes,yes,
+accum_and_96,583,yes,yes,yes,
+accum_and_96,586,yes,yes,yes,
+accum_and_96,588,yes,yes,yes,
+accum_and_96,591,yes,yes,yes,
+accum_and_96,593,yes,yes,yes,
+accum_or_16,17,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_or_16,47,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_or_16,80,yes,yes,yes,
+accum_or_16,82,yes,yes,yes,
+accum_or_16,85,yes,no,no,v5 lane00 orig=dead03e0 mut=dfed63e5 (32 lanes differ)
+accum_or_16,87,yes,yes,yes,
+accum_or_16,90,yes,no,no,v5 lane00 orig=dead03e0 mut=dead67e0 (32 lanes differ)
+accum_or_16,92,yes,yes,yes,
+accum_or_16,95,yes,yes,yes,
+accum_or_16,97,yes,yes,yes,
+accum_or_32,20,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_or_32,86,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_or_32,132,yes,yes,yes,
+accum_or_32,134,yes,yes,yes,
+accum_or_32,137,yes,yes,yes,
+accum_or_32,139,yes,yes,yes,
+accum_or_32,142,yes,yes,yes,
+accum_or_32,144,yes,yes,yes,
+accum_or_32,147,yes,yes,yes,
+accum_or_32,149,yes,yes,yes,
+accum_or_32,152,yes,yes,yes,
+accum_or_32,154,yes,yes,yes,
+accum_or_32,157,yes,yes,yes,
+accum_or_32,159,yes,yes,yes,
+accum_or_32,162,yes,yes,yes,
+accum_or_32,164,yes,yes,yes,
+accum_or_32,167,yes,yes,yes,
+accum_or_32,169,yes,no,no,v5 lane00 orig=dead07e0 mut=dead7bee (32 lanes differ)
+accum_or_4,15,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_or_4,30,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_or_4,39,yes,yes,yes,
+accum_or_4,41,yes,yes,yes,
+accum_or_64,21,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_or_64,42,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_or_64,85,yes,yes,yes,
+accum_or_64,253,yes,yes,yes,
+accum_or_64,260,yes,yes,yes,
+accum_or_64,262,yes,yes,yes,
+accum_or_64,265,yes,yes,yes,
+accum_or_64,267,yes,yes,yes,
+accum_or_64,270,yes,yes,yes,
+accum_or_64,272,yes,yes,yes,
+accum_or_64,275,yes,yes,yes,
+accum_or_64,277,yes,yes,yes,
+accum_or_64,280,yes,yes,yes,
+accum_or_64,282,yes,yes,yes,
+accum_or_64,285,yes,yes,yes,
+accum_or_64,287,yes,yes,yes,
+accum_or_64,290,yes,yes,yes,
+accum_or_64,292,yes,yes,yes,
+accum_or_64,295,yes,yes,yes,
+accum_or_64,297,yes,yes,yes,
+accum_or_64,300,yes,yes,yes,
+accum_or_64,302,yes,yes,yes,
+accum_or_64,305,yes,yes,yes,
+accum_or_64,307,yes,yes,yes,
+accum_or_64,310,yes,yes,yes,
+accum_or_64,312,yes,yes,yes,
+accum_or_64,315,yes,yes,yes,
+accum_or_64,317,yes,yes,yes,
+accum_or_64,320,yes,yes,yes,
+accum_or_64,322,yes,yes,yes,
+accum_or_64,325,yes,yes,yes,
+accum_or_64,327,yes,yes,yes,
+accum_or_64,330,yes,yes,yes,
+accum_or_64,332,yes,yes,yes,
+accum_or_64,335,yes,yes,yes,
+accum_or_64,337,yes,yes,yes,
+accum_or_8,17,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_or_8,44,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_or_8,53,yes,yes,yes,
+accum_or_8,55,yes,yes,yes,
+accum_or_8,58,yes,yes,yes,
+accum_or_8,60,yes,yes,yes,
+accum_sub_16,17,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_sub_16,47,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+accum_sub_16,80,yes,yes,yes,
+accum_sub_16,82,yes,yes,yes,
+accum_sub_16,85,yes,no,no,v5 lane00 orig=152fef00 mut=86a99060 (32 lanes differ)
+accum_sub_16,87,yes,yes,yes,
+accum_sub_16,90,yes,no,no,v5 lane00 orig=152fef00 mut=f3dcdaa0 (32 lanes differ)
+accum_sub_16,92,yes,no,no,v5 lane00 orig=152fef00 mut=015c3080 (32 lanes differ)
+accum_sub_16,95,yes,yes,yes,
+accum_sub_16,97,yes,yes,yes,
+accum_sub_32,20,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_sub_32,86,yes,yes,yes,
+accum_sub_32,132,yes,yes,yes,
+accum_sub_32,134,yes,yes,yes,
+accum_sub_32,137,yes,yes,yes,
+accum_sub_32,139,yes,yes,yes,
+accum_sub_32,142,yes,yes,yes,
+accum_sub_32,144,yes,yes,yes,
+accum_sub_32,147,yes,yes,yes,
+accum_sub_32,149,yes,yes,yes,
+accum_sub_32,152,yes,yes,yes,
+accum_sub_32,154,yes,yes,yes,
+accum_sub_32,157,yes,yes,yes,
+accum_sub_32,159,yes,yes,yes,
+accum_sub_32,162,yes,yes,yes,
+accum_sub_32,164,yes,yes,yes,
+accum_sub_32,167,yes,yes,yes,
+accum_sub_32,169,yes,no,no,v5 lane00 orig=2a5fbe00 mut=090c4b7d (32 lanes differ)
+accum_sub_4,15,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_sub_4,30,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_sub_4,39,yes,no,no,v5 lane00 orig=854bfec0 mut=63f8ff00 (32 lanes differ)
+accum_sub_4,41,yes,yes,yes,
+accum_sub_64,21,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+accum_sub_64,42,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_sub_64,85,yes,no,no,v5 lane00 orig=54befc00 mut=54beeb80 (32 lanes differ)
+accum_sub_64,253,yes,yes,yes,
+accum_sub_64,260,yes,yes,yes,
+accum_sub_64,262,yes,yes,yes,
+accum_sub_64,265,yes,yes,yes,
+accum_sub_64,267,yes,yes,yes,
+accum_sub_64,270,yes,yes,yes,
+accum_sub_64,272,yes,yes,yes,
+accum_sub_64,275,yes,yes,yes,
+accum_sub_64,277,yes,yes,yes,
+accum_sub_64,280,yes,yes,yes,
+accum_sub_64,282,yes,yes,yes,
+accum_sub_64,285,yes,yes,yes,
+accum_sub_64,287,yes,yes,yes,
+accum_sub_64,290,yes,yes,yes,
+accum_sub_64,292,yes,yes,yes,
+accum_sub_64,295,yes,yes,yes,
+accum_sub_64,297,yes,yes,yes,
+accum_sub_64,300,yes,yes,yes,
+accum_sub_64,302,yes,yes,yes,
+accum_sub_64,305,yes,yes,yes,
+accum_sub_64,307,yes,yes,yes,
+accum_sub_64,310,yes,yes,yes,
+accum_sub_64,312,yes,yes,yes,
+accum_sub_64,315,yes,yes,yes,
+accum_sub_64,317,yes,yes,yes,
+accum_sub_64,320,yes,yes,yes,
+accum_sub_64,322,yes,yes,yes,
+accum_sub_64,325,yes,yes,yes,
+accum_sub_64,327,yes,yes,yes,
+accum_sub_64,330,yes,yes,yes,
+accum_sub_64,332,yes,yes,yes,
+accum_sub_64,335,yes,yes,yes,
+accum_sub_64,337,yes,yes,yes,
+accum_sub_8,17,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_sub_8,44,yes,yes,yes,
+accum_sub_8,53,yes,yes,yes,
+accum_sub_8,55,yes,yes,yes,
+accum_sub_8,58,yes,yes,yes,
+accum_sub_8,60,yes,yes,yes,
+accum_xor_16,17,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_xor_16,47,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+accum_xor_16,80,yes,yes,yes,
+accum_xor_16,82,yes,yes,yes,
+accum_xor_16,85,yes,no,no,v5 lane00 orig=00000200 mut=4c20626f (32 lanes differ)
+accum_xor_16,87,yes,yes,yes,
+accum_xor_16,90,yes,no,no,v5 lane00 orig=00000200 mut=e1c1da18 (32 lanes differ)
+accum_xor_16,92,yes,no,no,v5 lane00 orig=00000200 mut=900dc380 (32 lanes differ)
+accum_xor_16,95,yes,yes,yes,
+accum_xor_16,97,yes,yes,yes,
+accum_xor_32,20,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_xor_32,86,yes,yes,yes,
+accum_xor_32,132,yes,yes,yes,
+accum_xor_32,134,yes,yes,yes,
+accum_xor_32,137,yes,yes,yes,
+accum_xor_32,139,yes,yes,yes,
+accum_xor_32,142,yes,yes,yes,
+accum_xor_32,144,yes,yes,yes,
+accum_xor_32,147,yes,yes,yes,
+accum_xor_32,149,yes,yes,yes,
+accum_xor_32,152,yes,yes,yes,
+accum_xor_32,154,yes,yes,yes,
+accum_xor_32,157,yes,yes,yes,
+accum_xor_32,159,yes,yes,yes,
+accum_xor_32,162,yes,yes,yes,
+accum_xor_32,164,yes,yes,yes,
+accum_xor_32,167,yes,yes,yes,
+accum_xor_32,169,yes,no,no,v5 lane00 orig=00000400 mut=dead7e91 (32 lanes differ)
+accum_xor_4,15,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+accum_xor_4,30,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_xor_4,39,yes,no,no,v5 lane00 orig=00000080 mut=dead00c0 (32 lanes differ)
+accum_xor_4,41,yes,yes,yes,
+accum_xor_64,21,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_xor_64,42,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_xor_64,85,yes,no,no,v5 lane00 orig=00000800 mut=00000d80 (32 lanes differ)
+accum_xor_64,253,yes,yes,yes,
+accum_xor_64,260,yes,yes,yes,
+accum_xor_64,262,yes,yes,yes,
+accum_xor_64,265,yes,yes,yes,
+accum_xor_64,267,yes,yes,yes,
+accum_xor_64,270,yes,yes,yes,
+accum_xor_64,272,yes,yes,yes,
+accum_xor_64,275,yes,yes,yes,
+accum_xor_64,277,yes,yes,yes,
+accum_xor_64,280,yes,yes,yes,
+accum_xor_64,282,yes,yes,yes,
+accum_xor_64,285,yes,yes,yes,
+accum_xor_64,287,yes,yes,yes,
+accum_xor_64,290,yes,yes,yes,
+accum_xor_64,292,yes,yes,yes,
+accum_xor_64,295,yes,yes,yes,
+accum_xor_64,297,yes,yes,yes,
+accum_xor_64,300,yes,yes,yes,
+accum_xor_64,302,yes,yes,yes,
+accum_xor_64,305,yes,yes,yes,
+accum_xor_64,307,yes,yes,yes,
+accum_xor_64,310,yes,yes,yes,
+accum_xor_64,312,yes,yes,yes,
+accum_xor_64,315,yes,yes,yes,
+accum_xor_64,317,yes,yes,yes,
+accum_xor_64,320,yes,yes,yes,
+accum_xor_64,322,yes,yes,yes,
+accum_xor_64,325,yes,yes,yes,
+accum_xor_64,327,yes,yes,yes,
+accum_xor_64,330,yes,yes,yes,
+accum_xor_64,332,yes,yes,yes,
+accum_xor_64,335,yes,yes,yes,
+accum_xor_64,337,yes,yes,yes,
+accum_xor_8,17,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+accum_xor_8,44,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+accum_xor_8,53,yes,yes,yes,
+accum_xor_8,55,yes,yes,yes,
+accum_xor_8,58,yes,yes,yes,
+accum_xor_8,60,yes,yes,yes,
+deep_chain_16,15,yes,no,no,v5 lane01 orig=dead0021 mut=dead0037 (31 lanes differ)
+deep_chain_16,24,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_16,28,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_16,33,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_16,37,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_16,42,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_16,46,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_16,51,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_16,55,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_16,60,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_16,64,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_16,69,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_16,73,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_16,78,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_16,82,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_16,87,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+deep_chain_16,91,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+deep_chain_16,97,yes,no,no,v5 lane00 orig=dead0020 mut=00000000 (32 lanes differ)
+deep_chain_32,15,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,24,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,28,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,33,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,37,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,42,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,46,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,51,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,55,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,60,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,64,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,69,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,73,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,78,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,82,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,87,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+deep_chain_32,91,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,96,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,100,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,105,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,109,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,114,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+deep_chain_32,118,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,123,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,127,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,132,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,136,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,141,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+deep_chain_32,145,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,150,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,154,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,159,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,163,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_32,169,yes,yes,yes,
+deep_chain_64,15,yes,no,no,v5 lane01 orig=dead0021 mut=dead0029 (31 lanes differ)
+deep_chain_64,24,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,28,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,33,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,37,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,42,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,46,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,51,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,55,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,60,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,64,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,69,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,73,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,78,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,82,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,87,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,91,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,96,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,100,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,105,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,109,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,114,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+deep_chain_64,118,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,123,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,127,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,132,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,136,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,141,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+deep_chain_64,145,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,150,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,154,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,159,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,163,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,168,yes,yes,yes,
+deep_chain_64,172,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,177,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,181,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,186,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,190,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,195,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,199,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,204,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,208,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,213,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,217,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+deep_chain_64,222,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,226,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,231,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,235,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,240,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,244,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,249,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,253,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,258,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,262,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,267,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,271,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+deep_chain_64,276,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,280,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,285,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,289,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,294,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,298,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+deep_chain_64,303,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+deep_chain_64,307,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+deep_chain_64,313,yes,no,no,v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+load_compute_store_16,15,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+load_compute_store_16,27,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_16,33,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_16,40,yes,no,no,v5 lane00 orig=00000210 mut=f38d2270 (32 lanes differ)
+load_compute_store_16,42,yes,yes,yes,
+load_compute_store_16,47,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_16,53,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_16,59,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_16,66,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_16,68,yes,yes,yes,
+load_compute_store_16,73,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_16,79,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_16,85,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_16,92,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_16,94,yes,yes,yes,
+load_compute_store_16,99,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_16,105,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_16,111,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_16,117,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_16,135,yes,no,no,v5 lane00 orig=00000210 mut=84adf010 (32 lanes differ)
+load_compute_store_4,15,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_4,27,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_4,33,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_4,39,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_4,41,yes,yes,yes,
+load_compute_store_4,49,yes,no,no,v5 lane00 orig=00000084 mut=d74d3004 (32 lanes differ)
+load_compute_store_8,15,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_8,27,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_8,33,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_8,40,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_8,42,yes,yes,yes,
+load_compute_store_8,47,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_8,53,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_8,59,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_8,65,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+load_compute_store_8,77,yes,no,no,v5 lane00 orig=00000108 mut=c4ad7008 (32 lanes differ)
+load_overwrite,15,yes,no,no,v5 lane00 orig=0000002a mut=dead0000 (32 lanes differ)
+loop_accum_add_128,15,yes,no,no,v5 lane00 orig=dead0020 mut=a5600000 (32 lanes differ)
+loop_accum_add_128,122,yes,yes,yes,
+loop_accum_add_128,169,yes,yes,yes,
+loop_accum_add_128,212,yes,yes,yes,
+loop_accum_add_128,228,yes,yes,yes,
+loop_accum_add_128,231,yes,yes,yes,
+loop_accum_add_128,233,yes,yes,yes,
+loop_accum_add_128,236,yes,yes,yes,
+loop_accum_add_128,238,yes,yes,yes,
+loop_accum_add_128,241,yes,yes,yes,
+loop_accum_add_128,243,yes,yes,yes,
+loop_accum_add_128,246,yes,yes,yes,
+loop_accum_add_128,248,yes,yes,yes,
+loop_accum_add_128,251,yes,yes,yes,
+loop_accum_add_128,253,yes,yes,yes,
+loop_accum_add_128,256,yes,yes,yes,
+loop_accum_add_128,258,yes,yes,yes,
+loop_accum_add_128,261,yes,yes,yes,
+loop_accum_add_128,263,yes,yes,yes,
+loop_accum_add_128,266,yes,yes,yes,
+loop_accum_add_128,268,yes,yes,yes,
+loop_accum_add_128,271,yes,yes,yes,
+loop_accum_add_128,273,yes,yes,yes,
+loop_accum_add_128,276,yes,yes,yes,
+loop_accum_add_128,278,yes,yes,yes,
+loop_accum_add_128,281,yes,yes,yes,
+loop_accum_add_128,283,yes,yes,yes,
+loop_accum_add_128,286,yes,yes,yes,
+loop_accum_add_128,288,yes,yes,yes,
+loop_accum_add_128,291,yes,yes,yes,
+loop_accum_add_128,293,yes,yes,yes,
+loop_accum_add_128,296,yes,yes,yes,
+loop_accum_add_128,298,yes,yes,yes,
+loop_accum_add_128,301,yes,yes,yes,
+loop_accum_add_128,303,yes,yes,yes,
+loop_accum_add_16,15,yes,no,no,v5 lane00 orig=dead0020 mut=00a00000 (32 lanes differ)
+loop_accum_add_16,44,yes,no,no,v5 lane00 orig=dead0020 mut=7eea3c11 (32 lanes differ)
+loop_accum_add_16,46,yes,yes,yes,
+loop_accum_add_16,49,yes,no,no,v5 lane00 orig=dead0020 mut=bd5a0040 (32 lanes differ)
+loop_accum_add_16,51,yes,yes,yes,
+loop_accum_add_16,54,yes,yes,yes,
+loop_accum_add_16,56,yes,yes,yes,
+loop_accum_add_16,59,yes,yes,yes,
+loop_accum_add_16,61,yes,no,no,v5 lane00 orig=dead0020 mut=ff4d1020 (32 lanes differ)
+loop_accum_add_32,15,yes,no,no,v5 lane00 orig=dead0020 mut=e9800000 (32 lanes differ)
+loop_accum_add_32,60,yes,no,no,v5 lane00 orig=dead0020 mut=bd5a0040 (32 lanes differ)
+loop_accum_add_32,62,yes,yes,yes,
+loop_accum_add_32,65,yes,no,no,v5 lane00 orig=dead0020 mut=bd5a0040 (32 lanes differ)
+loop_accum_add_32,67,yes,yes,yes,
+loop_accum_add_32,70,yes,yes,yes,
+loop_accum_add_32,72,yes,yes,yes,
+loop_accum_add_32,75,yes,yes,yes,
+loop_accum_add_32,77,yes,yes,yes,
+loop_accum_add_32,80,yes,yes,yes,
+loop_accum_add_32,82,yes,yes,yes,
+loop_accum_add_32,85,yes,no,no,v5 lane13 orig=dead002d mut=1b4da0ce (17 lanes differ)
+loop_accum_add_32,87,yes,yes,yes,
+loop_accum_add_32,90,yes,yes,yes,
+loop_accum_add_32,92,yes,no,no,v5 lane01 orig=dead0021 mut=dead0025 (31 lanes differ)
+loop_accum_add_32,95,yes,yes,yes,
+loop_accum_add_32,97,yes,yes,yes,
+loop_accum_add_64,15,yes,no,no,v5 lane00 orig=dead0020 mut=08c00000 (32 lanes differ)
+loop_accum_add_64,96,yes,yes,yes,
+loop_accum_add_64,98,yes,yes,yes,
+loop_accum_add_64,101,yes,yes,yes,
+loop_accum_add_64,103,yes,yes,yes,
+loop_accum_add_64,106,yes,yes,yes,
+loop_accum_add_64,108,yes,yes,yes,
+loop_accum_add_64,111,yes,yes,yes,
+loop_accum_add_64,113,yes,yes,yes,
+loop_accum_add_64,116,yes,yes,yes,
+loop_accum_add_64,118,yes,yes,yes,
+loop_accum_add_64,121,yes,yes,yes,
+loop_accum_add_64,123,yes,yes,yes,
+loop_accum_add_64,126,yes,yes,yes,
+loop_accum_add_64,128,yes,yes,yes,
+loop_accum_add_64,131,yes,yes,yes,
+loop_accum_add_64,133,yes,yes,yes,
+loop_accum_add_64,136,yes,yes,yes,
+loop_accum_add_64,138,yes,yes,yes,
+loop_accum_add_64,141,yes,yes,yes,
+loop_accum_add_64,143,yes,yes,yes,
+loop_accum_add_64,146,yes,yes,yes,
+loop_accum_add_64,148,yes,yes,yes,
+loop_accum_add_64,151,yes,yes,yes,
+loop_accum_add_64,153,yes,yes,yes,
+loop_accum_add_64,156,yes,yes,yes,
+loop_accum_add_64,158,yes,yes,yes,
+loop_accum_add_64,161,yes,yes,yes,
+loop_accum_add_64,163,yes,yes,yes,
+loop_accum_add_64,166,yes,yes,yes,
+loop_accum_add_64,168,yes,yes,yes,
+loop_accum_add_64,171,yes,yes,yes,
+loop_accum_add_64,173,yes,yes,yes,
+loop_accum_add_8,15,yes,no,no,v5 lane00 orig=dead0020 mut=06400000 (32 lanes differ)
+loop_accum_add_8,36,yes,no,no,v5 lane00 orig=dead0020 mut=7ef023a3 (32 lanes differ)
+loop_accum_add_8,38,yes,yes,yes,
+loop_accum_add_8,41,yes,no,no,v5 lane00 orig=dead0020 mut=5dad0020 (32 lanes differ)
+loop_accum_add_8,43,yes,yes,yes,
+loop_accum_xor_128,15,yes,no,no,v5 lane00 orig=dead0020 mut=a6c00000 (32 lanes differ)
+loop_accum_xor_128,122,yes,yes,yes,
+loop_accum_xor_128,169,yes,yes,yes,
+loop_accum_xor_128,212,yes,yes,yes,
+loop_accum_xor_128,228,yes,yes,yes,
+loop_accum_xor_128,231,yes,yes,yes,
+loop_accum_xor_128,233,yes,yes,yes,
+loop_accum_xor_128,236,yes,yes,yes,
+loop_accum_xor_128,238,yes,yes,yes,
+loop_accum_xor_128,241,yes,yes,yes,
+loop_accum_xor_128,243,yes,yes,yes,
+loop_accum_xor_128,246,yes,yes,yes,
+loop_accum_xor_128,248,yes,yes,yes,
+loop_accum_xor_128,251,yes,yes,yes,
+loop_accum_xor_128,253,yes,yes,yes,
+loop_accum_xor_128,256,yes,yes,yes,
+loop_accum_xor_128,258,yes,yes,yes,
+loop_accum_xor_128,261,yes,yes,yes,
+loop_accum_xor_128,263,yes,yes,yes,
+loop_accum_xor_128,266,yes,yes,yes,
+loop_accum_xor_128,268,yes,yes,yes,
+loop_accum_xor_128,271,yes,yes,yes,
+loop_accum_xor_128,273,yes,yes,yes,
+loop_accum_xor_128,276,yes,yes,yes,
+loop_accum_xor_128,278,yes,yes,yes,
+loop_accum_xor_128,281,yes,yes,yes,
+loop_accum_xor_128,283,yes,yes,yes,
+loop_accum_xor_128,286,yes,yes,yes,
+loop_accum_xor_128,288,yes,yes,yes,
+loop_accum_xor_128,291,yes,yes,yes,
+loop_accum_xor_128,293,yes,yes,yes,
+loop_accum_xor_128,296,yes,yes,yes,
+loop_accum_xor_128,298,yes,yes,yes,
+loop_accum_xor_128,301,yes,yes,yes,
+loop_accum_xor_128,303,yes,yes,yes,
+loop_accum_xor_16,15,yes,no,no,v5 lane00 orig=dead0020 mut=71a00000 (32 lanes differ)
+loop_accum_xor_16,44,yes,no,no,v5 lane00 orig=dead0020 mut=f63241a4 (32 lanes differ)
+loop_accum_xor_16,46,yes,no,no,v5 lane00 orig=dead0020 mut=97c9affb (32 lanes differ)
+loop_accum_xor_16,49,yes,no,no,v5 lane00 orig=dead0020 mut=348bdd43 (32 lanes differ)
+loop_accum_xor_16,51,yes,yes,yes,
+loop_accum_xor_16,54,yes,yes,yes,
+loop_accum_xor_16,56,yes,yes,yes,
+loop_accum_xor_16,59,yes,yes,yes,
+loop_accum_xor_16,61,yes,no,no,v5 lane00 orig=dead0020 mut=d46d1020 (32 lanes differ)
+loop_accum_xor_32,15,yes,no,no,v5 lane00 orig=dead0020 mut=0a600000 (32 lanes differ)
+loop_accum_xor_32,60,yes,no,no,v5 lane00 orig=dead0020 mut=8dad60e4 (32 lanes differ)
+loop_accum_xor_32,62,yes,yes,yes,
+loop_accum_xor_32,65,yes,no,no,v5 lane00 orig=dead0020 mut=0a719013 (32 lanes differ)
+loop_accum_xor_32,67,yes,yes,yes,
+loop_accum_xor_32,70,yes,yes,yes,
+loop_accum_xor_32,72,yes,yes,yes,
+loop_accum_xor_32,75,yes,yes,yes,
+loop_accum_xor_32,77,yes,yes,yes,
+loop_accum_xor_32,80,yes,yes,yes,
+loop_accum_xor_32,82,yes,yes,yes,
+loop_accum_xor_32,85,yes,no,no,v5 lane00 orig=dead0020 mut=4143576f (32 lanes differ)
+loop_accum_xor_32,87,yes,yes,yes,
+loop_accum_xor_32,90,yes,no,no,v5 lane00 orig=dead0020 mut=8c13dc9e (32 lanes differ)
+loop_accum_xor_32,92,yes,yes,yes,
+loop_accum_xor_32,95,yes,no,no,v5 lane00 orig=dead0020 mut=50659983 (32 lanes differ)
+loop_accum_xor_32,97,yes,yes,yes,
+loop_accum_xor_64,15,yes,no,no,v5 lane00 orig=dead0020 mut=5ae00000 (32 lanes differ)
+loop_accum_xor_64,96,yes,yes,yes,
+loop_accum_xor_64,98,yes,yes,yes,
+loop_accum_xor_64,101,yes,yes,yes,
+loop_accum_xor_64,103,yes,yes,yes,
+loop_accum_xor_64,106,yes,yes,yes,
+loop_accum_xor_64,108,yes,yes,yes,
+loop_accum_xor_64,111,yes,yes,yes,
+loop_accum_xor_64,113,yes,yes,yes,
+loop_accum_xor_64,116,yes,yes,yes,
+loop_accum_xor_64,118,yes,yes,yes,
+loop_accum_xor_64,121,yes,yes,yes,
+loop_accum_xor_64,123,yes,yes,yes,
+loop_accum_xor_64,126,yes,yes,yes,
+loop_accum_xor_64,128,yes,yes,yes,
+loop_accum_xor_64,131,yes,yes,yes,
+loop_accum_xor_64,133,yes,yes,yes,
+loop_accum_xor_64,136,yes,yes,yes,
+loop_accum_xor_64,138,yes,yes,yes,
+loop_accum_xor_64,141,yes,yes,yes,
+loop_accum_xor_64,143,yes,yes,yes,
+loop_accum_xor_64,146,yes,yes,yes,
+loop_accum_xor_64,148,yes,yes,yes,
+loop_accum_xor_64,151,yes,yes,yes,
+loop_accum_xor_64,153,yes,yes,yes,
+loop_accum_xor_64,156,yes,yes,yes,
+loop_accum_xor_64,158,yes,yes,yes,
+loop_accum_xor_64,161,yes,yes,yes,
+loop_accum_xor_64,163,yes,yes,yes,
+loop_accum_xor_64,166,yes,yes,yes,
+loop_accum_xor_64,168,yes,yes,yes,
+loop_accum_xor_64,171,yes,yes,yes,
+loop_accum_xor_64,173,yes,yes,yes,
+loop_accum_xor_8,15,yes,no,no,v5 lane00 orig=dead0020 mut=e6c00000 (32 lanes differ)
+loop_accum_xor_8,36,yes,no,no,v5 lane00 orig=dead0020 mut=00000000 (32 lanes differ)
+loop_accum_xor_8,38,yes,no,no,v5 lane00 orig=dead0020 mut=5ead0020 (32 lanes differ)
+loop_accum_xor_8,41,yes,no,no,v5 lane00 orig=dead0020 mut=e1b19cbd (32 lanes differ)
+loop_accum_xor_8,43,yes,yes,yes,
+mixed_add_c0x2A_add_c1,15,yes,no,no,v5 lane00 orig=dead004b mut=2a20002b (32 lanes differ)
+mixed_add_c0x2A_add_c1,28,yes,no,no,v5 lane00 orig=dead004b mut=3d60102b (32 lanes differ)
+mixed_add_c0x2A_xor_c0x2A,15,yes,no,no,v5 lane00 orig=dead0060 mut=6c200000 (32 lanes differ)
+mixed_add_c0x2A_xor_c0x2A,28,yes,no,no,v5 lane00 orig=dead0060 mut=47401000 (32 lanes differ)
+mixed_add_c0x2A_xor_c1,15,yes,no,no,v5 lane00 orig=dead004b mut=b2c0002b (32 lanes differ)
+mixed_add_c0x2A_xor_c1,28,yes,no,no,v5 lane00 orig=dead004b mut=6840102b (32 lanes differ)
+mixed_add_c1_add_c0x2A,15,yes,no,no,v5 lane00 orig=dead004b mut=11c0002b (32 lanes differ)
+mixed_add_c1_add_c0x2A,28,yes,no,no,v5 lane00 orig=dead004b mut=5360102b (32 lanes differ)
+mixed_add_c1_add_c1,15,yes,no,no,v5 lane00 orig=dead0022 mut=da200002 (32 lanes differ)
+mixed_add_c1_add_c1,28,yes,no,no,v5 lane00 orig=dead0022 mut=29e01002 (32 lanes differ)
+mixed_add_c1_xor_c0x2A,15,yes,no,no,v5 lane00 orig=dead000b mut=3d40002b (32 lanes differ)
+mixed_add_c1_xor_c0x2A,28,yes,no,no,v5 lane00 orig=dead000b mut=0640102b (32 lanes differ)
+mixed_add_c1_xor_c1,15,yes,no,no,v5 lane00 orig=dead0020 mut=ee200000 (32 lanes differ)
+mixed_add_c1_xor_c1,28,yes,no,no,v5 lane00 orig=dead0020 mut=d5c01000 (32 lanes differ)
+mixed_xor_c0x2A_add_c0x2A,15,yes,no,no,v5 lane00 orig=dead0034 mut=ef600054 (32 lanes differ)
+mixed_xor_c0x2A_add_c0x2A,28,yes,no,no,v5 lane00 orig=dead0034 mut=24801054 (32 lanes differ)
+mixed_xor_c0x2A_add_c1,15,yes,no,no,v5 lane00 orig=dead000b mut=4ac0002b (32 lanes differ)
+mixed_xor_c0x2A_add_c1,28,yes,no,no,v5 lane00 orig=dead000b mut=f540102b (32 lanes differ)
+mixed_xor_c0x2A_xor_c0x2A,15,yes,no,no,v5 lane00 orig=dead0020 mut=0c200000 (32 lanes differ)
+mixed_xor_c0x2A_xor_c0x2A,28,yes,no,no,v5 lane00 orig=dead0020 mut=6ca01000 (32 lanes differ)
+mixed_xor_c0x2A_xor_c1,15,yes,no,no,v5 lane00 orig=dead000b mut=14a0002b (32 lanes differ)
+mixed_xor_c0x2A_xor_c1,28,yes,no,no,v5 lane00 orig=dead000b mut=cae0102b (32 lanes differ)
+mixed_xor_c1_add_c0x2A,15,yes,no,no,v5 lane00 orig=dead004b mut=4160002b (32 lanes differ)
+mixed_xor_c1_add_c0x2A,28,yes,no,no,v5 lane00 orig=dead004b mut=f1c0102b (32 lanes differ)
+mixed_xor_c1_add_c1,15,yes,no,no,v5 lane00 orig=dead0022 mut=e4200002 (32 lanes differ)
+mixed_xor_c1_add_c1,28,yes,no,no,v5 lane00 orig=dead0022 mut=32801002 (32 lanes differ)
+mixed_xor_c1_xor_c0x2A,15,yes,no,no,v5 lane00 orig=dead000b mut=59e0002b (32 lanes differ)
+mixed_xor_c1_xor_c0x2A,28,yes,no,no,v5 lane00 orig=dead000b mut=6440102b (32 lanes differ)
+mixed_xor_c1_xor_c1,15,yes,no,no,v5 lane00 orig=dead0020 mut=eea00000 (32 lanes differ)
+mixed_xor_c1_xor_c1,28,yes,no,no,v5 lane00 orig=dead0020 mut=d4c01000 (32 lanes differ)
+regs_pressure_32,15,yes,no,no,v5 lane00 orig=00000060 mut=00000020 (32 lanes differ)
+regs_pressure_32,60,yes,yes,yes,
+regs_pressure_32,62,yes,yes,yes,
+regs_pressure_32,64,yes,no,no,v5 lane00 orig=00000060 mut=00000061 (32 lanes differ)
+regs_pressure_32,66,yes,yes,yes,
+regs_pressure_32,68,yes,no,no,v5 lane00 orig=00000060 mut=00000061 (32 lanes differ)
+regs_pressure_32,74,yes,yes,yes,
+regs_pressure_32,76,yes,yes,yes,
+regs_pressure_32,79,yes,yes,yes,
+regs_pressure_32,81,yes,yes,yes,
+regs_pressure_32,84,yes,yes,yes,
+regs_pressure_32,86,yes,yes,yes,
+regs_pressure_32,89,yes,yes,yes,
+regs_pressure_32,91,yes,yes,yes,
+regs_pressure_32,94,yes,no,no,v5 lane00 orig=00000060 mut=3f3ab787 (32 lanes differ)
+regs_pressure_32,96,yes,yes,yes,
+regs_pressure_32,99,yes,yes,yes,
+regs_pressure_32,101,yes,yes,yes,
+regs_pressure_32,104,yes,yes,yes,
+regs_pressure_32,106,yes,yes,yes,
+regs_pressure_32,109,yes,yes,yes,
+regs_pressure_32,111,yes,no,no,v5 lane00 orig=00000060 mut=3f800060 (16 lanes differ)
+regs_pressure_32,114,yes,yes,yes,
+regs_pressure_32,116,yes,no,no,v5 lane00 orig=00000060 mut=3ea8a8b7 (32 lanes differ)
+regs_pressure_32,119,yes,yes,yes,
+regs_pressure_32,121,yes,no,no,v5 lane00 orig=00000060 mut=3f72f375 (13 lanes differ)
+regs_pressure_32,124,yes,no,no,v5 lane00 orig=00000060 mut=000000a1 (32 lanes differ)
+regs_pressure_32,126,yes,no,no,v5 lane00 orig=00000060 mut=3f800060 (9 lanes differ)
+regs_pressure_32,129,yes,yes,yes,
+regs_pressure_32,131,yes,yes,yes,
+regs_pressure_32,134,yes,yes,yes,
+regs_pressure_32,136,yes,yes,yes,
+regs_pressure_64,15,yes,yes,yes,
+regs_pressure_64,96,yes,yes,yes,
+regs_pressure_64,99,yes,yes,yes,
+regs_pressure_64,101,yes,yes,yes,
+regs_pressure_64,103,yes,yes,yes,
+regs_pressure_64,109,yes,yes,yes,
+regs_pressure_64,111,yes,yes,yes,
+regs_pressure_64,114,yes,yes,yes,
+regs_pressure_64,116,yes,yes,yes,
+regs_pressure_64,119,yes,yes,yes,
+regs_pressure_64,121,yes,yes,yes,
+regs_pressure_64,124,yes,yes,yes,
+regs_pressure_64,126,yes,yes,yes,
+regs_pressure_64,129,yes,yes,yes,
+regs_pressure_64,131,yes,yes,yes,
+regs_pressure_64,134,yes,yes,yes,
+regs_pressure_64,136,yes,yes,yes,
+regs_pressure_64,139,yes,yes,yes,
+regs_pressure_64,141,yes,yes,yes,
+regs_pressure_64,144,yes,yes,yes,
+regs_pressure_64,146,yes,yes,yes,
+regs_pressure_64,149,yes,yes,yes,
+regs_pressure_64,151,yes,yes,yes,
+regs_pressure_64,154,yes,yes,yes,
+regs_pressure_64,156,yes,yes,yes,
+regs_pressure_64,159,yes,yes,yes,
+regs_pressure_64,161,yes,yes,yes,
+regs_pressure_64,164,yes,yes,yes,
+regs_pressure_64,166,yes,yes,yes,
+regs_pressure_64,169,yes,yes,yes,
+regs_pressure_64,171,yes,yes,yes,
+regs_pressure_64,174,yes,yes,yes,
+regs_pressure_64,176,yes,yes,yes,
+regs_pressure_64,179,yes,yes,yes,
+regs_pressure_64,181,yes,yes,yes,
+regs_pressure_64,184,yes,yes,yes,
+regs_pressure_64,186,yes,yes,yes,
+regs_pressure_64,189,yes,yes,yes,
+regs_pressure_64,191,yes,yes,yes,
+regs_pressure_64,194,yes,yes,yes,
+regs_pressure_64,196,yes,yes,yes,
+regs_pressure_64,199,yes,yes,yes,
+regs_pressure_64,201,yes,yes,yes,
+regs_pressure_64,204,yes,yes,yes,
+regs_pressure_64,206,yes,yes,yes,
+regs_pressure_64,209,yes,yes,yes,
+regs_pressure_64,211,yes,yes,yes,
+regs_pressure_64,214,yes,yes,yes,
+regs_pressure_64,216,yes,yes,yes,
+regs_pressure_64,219,yes,yes,yes,
+regs_pressure_64,221,yes,yes,yes,
+regs_pressure_64,224,yes,yes,yes,
+regs_pressure_64,226,yes,yes,yes,
+regs_pressure_64,229,yes,yes,yes,
+regs_pressure_64,231,yes,yes,yes,
+regs_pressure_64,234,yes,yes,yes,
+regs_pressure_64,236,yes,yes,yes,
+regs_pressure_64,239,yes,yes,yes,
+regs_pressure_64,241,yes,yes,yes,
+regs_pressure_64,244,yes,yes,yes,
+regs_pressure_64,246,yes,yes,yes,
+regs_pressure_64,249,yes,yes,yes,
+regs_pressure_64,251,yes,yes,yes,
+rmw_add_c0x2A,15,yes,no,no,v5 lane00 orig=dead002a mut=00030b2c (32 lanes differ)
+rmw_add_c0x2A,26,yes,no,no,v5 lane00 orig=dead002a mut=0000002a (32 lanes differ)
+rmw_add_c1,15,yes,no,no,v5 lane00 orig=dead0001 mut=00030b03 (32 lanes differ)
+rmw_add_c1,26,yes,no,no,v5 lane00 orig=dead0001 mut=00000001 (32 lanes differ)
+rmw_add_c7,15,yes,no,no,v5 lane00 orig=dead0007 mut=00030b09 (32 lanes differ)
+rmw_add_c7,26,yes,no,no,v5 lane00 orig=dead0007 mut=00000007 (32 lanes differ)
+rmw_and_c0x2A,15,yes,no,no,v5 lane00 orig=00000000 mut=00000002 (27 lanes differ)
+rmw_and_c0x2A,26,yes,no,no,v5 lane02 orig=00000002 mut=00000000 (24 lanes differ)
+rmw_and_c1,15,yes,no,no,v5 lane01 orig=00000001 mut=00000000 (18 lanes differ)
+rmw_and_c1,26,yes,no,no,v5 lane01 orig=00000001 mut=00000000 (16 lanes differ)
+rmw_and_c7,15,yes,no,no,v5 lane00 orig=00000000 mut=00000002 (30 lanes differ)
+rmw_and_c7,26,yes,no,no,v5 lane01 orig=00000001 mut=00000000 (28 lanes differ)
+rmw_idx_add_c0x2A_i0,15,yes,no,no,v5 lane00 orig=dead002a mut=bb60002a (32 lanes differ)
+rmw_idx_add_c0x2A_i0,17,yes,no,no,v5 lane00 orig=dead002a mut=0000002e (32 lanes differ)
+rmw_idx_add_c0x2A_i1,15,yes,no,no,v5 lane00 orig=dead002b mut=000073aa (32 lanes differ)
+rmw_idx_add_c0x2A_i1,17,yes,no,no,v5 lane00 orig=dead002b mut=3acd807f (32 lanes differ)
+rmw_idx_add_c0x2A_i8,15,yes,no,no,v5 lane00 orig=dead0032 mut=0000002a (32 lanes differ)
+rmw_idx_add_c0x2A_i8,17,yes,no,no,v5 lane00 orig=dead0032 mut=324d007b (32 lanes differ)
+rmw_idx_add_c1_i0,15,yes,no,no,v5 lane00 orig=dead0001 mut=6a000001 (32 lanes differ)
+rmw_idx_add_c1_i0,17,yes,no,no,v5 lane00 orig=dead0001 mut=3acd0046 (32 lanes differ)
+rmw_idx_add_c1_i1,15,yes,no,no,v5 lane00 orig=dead0002 mut=000079b8 (32 lanes differ)
+rmw_idx_add_c1_i1,17,yes,no,no,v5 lane00 orig=dead0002 mut=3e4d8046 (32 lanes differ)
+rmw_idx_add_c1_i8,15,yes,no,no,v5 lane00 orig=dead0009 mut=00000001 (32 lanes differ)
+rmw_idx_add_c1_i8,17,yes,no,no,v5 lane00 orig=dead0009 mut=325d8056 (32 lanes differ)
+rmw_idx_xor_c0x2A_i0,15,yes,no,no,v5 lane00 orig=dead002a mut=2460002a (32 lanes differ)
+rmw_idx_xor_c0x2A_i0,17,yes,no,no,v5 lane00 orig=dead002a mut=32cd806b (32 lanes differ)
+rmw_idx_xor_c0x2A_i1,15,yes,no,no,v5 lane00 orig=dead002b mut=000079a3 (32 lanes differ)
+rmw_idx_xor_c0x2A_i1,17,yes,no,no,v5 lane00 orig=dead002b mut=3a49886f (32 lanes differ)
+rmw_idx_xor_c0x2A_i8,15,yes,no,no,v5 lane00 orig=dead0022 mut=0000002a (32 lanes differ)
+rmw_idx_xor_c0x2A_i8,17,yes,no,no,v5 lane00 orig=dead0022 mut=dead002b (32 lanes differ)
+rmw_idx_xor_c1_i0,15,yes,no,no,v5 lane00 orig=dead0001 mut=d8c00001 (32 lanes differ)
+rmw_idx_xor_c1_i0,17,yes,no,no,v5 lane00 orig=dead0001 mut=1f27f4e0 (32 lanes differ)
+rmw_idx_xor_c1_i1,15,yes,no,no,v5 lane00 orig=dead0000 mut=0000767c (32 lanes differ)
+rmw_idx_xor_c1_i1,17,yes,no,no,v5 lane00 orig=dead0000 mut=dead0009 (32 lanes differ)
+rmw_idx_xor_c1_i8,15,yes,no,no,v5 lane00 orig=dead0009 mut=00000001 (32 lanes differ)
+rmw_idx_xor_c1_i8,17,yes,no,no,v5 lane00 orig=dead0009 mut=32dd8854 (32 lanes differ)
+rmw_mul_c0x2A,15,yes,no,no,v5 lane00 orig=88620000 mut=007fce54 (32 lanes differ)
+rmw_mul_c0x2A,26,yes,no,no,v5 lane00 orig=88620000 mut=00000000 (32 lanes differ)
+rmw_mul_c0xDEAD,15,yes,no,no,v5 lane00 orig=80e90000 mut=a59a2c5a (32 lanes differ)
+rmw_mul_c0xDEAD,26,yes,no,no,v5 lane00 orig=80e90000 mut=00000000 (32 lanes differ)
+rmw_mul_c1,15,yes,no,no,v5 lane00 orig=dead0000 mut=00030b02 (32 lanes differ)
+rmw_mul_c1,26,yes,no,no,v5 lane00 orig=dead0000 mut=18800000 (32 lanes differ)
+rmw_mul_c7,15,yes,no,no,v5 lane00 orig=16bb0000 mut=00154d0e (32 lanes differ)
+rmw_mul_c7,26,yes,no,no,v5 lane00 orig=16bb0000 mut=00000000 (32 lanes differ)
+rmw_or_c0x2A,15,yes,no,no,v5 lane00 orig=dead002a mut=00030b2a (32 lanes differ)
+rmw_or_c0x2A,26,yes,no,no,v5 lane00 orig=dead002a mut=0000002a (32 lanes differ)
+rmw_or_c1,15,yes,no,no,v5 lane00 orig=dead0001 mut=00030b03 (32 lanes differ)
+rmw_or_c1,26,yes,no,no,v5 lane00 orig=dead0001 mut=00000001 (32 lanes differ)
+rmw_or_c7,15,yes,no,no,v5 lane00 orig=dead0007 mut=00030b07 (32 lanes differ)
+rmw_or_c7,26,yes,no,no,v5 lane00 orig=dead0007 mut=00000007 (32 lanes differ)
+rmw_sub_c1,15,yes,no,no,v5 lane00 orig=deacffff mut=dead0000 (32 lanes differ)
+rmw_sub_c1,26,yes,no,no,v5 lane00 orig=deacffff mut=ffffffff (32 lanes differ)
+rmw_sub_c7,15,yes,no,no,v5 lane00 orig=deacfff9 mut=00030afb (32 lanes differ)
+rmw_sub_c7,26,yes,no,no,v5 lane00 orig=deacfff9 mut=fffffff9 (32 lanes differ)
+rmw_xor_c0x2A,15,yes,no,no,v5 lane00 orig=dead002a mut=00030b28 (32 lanes differ)
+rmw_xor_c0x2A,26,yes,no,no,v5 lane00 orig=dead002a mut=0000002a (32 lanes differ)
+rmw_xor_c1,15,yes,no,no,v5 lane00 orig=dead0001 mut=00030b03 (32 lanes differ)
+rmw_xor_c1,26,yes,no,no,v5 lane00 orig=dead0001 mut=00000001 (32 lanes differ)
+rmw_xor_c7,15,yes,no,no,v5 lane00 orig=dead0007 mut=00030b05 (32 lanes differ)
+rmw_xor_c7,26,yes,no,no,v5 lane00 orig=dead0007 mut=00000007 (32 lanes differ)
+store_chain_16,17,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+store_chain_16,52,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+store_chain_32,20,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+store_chain_32,105,yes,yes,yes,
+store_chain_4,15,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+store_chain_4,33,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+store_chain_64,16,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+store_chain_64,32,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+store_chain_64,71,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+store_chain_64,99,yes,yes,yes,
+store_chain_8,15,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+store_chain_8,36,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+store_then_load,15,yes,no,no,v5 lane00 orig=0000002a mut=dead0000 (32 lanes differ)
+storeload_c0x2A_c1,15,yes,no,no,v5 lane00 orig=0000002b mut=dead0000 (32 lanes differ)
+storeload_c0x2A_c7,15,yes,no,no,v5 lane00 orig=00000031 mut=dead0000 (32 lanes differ)
+storeload_c0xDEAD_c1,15,yes,no,no,v5 lane00 orig=0000deae mut=dead0000 (32 lanes differ)
+storeload_c0xDEAD_c7,15,yes,no,no,v5 lane00 orig=0000deb4 mut=dead0000 (32 lanes differ)
+storeload_c1_c1,15,yes,no,no,v5 lane00 orig=00000002 mut=dead0000 (32 lanes differ)
+storeload_c1_c7,15,yes,no,no,v5 lane00 orig=00000008 mut=dead0000 (32 lanes differ)
+two_buf_add,15,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+two_buf_add,26,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+two_buf_add,33,yes,no,no,v5 lane00 orig=bd5a0060 mut=75408567 (32 lanes differ)
+two_buf_and,15,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+two_buf_and,26,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+two_buf_and,33,yes,no,no,v5 lane00 orig=dead0000 mut=00001000 (32 lanes differ)
+two_buf_mul,15,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+two_buf_mul,26,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+two_buf_mul,33,yes,no,no,v5 lane00 orig=80e00800 mut=4c2af000 (32 lanes differ)
+two_buf_or,15,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+two_buf_or,26,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+two_buf_or,33,yes,no,no,v5 lane00 orig=dead0060 mut=ed407d62 (32 lanes differ)
+two_buf_sub,15,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+two_buf_sub,26,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+two_buf_sub,33,yes,no,no,v5 lane00 orig=ffffffe0 mut=d43f92e5 (32 lanes differ)
+two_buf_xor,15,yes,skip,skip,launcher rc=124 launcher timeout after 30s: 
+two_buf_xor,26,yes,skip,skip,"launcher rc=2 HIP err 110: an illegal memory access was encountered
+"
+two_buf_xor,33,yes,no,no,v5 lane00 orig=00000060 mut=44206a10 (32 lanes differ)

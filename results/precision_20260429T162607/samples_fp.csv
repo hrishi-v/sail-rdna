@@ -1,0 +1,6 @@
+kernel,waitcnt_line,waitcnt_kind,deleted_waitcnt_line,mutant_asm_path
+accum_add_16,80,vmcnt,s_waitcnt vmcnt(14),tests/mutation/mutants/accum_add_16__L80.s
+accum_add_16,82,vmcnt,s_waitcnt vmcnt(12),tests/mutation/mutants/accum_add_16__L82.s
+accum_add_16,87,vmcnt,s_waitcnt vmcnt(8),tests/mutation/mutants/accum_add_16__L87.s
+accum_add_16,92,vmcnt,s_waitcnt vmcnt(4),tests/mutation/mutants/accum_add_16__L92.s
+accum_add_16,95,vmcnt,s_waitcnt vmcnt(2),tests/mutation/mutants/accum_add_16__L95.s

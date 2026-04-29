@@ -1,0 +1,2 @@
+rmw_and_c0xDEAD,L15,detected=yes
+rmw_and_c0xDEAD,L26,detected=yes

@@ -1,0 +1,114 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.14, pytest-8.4.2, pluggy-1.6.0 -- /nix/store/64y2pa63i2ji8sn32bixgn522whw0wba-python3-3.11.14-env/bin/python3.11
+cachedir: .pytest_cache
+rootdir: /home/hrishi/Documents/sail-rdna
+configfile: pyproject.toml
+collecting ... collected 50 items
+
+tests/diff/test_differential.py::test_vgpr_values_match[add_one] PASSED  [  2%]
+tests/diff/test_differential.py::test_vgpr_values_match[exec_test] PASSED [  4%]
+tests/diff/test_differential.py::test_vgpr_values_match[flat_b64_test] PASSED [  6%]
+tests/diff/test_differential.py::test_vgpr_values_match[flat_store] PASSED [  8%]
+tests/diff/test_differential.py::test_vgpr_values_match[global_load_store_test] PASSED [ 10%]
+tests/diff/test_differential.py::test_vgpr_values_match[imm_pc] PASSED   [ 12%]
+tests/diff/test_differential.py::test_vgpr_values_match[many_global_load_b32] PASSED [ 14%]
+tests/diff/test_differential.py::test_vgpr_values_match[read_modify_write] PASSED [ 16%]
+tests/diff/test_differential.py::test_vgpr_values_match[s_and_b32_test] PASSED [ 18%]
+tests/diff/test_differential.py::test_vgpr_values_match[s_branch] PASSED [ 20%]
+tests/diff/test_differential.py::test_vgpr_values_match[s_load_b32_test] PASSED [ 22%]
+tests/diff/test_differential.py::test_vgpr_values_match[s_load_b64_test] PASSED [ 24%]
+tests/diff/test_differential.py::test_vgpr_values_match[s_load_no_wait] PASSED [ 26%]
+tests/diff/test_differential.py::test_vgpr_values_match[scalar_alu] PASSED [ 28%]
+tests/diff/test_differential.py::test_vgpr_values_match[store_vgpr_reuse] FAILED [ 30%]
+tests/diff/test_differential.py::test_vgpr_values_match[v_add] PASSED    [ 32%]
+tests/diff/test_differential.py::test_vgpr_values_match[v_add_co_ci_u32_test] PASSED [ 34%]
+tests/diff/test_differential.py::test_vgpr_values_match[v_add_co_u32_test] PASSED [ 36%]
+tests/diff/test_differential.py::test_vgpr_values_match[v_ashrrev_i32_test] PASSED [ 38%]
+tests/diff/test_differential.py::test_vgpr_values_match[v_lshlrev_b64_test] PASSED [ 40%]
+tests/diff/test_differential.py::test_vgpr_values_match[v_mad_u64_test] PASSED [ 42%]
+tests/diff/test_differential.py::test_vgpr_values_match[vector_alu] PASSED [ 44%]
+tests/diff/test_differential.py::test_vgpr_values_match[vmcnt_stale_read] PASSED [ 46%]
+tests/diff/test_differential.py::test_vgpr_values_match[vscnt_endpgm] PASSED [ 48%]
+tests/diff/test_differential.py::test_vgpr_values_match[vscnt_partial_wait] PASSED [ 50%]
+tests/diff/test_differential.py::test_no_register_clobber[add_one] PASSED [ 52%]
+tests/diff/test_differential.py::test_no_register_clobber[exec_test] SKIPPED [ 54%]
+tests/diff/test_differential.py::test_no_register_clobber[flat_b64_test] PASSED [ 56%]
+tests/diff/test_differential.py::test_no_register_clobber[flat_store] PASSED [ 58%]
+tests/diff/test_differential.py::test_no_register_clobber[global_load_store_test] PASSED [ 60%]
+tests/diff/test_differential.py::test_no_register_clobber[imm_pc] PASSED [ 62%]
+tests/diff/test_differential.py::test_no_register_clobber[many_global_load_b32] SKIPPED [ 64%]
+tests/diff/test_differential.py::test_no_register_clobber[read_modify_write] SKIPPED [ 66%]
+tests/diff/test_differential.py::test_no_register_clobber[s_and_b32_test] PASSED [ 68%]
+tests/diff/test_differential.py::test_no_register_clobber[s_branch] PASSED [ 70%]
+tests/diff/test_differential.py::test_no_register_clobber[s_load_b32_test] PASSED [ 72%]
+tests/diff/test_differential.py::test_no_register_clobber[s_load_b64_test] PASSED [ 74%]
+tests/diff/test_differential.py::test_no_register_clobber[s_load_no_wait] SKIPPED [ 76%]
+tests/diff/test_differential.py::test_no_register_clobber[scalar_alu] PASSED [ 78%]
+tests/diff/test_differential.py::test_no_register_clobber[store_vgpr_reuse] FAILED [ 80%]
+tests/diff/test_differential.py::test_no_register_clobber[v_add] PASSED  [ 82%]
+tests/diff/test_differential.py::test_no_register_clobber[v_add_co_ci_u32_test] PASSED [ 84%]
+tests/diff/test_differential.py::test_no_register_clobber[v_add_co_u32_test] PASSED [ 86%]
+tests/diff/test_differential.py::test_no_register_clobber[v_ashrrev_i32_test] PASSED [ 88%]
+tests/diff/test_differential.py::test_no_register_clobber[v_lshlrev_b64_test] PASSED [ 90%]
+tests/diff/test_differential.py::test_no_register_clobber[v_mad_u64_test] PASSED [ 92%]
+tests/diff/test_differential.py::test_no_register_clobber[vector_alu] PASSED [ 94%]
+tests/diff/test_differential.py::test_no_register_clobber[vmcnt_stale_read] PASSED [ 96%]
+tests/diff/test_differential.py::test_no_register_clobber[vscnt_endpgm] PASSED [ 98%]
+tests/diff/test_differential.py::test_no_register_clobber[vscnt_partial_wait] PASSED [100%]
+
+=================================== FAILURES ===================================
+___________________ test_vgpr_values_match[store_vgpr_reuse] ___________________
+
+test_name = 'store_vgpr_reuse'
+sail_all_results = {'_c4_mut_accum_and_16_L92': {'s0': [16384], 's1': [0], 's10': [8704], 's100': [0], ...}, '_c4_mut_accum_and_16_L95': ...[8704], 's100': [0], ...}, '_c4_mut_accum_and_4_L39': {'s0': [10240], 's1': [0], 's10': [8704], 's100': [0], ...}, ...}
+hip_results = {'add_one': {'v5': [124, 124, 124, 124, 124, 124, ...]}, 'exec_test': {'v0': [2863311530, 3149642683, 2863311530, 2863...91582, ...]}, 'flat_store': {'v3': [3405691582, 3405691582, 3405691582, 3405691582, 3405691582, 3405691582, ...]}, ...}
+
+    def test_vgpr_values_match(
+        test_name: str,
+        sail_all_results: dict[str, RegisterDump],
+        hip_results: dict[str, RegisterDump],
+    ) -> None:
+        """For each register captured by HIP, assert all lanes match Sail.
+    
+        Sail vector dumps have 32 lane values; scalar dumps have 1 value (broadcast
+        across all lanes). HIP always produces 32 values via flat_store_b32.
+        Both cases are handled below.
+        """
+>       assert test_name in sail_all_results, f"No Sail output found for '{test_name}'"
+E       AssertionError: No Sail output found for 'store_vgpr_reuse'
+E       assert 'store_vgpr_reuse' in {'_c4_mut_accum_and_16_L92': {'s0': [16384], 's1': [0], 's10': [8704], 's100': [0], ...}, '_c4_mut_accum_and_16_L95': {'s0': [16384], 's1': [0], 's10': [8704], 's100': [0], ...}, '_c4_mut_accum_and_16_L97': {'s0': [16384], 's1': [0], 's10': [8704], 's100': [0], ...}, '_c4_mut_accum_and_4_L39': {'s0': [10240], 's1': [0], 's10': [8704], 's100': [0], ...}, ...}
+
+tests/diff/test_differential.py:19: AssertionError
+__________________ test_no_register_clobber[store_vgpr_reuse] __________________
+
+test_name = 'store_vgpr_reuse'
+sail_all_results = {'_c4_mut_accum_and_16_L92': {'s0': [16384], 's1': [0], 's10': [8704], 's100': [0], ...}, '_c4_mut_accum_and_16_L95': ...[8704], 's100': [0], ...}, '_c4_mut_accum_and_4_L39': {'s0': [10240], 's1': [0], 's10': [8704], 's100': [0], ...}, ...}
+sail_allowed_nonzero = {'add_one': frozenset({'v5'}), 'flat_b64_test': frozenset({'v0', 'v1', 'v2', 'v3', 'v4', 'v5'}), 'flat_store': frozenset({'v0', 'v1', 'v2', 'v3'}), 'global_load_store_test': frozenset({'v0', 'v1', 'v2'}), ...}
+
+    def test_no_register_clobber(
+        test_name: str,
+        sail_all_results: dict[str, RegisterDump],
+        sail_allowed_nonzero: dict[str, frozenset[str]],
+    ) -> None:
+        """Check the Sail spec doesn't write to registers it shouldn't.
+    
+        The Sail emulator always dumps every VGPR (v0-v255) and SGPR (s0-s107).
+        For each test we maintain an explicit allow-list of which registers the
+        test is expected to modify.  Anything outside that list must remain zero.
+    
+        If a test name is missing from the allow-list the check is skipped with a
+        warning — add it to _SAIL_ALLOWED_NONZERO in conftest.py when you write
+        the test.
+        """
+        if test_name not in sail_allowed_nonzero:
+            pytest.skip(f"No sentinel allow-list defined for '{test_name}' — add it to _SAIL_ALLOWED_NONZERO")
+    
+>       assert test_name in sail_all_results, f"No Sail output found for '{test_name}'"
+E       AssertionError: No Sail output found for 'store_vgpr_reuse'
+E       assert 'store_vgpr_reuse' in {'_c4_mut_accum_and_16_L92': {'s0': [16384], 's1': [0], 's10': [8704], 's100': [0], ...}, '_c4_mut_accum_and_16_L95': {'s0': [16384], 's1': [0], 's10': [8704], 's100': [0], ...}, '_c4_mut_accum_and_16_L97': {'s0': [16384], 's1': [0], 's10': [8704], 's100': [0], ...}, '_c4_mut_accum_and_4_L39': {'s0': [10240], 's1': [0], 's10': [8704], 's100': [0], ...}, ...}
+
+tests/diff/test_differential.py:67: AssertionError
+=========================== short test summary info ============================
+FAILED tests/diff/test_differential.py::test_vgpr_values_match[store_vgpr_reuse]
+FAILED tests/diff/test_differential.py::test_no_register_clobber[store_vgpr_reuse]
+=================== 2 failed, 44 passed, 4 skipped in 27.73s ===================
