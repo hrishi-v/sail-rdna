@@ -1,0 +1,79 @@
+{
+  "sample": {
+    "name": "square",
+    "source": "/opt/rocm/share/hip/samples/0_Intro/square/square.hipref.cpp",
+    "kernel": "_Z13vector_squareIfEvPT_PKS0_m",
+    "description": "C_d[i] = A_d[i] * A_d[i] loop (float)"
+  },
+  "compilation": {
+    "compiler": "hipcc (ROCm 7.1.1, clang 20.0.0git)",
+    "flags": ["--offload-arch=gfx1101", "--cuda-device-only", "-S"],
+    "asm_lines_total": 230,
+    "kernel_instructions_total": 40,
+    "kernel_distinct_opcodes": 28,
+    "asm_path": "/tmp/sail_coverage/square.s",
+    "bin_path": "/tmp/sail_coverage/square.bin",
+    "bin_size_bytes": 232
+  },
+  "sail_ingest": {
+    "loader": "ok (flashed 0xe8 bytes to PC 0x100)",
+    "decode_started": true,
+    "cycles_executed": 5,
+    "instructions_executed_successfully": 4,
+    "first_failure_pc": "0x118",
+    "first_failure_opcode_hex": "0x82058001",
+    "first_failure_opcode_asm": "s_addc_u32 s5, s1, 0",
+    "abort_reason": "Executing invalid instruction"
+  },
+  "coverage_instances": {
+    "total": 40,
+    "handled": 31,
+    "blocked": 9,
+    "handled_pct": 77.5,
+    "blocked_pct": 22.5,
+    "note": "Static coverage — counts opcodes that have a Sail AST entry. Execution coverage stops at first unsupported (4 of 40 = 10%)."
+  },
+  "coverage_distinct": {
+    "total": 28,
+    "supported": 19,
+    "unsupported": 9,
+    "supported_pct": 67.9
+  },
+  "supported_opcodes": [
+    {"op": "v_add_co_u32", "count": 4},
+    {"op": "s_delay_alu", "count": 4},
+    {"op": "v_add_co_ci_u32_e32", "count": 3},
+    {"op": "s_waitcnt", "count": 3},
+    {"op": "s_mov_b32", "count": 2},
+    {"op": "s_load_b32", "count": 2},
+    {"op": "v_mov_b32_e32", "count": 1},
+    {"op": "v_mad_u64_u32", "count": 1},
+    {"op": "v_lshlrev_b64", "count": 1},
+    {"op": "v_add_co_ci_u32_e64", "count": 1},
+    {"op": "s_load_b64", "count": 1},
+    {"op": "s_load_b128", "count": 1},
+    {"op": "s_endpgm", "count": 1},
+    {"op": "s_clause", "count": 1},
+    {"op": "s_and_not1_b32", "count": 1},
+    {"op": "s_and_b32", "count": 1},
+    {"op": "s_add_u32", "count": 1},
+    {"op": "global_store_b32", "count": 1},
+    {"op": "global_load_b32", "count": 1}
+  ],
+  "unsupported_opcodes": [
+    {"op": "s_addc_u32", "count": 1, "class": "SOP2", "notes": "SOP2 opc=0x02; aborts Sail at PC 0x118"},
+    {"op": "s_or_b32", "count": 1, "class": "SOP2"},
+    {"op": "s_mul_i32", "count": 1, "class": "SOP2"},
+    {"op": "s_lshl_b64", "count": 1, "class": "SOP2", "notes": "S_LSHR_B64 is present; LSHL missing"},
+    {"op": "s_cbranch_execz", "count": 1, "class": "SOPP"},
+    {"op": "s_cbranch_execnz", "count": 1, "class": "SOPP"},
+    {"op": "v_cmp_le_u64_e32", "count": 1, "class": "VOPC", "notes": "Only V_CMP_GT_I32 and V_CMP_LT_U32 in AST"},
+    {"op": "v_cmpx_gt_u64_e64", "count": 1, "class": "VOPC", "notes": "No v_cmpx variants in AST"},
+    {"op": "v_mul_f32_e32", "count": 1, "class": "VOP2", "notes": "No floating-point arithmetic in spec — this is the kernel's core operation"}
+  ],
+  "blocking_summary": {
+    "instructions_until_first_unsupported": 4,
+    "execution_coverage_pct": 10.0,
+    "fundamental_gap": "No FP arithmetic in Sail. v_mul_f32 is the kernel's actual work; even fixing the 8 scalar/cmp gaps would leave the FP multiply blocking."
+  }
+}

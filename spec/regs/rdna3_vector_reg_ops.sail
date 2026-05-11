@@ -129,7 +129,7 @@ function read_vector_source(src, lane_id) = {
             LITERAL_CONSUMED = 0b1;
             literal
         } else {
-            print("[HAZARD] multiple 0xFF source fields in a single instruction — malformed encoding; reusing cached literal\n");
+            print("[HAZARD] multiple 0xFF source fields in a single instruction. Malformed encoding; reusing cached literal\n");
             LITERAL_SLOT
         }
     } else {
