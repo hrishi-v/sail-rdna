@@ -61,9 +61,6 @@ function vop2_decode instr = {
     let vsrc = instr[16..9];
     let src = instr[8..0];
 
-    if src == 0b0_1111_1111 then {
-        PC = PC + 4
-    };
     match opc {
         // VOP2
         0b000001 => Inst_V_CNDMASK_B32(vdst, src, 0b1 @ vsrc), // 1
