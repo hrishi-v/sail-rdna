@@ -29,6 +29,15 @@ register VMQ_PENDING : vector(256, dec, bits(1))
 // only fire during instruction execution, not during host/harness probes.
 register IN_EXECUTE : bits(1)
 
+// Inline-literal slot. Hardware grants one literal per instruction.
+// LITERAL_CONSUMED is cleared at the start of each step(); the first 0xFF
+// source read fetches the literal, advances PC, sets the flag, and caches
+// the value in LITERAL_SLOT. Subsequent 0xFF reads in the same instruction
+// return LITERAL_SLOT without bumping PC and emit a malformed-encoding
+// hazard message.
+register LITERAL_CONSUMED : bits(1)
+register LITERAL_SLOT : DWORD
+
 register SHARED_BASE : DWORD
 register SHARED_LIMIT : DWORD
 

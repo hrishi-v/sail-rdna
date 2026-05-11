@@ -30,6 +30,8 @@ $include "execute/rdna3_execute.sail"
 
 val step : unit -> unit
 function step () = {
+    LITERAL_CONSUMED = 0b0;
+    LITERAL_SLOT = 0x00000000;
     let instr = fetch_inst(PC);
     PC = PC + 4;
     let ast_node = decode(instr);

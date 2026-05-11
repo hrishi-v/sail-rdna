@@ -34,9 +34,16 @@ function wSGPR(id, value) = {
 val read_common_source : int -> DWORD
 function read_common_source idx = {
     if idx == 255 then {
-        let literal = fetch_inst(PC);
-        PC = PC + 4;
-        literal
+        if LITERAL_CONSUMED == 0b0 then {
+            let literal = fetch_inst(PC);
+            PC = PC + 4;
+            LITERAL_SLOT = literal;
+            LITERAL_CONSUMED = 0b1;
+            literal
+        } else {
+            print("[HAZARD] multiple 0xFF source fields in a single instruction — malformed encoding; reusing cached literal\n");
+            LITERAL_SLOT
+        }
     } else {
         if idx >= 0 & idx <= 107 then {
             check_sgpr_plq(idx);
