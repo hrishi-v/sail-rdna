@@ -25,6 +25,7 @@ function vop3_decode instr = {
         // VOP3
         0b0001000100 => Inst_V_CMP_GT_I32(vdst, src0, src1), // 68, ISA §16.12
         0b0001001001 => Inst_V_CMP_LT_U32(vdst, src0, src1), // 73, ISA §16.12
+        0b0011011100 => Inst_V_CMPX_GT_U64(vdst, src0, src1), // 220, ISA §16.12
         0b0100000001 => Inst_V_CNDMASK_B32_VOP3(vdst, src0, src1, src2), // 257, ISA §16.12
         0b0100001011 => Inst_V_MUL_U32_U24(vdst, src0, src1), // 267, ISA §16.12
         0b1000001011 => Inst_V_MAD_U32_U24(vdst, src0, src1, src2), // 523, ISA §16.12
@@ -98,6 +99,7 @@ function vopc_decode instr = {
     // VOPC destination is always VCC_LO (SGPR 106 = 0b01101010)
     match opc {
         0b01000100 => Inst_V_CMP_GT_I32(0b01101010, src0, 0b1 @ vsrc1), // 68
+        0b01011011 => Inst_V_CMP_LE_U64(0b01101010, src0, 0b1 @ vsrc1), // 91
         _ => Inst_INVALID(),
     }
 }

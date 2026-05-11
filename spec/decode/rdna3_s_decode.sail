@@ -7,7 +7,11 @@ function sop2_decode instr = {
     match opc {
         0b0000000 => Inst_S_ADD_U32(sdst, ssrc0, ssrc1),
         0b0000001 => Inst_S_SUB_U32(sdst, ssrc0, ssrc1),
+        0b0000100 => Inst_S_ADDC_U32(sdst, ssrc0, ssrc1),
+        0b0001001 => Inst_S_LSHL_B64(sdst, ssrc0, ssrc1),
         0b0010110 => Inst_S_AND_B32(sdst, ssrc0, ssrc1),
+        0b0011000 => Inst_S_OR_B32(sdst, ssrc0, ssrc1),
+        0b0101100 => Inst_S_MUL_I32(sdst, ssrc0, ssrc1),
         0b0001011 => Inst_S_LSHR_B64(sdst, ssrc0, ssrc1),
         0b0100010 => Inst_S_AND_NOT1_B32(sdst, ssrc0, ssrc1),
         0b0110000 => Inst_S_CSELECT_B32(sdst, ssrc0, ssrc1),
@@ -49,6 +53,8 @@ function sopp_decode instr = {
     match opc {
         0b0000000 => Inst_S_NOP(),
         0b0100010 => Inst_S_CBRANCH_SCC1(simm16),
+        0b0100101 => Inst_S_CBRANCH_EXECZ(simm16),
+        0b0100110 => Inst_S_CBRANCH_EXECNZ(simm16),
         0b0000101 => Inst_S_CLAUSE(),
         0b0000111 => Inst_S_DELAY_ALU(), // 7
         0b0001001 => Inst_S_WAITCNT(simm16),

@@ -6,6 +6,10 @@ union ast = {
     Inst_S_CSELECT_B32 : (sgpr_idx, sgpr_src, sgpr_src),
     Inst_S_LSHR_B64 : (sgpr_idx, sgpr_src, sgpr_src),
     Inst_S_AND_NOT1_B32 : (sgpr_idx, sgpr_src, sgpr_src),
+    Inst_S_ADDC_U32 : (sgpr_idx, sgpr_src, sgpr_src),
+    Inst_S_OR_B32 : (sgpr_idx, sgpr_src, sgpr_src),
+    Inst_S_MUL_I32 : (sgpr_idx, sgpr_src, sgpr_src),
+    Inst_S_LSHL_B64 : (sgpr_idx, sgpr_src, sgpr_src),
 
     // SOP1 Instructions
     Inst_S_MOV_B32 : (sgpr_idx, sgpr_src),
@@ -24,6 +28,8 @@ union ast = {
     Inst_S_WAITCNT : simm_16,
     Inst_S_BRANCH : simm_16,
     Inst_S_CBRANCH_SCC1 : simm_16,
+    Inst_S_CBRANCH_EXECZ : simm_16,
+    Inst_S_CBRANCH_EXECNZ : simm_16,
     Inst_S_SENDMSG : simm_16,
     Inst_S_ENDPGM : unit,
 
@@ -43,6 +49,8 @@ union ast = {
     Inst_V_MUL_LO_U32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_CMP_LT_U32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_CMP_GT_I32 : (vgpr_idx, vop_src, vop_src),
+    Inst_V_CMP_LE_U64 : (vgpr_idx, vop_src, vop_src),
+    Inst_V_CMPX_GT_U64 : (vgpr_idx, vop_src, vop_src),
     Inst_V_CNDMASK_B32_VOP3 : (vgpr_idx, vop_src, vop_src, vop_src),
     Inst_V_MBCNT_LO_U32_B32 : (vgpr_idx, vop_src, vop_src),
 

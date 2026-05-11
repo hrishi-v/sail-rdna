@@ -23,6 +23,54 @@ function s_sub_u32(sdst, ssrc0, ssrc1) = {
     wSCC(carry)
 }
 
+val s_addc_u32 : (sgpr_idx, sgpr_src, sgpr_src) -> unit
+function s_addc_u32(sdst, ssrc0, ssrc1) = {
+    let val0 = read_common_source(unsigned(ssrc0));
+    let val1 = read_common_source(unsigned(ssrc1));
+    let cin : int = if rSCC() == bitone then 1 else 0;
+    let result : int = unsigned(val0) + unsigned(val1) + cin;
+
+    let result_bits : bits(32) = get_slice_int(32, result, 0);
+    let carry : bit = if result > MAX_UINT32 then { bitone } else { bitzero };
+    wSGPR(sdst, result_bits);
+    wSCC(carry)
+}
+
+val s_or_b32 : (sgpr_idx, sgpr_src, sgpr_src) -> unit
+function s_or_b32(sdst, ssrc0, ssrc1) = {
+    let val0 : DWORD = read_common_source(unsigned(ssrc0));
+    let val1 : DWORD = read_common_source(unsigned(ssrc1));
+    let result : DWORD = val0 | val1;
+    wSGPR(sdst, result);
+    wSCC(if result == 0x00000000 then bitzero else bitone)
+}
+
+val s_mul_i32 : (sgpr_idx, sgpr_src, sgpr_src) -> unit
+function s_mul_i32(sdst, ssrc0, ssrc1) = {
+    let val0 = read_common_source(unsigned(ssrc0));
+    let val1 = read_common_source(unsigned(ssrc1));
+    let product : int = signed(val0) * signed(val1);
+    let result_bits : bits(32) = get_slice_int(32, product, 0);
+    wSGPR(sdst, result_bits)
+}
+
+val s_lshl_b64 : (sgpr_idx, sgpr_src, sgpr_src) -> unit
+function s_lshl_b64(sdst, ssrc0, ssrc1) = {
+    let val0 : QWORD = read_scalar_source64(ssrc0);
+    let val1 : DWORD = read_common_source(unsigned(ssrc1));
+
+    let shift_amt : int = unsigned(val1[5..0]);
+    let val0_int : int = unsigned(val0);
+
+    let shifted_int : int = shl_int(val0_int, shift_amt);
+    let result : QWORD = get_slice_int(64, shifted_int, 0);
+
+    let scc_val : bit = if result != 0x0000000000000000 then { bitone } else { bitzero };
+
+    write_scalar_dst64(sdst, result);
+    wSCC(scc_val)
+}
+
 val s_and_b32 : (sgpr_idx, sgpr_src, sgpr_src) -> unit
 function s_and_b32(sdst, ssrc0, ssrc1) = {
     let val0 : DWORD = read_common_source(unsigned(ssrc0));
@@ -136,6 +184,22 @@ val s_cbranch_scc1 : simm_16 -> unit
 function s_cbranch_scc1 simm = {
     // NOP stub: branch semantics not needed for hazard detection.
     ()
+}
+
+val s_cbranch_execz : simm_16 -> unit
+function s_cbranch_execz simm = {
+    if EXEC_LO == 0x00000000 then {
+        let offset : QWORD = get_slice_int(64, signed(simm) * 4, 0);
+        PC = PC + offset
+    }
+}
+
+val s_cbranch_execnz : simm_16 -> unit
+function s_cbranch_execnz simm = {
+    if EXEC_LO != 0x00000000 then {
+        let offset : QWORD = get_slice_int(64, signed(simm) * 4, 0);
+        PC = PC + offset
+    }
 }
 
 val s_sendmsg : simm_16 -> unit

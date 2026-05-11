@@ -8,6 +8,10 @@ function execute inst = {
         Inst_S_CSELECT_B32(d, s0, s1) => s_cselect_b32(d, s0, s1),
         Inst_S_LSHR_B64(d, s0, s1) => s_lshr_b64(d, s0, s1),
         Inst_S_AND_NOT1_B32(d, s0, s1) => s_and_not1_b32(d, s0, s1),
+        Inst_S_ADDC_U32(d, s0, s1) => s_addc_u32(d, s0, s1),
+        Inst_S_OR_B32(d, s0, s1) => s_or_b32(d, s0, s1),
+        Inst_S_MUL_I32(d, s0, s1) => s_mul_i32(d, s0, s1),
+        Inst_S_LSHL_B64(d, s0, s1) => s_lshl_b64(d, s0, s1),
         // SOP1
         Inst_S_MOV_B32(d, s0) => s_mov_b32(d, s0),
         Inst_S_MOV_B64(d, s0) => s_mov_b64(d, s0),
@@ -23,6 +27,8 @@ function execute inst = {
         Inst_S_WAITCNT(simm) => s_waitcnt(simm),
         Inst_S_BRANCH(simm) => s_branch(simm),
         Inst_S_CBRANCH_SCC1(simm) => s_cbranch_scc1(simm),
+        Inst_S_CBRANCH_EXECZ(simm) => s_cbranch_execz(simm),
+        Inst_S_CBRANCH_EXECNZ(simm) => s_cbranch_execnz(simm),
         Inst_S_SENDMSG(simm) => s_sendmsg(simm),
         Inst_S_ENDPGM() => s_endpgm(),
         // SOPK
@@ -40,6 +46,8 @@ function execute inst = {
         Inst_V_ADD_CO_CI_U32_VOP3(vd, sd, s0, s1, s2) => v_add_co_ci_u32_vop3(vd, sd, s0, s1, s2),
         Inst_V_CMP_LT_U32(vd, s0, s1) => v_cmp_lt_u32(vd, s0, s1),
         Inst_V_CMP_GT_I32(vd, s0, s1) => v_cmp_gt_i32(vd, s0, s1),
+        Inst_V_CMP_LE_U64(vd, s0, s1) => v_cmp_le_u64(vd, s0, s1),
+        Inst_V_CMPX_GT_U64(vd, s0, s1) => v_cmpx_gt_u64(vd, s0, s1),
         Inst_V_CNDMASK_B32_VOP3(vd, s0, s1, s2) => v_cndmask_b32_vop3(vd, s0, s1, s2),
         Inst_V_MBCNT_LO_U32_B32(vd, s0, s1) => v_mbcnt_lo_u32_b32(vd, s0, s1),
         // VOP2

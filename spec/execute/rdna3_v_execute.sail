@@ -894,6 +894,71 @@ function v_cmp_lt_u32(vdst, vsrc0, vsrc1) = {
     wSGPR(vdst[6..0] + 0b0000001, 0x00000000)
 }
 
+val v_cmp_le_u64 : (vgpr_idx, vop_src, vop_src) -> unit
+function v_cmp_le_u64(vdst, vsrc0, vsrc1) = {
+    let src0_u = unsigned(vsrc0);
+    let src1_u = unsigned(vsrc1);
+
+    let op0_common : QWORD = if src0_u < 256 then {
+        read_scalar_source64(get_slice_int(8, src0_u, 0))
+    } else { 0x0000000000000000 };
+    let op1_common : QWORD = if src1_u < 256 then {
+        read_scalar_source64(get_slice_int(8, src1_u, 0))
+    } else { 0x0000000000000000 };
+
+    var result : bits(32) = 0x00000000;
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let val0 : QWORD = if src0_u < 256 then { op0_common } else {
+                let src0_base : bits(8) = get_slice_int(8, src0_u - 256, 0);
+                rVGPR(src0_base + 0x01, lane_bv) @ rVGPR(src0_base, lane_bv)
+            };
+            let val1 : QWORD = if src1_u < 256 then { op1_common } else {
+                let src1_base : bits(8) = get_slice_int(8, src1_u - 256, 0);
+                rVGPR(src1_base + 0x01, lane_bv) @ rVGPR(src1_base, lane_bv)
+            };
+            if unsigned(val0) <= unsigned(val1) then {
+                result[lane..lane] = 0b1
+            }
+        }
+    };
+    wSGPR(vdst[6..0], result);
+    wSGPR(vdst[6..0] + 0b0000001, 0x00000000)
+}
+
+val v_cmpx_gt_u64 : (vgpr_idx, vop_src, vop_src) -> unit
+function v_cmpx_gt_u64(vdst, vsrc0, vsrc1) = {
+    let src0_u = unsigned(vsrc0);
+    let src1_u = unsigned(vsrc1);
+
+    let op0_common : QWORD = if src0_u < 256 then {
+        read_scalar_source64(get_slice_int(8, src0_u, 0))
+    } else { 0x0000000000000000 };
+    let op1_common : QWORD = if src1_u < 256 then {
+        read_scalar_source64(get_slice_int(8, src1_u, 0))
+    } else { 0x0000000000000000 };
+
+    var result : bits(32) = 0x00000000;
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let val0 : QWORD = if src0_u < 256 then { op0_common } else {
+                let src0_base : bits(8) = get_slice_int(8, src0_u - 256, 0);
+                rVGPR(src0_base + 0x01, lane_bv) @ rVGPR(src0_base, lane_bv)
+            };
+            let val1 : QWORD = if src1_u < 256 then { op1_common } else {
+                let src1_base : bits(8) = get_slice_int(8, src1_u - 256, 0);
+                rVGPR(src1_base + 0x01, lane_bv) @ rVGPR(src1_base, lane_bv)
+            };
+            if unsigned(val0) > unsigned(val1) then {
+                result[lane..lane] = 0b1
+            }
+        }
+    };
+    EXEC_LO = result
+}
+
 val v_cmp_gt_i32 : (vgpr_idx, vop_src, vop_src) -> unit
 function v_cmp_gt_i32(vdst, vsrc0, vsrc1) = {
     let src0_u = unsigned(vsrc0);
