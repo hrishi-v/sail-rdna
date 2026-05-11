@@ -4,10 +4,7 @@ accum_add_32,ok,ok,,,,n/a,n/a,
 accum_add_4,ok,ok,,,,n/a,n/a,
 accum_add_64,ok,ok,,,,n/a,n/a,
 accum_add_8,ok,ok,,,,n/a,n/a,
-accum_add_96,ok,error,[HAZARD] Fatal Semantic Hazard: MSG_DEALLOC_VGPRS issued while VMEM queue is not empty.,,,n/a,n/a,"sail rc=1; tail=cution trace to outputs/instruction_trace/_fuzz_accum_add_96.log
-[Test Suite WARN] FAIL (error): /home/hrishi/Documents/sail-rdna/tests/bin/_fuzz_accum_add_96.bin (487 cycles)
-[Test Suite] 0/1 passed
-"
+accum_add_96,ok,ok,,,,n/a,n/a,
 accum_and_16,ok,ok,,,,n/a,n/a,
 accum_and_32,ok,ok,,,,n/a,n/a,
 accum_and_4,ok,ok,,,,n/a,n/a,
@@ -19,28 +16,19 @@ accum_or_32,ok,ok,,,,n/a,n/a,
 accum_or_4,ok,ok,,,,n/a,n/a,
 accum_or_64,ok,ok,,,,n/a,n/a,
 accum_or_8,ok,ok,,,,n/a,n/a,
-accum_or_96,ok,error,[HAZARD] Fatal Semantic Hazard: MSG_DEALLOC_VGPRS issued while VMEM queue is not empty.,,,n/a,n/a,"sail rc=1; tail=xecution trace to outputs/instruction_trace/_fuzz_accum_or_96.log
-[Test Suite WARN] FAIL (error): /home/hrishi/Documents/sail-rdna/tests/bin/_fuzz_accum_or_96.bin (487 cycles)
-[Test Suite] 0/1 passed
-"
+accum_or_96,ok,ok,,,,n/a,n/a,
 accum_sub_16,ok,ok,,,,n/a,n/a,
 accum_sub_32,ok,ok,,,,n/a,n/a,
 accum_sub_4,ok,ok,,,,n/a,n/a,
 accum_sub_64,ok,ok,,,,n/a,n/a,
 accum_sub_8,ok,ok,,,,n/a,n/a,
-accum_sub_96,ok,error,[HAZARD] Fatal Semantic Hazard: MSG_DEALLOC_VGPRS issued while VMEM queue is not empty.,,,n/a,n/a,"sail rc=1; tail=cution trace to outputs/instruction_trace/_fuzz_accum_sub_96.log
-[Test Suite WARN] FAIL (error): /home/hrishi/Documents/sail-rdna/tests/bin/_fuzz_accum_sub_96.bin (488 cycles)
-[Test Suite] 0/1 passed
-"
+accum_sub_96,ok,ok,,,,n/a,n/a,
 accum_xor_16,ok,ok,,,,n/a,n/a,
 accum_xor_32,ok,ok,,,,n/a,n/a,
 accum_xor_4,ok,ok,,,,n/a,n/a,
 accum_xor_64,ok,ok,,,,n/a,n/a,
 accum_xor_8,ok,ok,,,,n/a,n/a,
-accum_xor_96,ok,error,[HAZARD] Fatal Semantic Hazard: MSG_DEALLOC_VGPRS issued while VMEM queue is not empty.,,,n/a,n/a,"sail rc=1; tail=cution trace to outputs/instruction_trace/_fuzz_accum_xor_96.log
-[Test Suite WARN] FAIL (error): /home/hrishi/Documents/sail-rdna/tests/bin/_fuzz_accum_xor_96.bin (487 cycles)
-[Test Suite] 0/1 passed
-"
+accum_xor_96,ok,ok,,,,n/a,n/a,
 deep_chain_16,ok,ok,,,,n/a,n/a,
 deep_chain_32,ok,ok,,,,n/a,n/a,
 deep_chain_64,ok,ok,,,,n/a,n/a,
@@ -67,9 +55,9 @@ mixed_add_c1_add_c0x2A,ok,ok,,,,n/a,n/a,
 mixed_add_c1_add_c1,ok,ok,,,,n/a,n/a,
 mixed_add_c1_xor_c0x2A,ok,ok,,,,n/a,n/a,
 mixed_add_c1_xor_c1,ok,ok,,,,n/a,n/a,
-mixed_loads_16,ok,unsupported,,Executing invalid instruction | VOP3 Decode Error | Decode Error,v_mad_u32_u24,n/a,n/a,
-mixed_loads_32,ok,unsupported,,Executing invalid instruction | VOP3 Decode Error | Decode Error,v_mad_u32_u24,n/a,n/a,
-mixed_loads_8,ok,unsupported,,Executing invalid instruction | VOP3 Decode Error | Decode Error,v_mad_u32_u24,n/a,n/a,
+mixed_loads_16,ok,unsupported,,Executing invalid instruction,ds_store_b32,n/a,n/a,
+mixed_loads_32,ok,unsupported,,Executing invalid instruction,ds_store_b32,n/a,n/a,
+mixed_loads_8,ok,unsupported,,Executing invalid instruction,ds_store_b32,n/a,n/a,
 mixed_xor_c0x2A_add_c0x2A,ok,ok,,,,n/a,n/a,
 mixed_xor_c0x2A_add_c1,ok,ok,,,,n/a,n/a,
 mixed_xor_c0x2A_xor_c0x2A,ok,ok,,,,n/a,n/a,

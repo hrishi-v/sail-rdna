@@ -1,0 +1,7 @@
+hazard_fired,bare_metal,count,meaning
+yes,diverge,277,true_positive
+yes,match,723,compiler_contract_violation_no_observable_corruption
+yes,skip,103,undetermined_skip
+no,diverge,0,missed_hazard
+no,match,0,true_negative
+no,skip,0,undetermined_skip

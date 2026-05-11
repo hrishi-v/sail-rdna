@@ -53,6 +53,7 @@ function execute inst = {
         Inst_V_OR_B32(vd, s0, s1) => v_or_b32(vd, s0, s1),
         Inst_V_XOR_B32(vd, s0, s1) => v_xor_b32(vd, s0, s1),
         Inst_V_MUL_U32_U24(vd, s0, s1) => v_mul_u32_u24(vd, s0, s1),
+        Inst_V_MAD_U32_U24(vd, s0, s1, s2) => v_mad_u32_u24(vd, s0, s1, s2),
         Inst_V_WRITELANE_B32(vd, s0, s1) => v_writelane_b32(vd, s0, s1),
         Inst_V_READLANE_B32(sd, s0, s1) => v_readlane_b32(sd, s0, s1),
         // SMEM

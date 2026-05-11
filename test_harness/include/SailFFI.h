@@ -23,6 +23,12 @@ extern "C"
   uint32_t zrVGPR(uint64_t reg, uint64_t lane_id);
   unit zwVGPR(uint64_t reg, uint64_t lane_id, uint32_t data);
 
+  extern uint64_t zVMCNT;
+  extern uint64_t zVLQ_COUNT;
+  extern uint64_t zPLQ_COUNT;
+  extern uint64_t zDS_PENDING;
+  extern uint64_t zVSCNT;
+
   unit zreset_vmcnt(unit);
   unit zreset_vmq(unit);
   unit zreset_lgkmcnt(unit);

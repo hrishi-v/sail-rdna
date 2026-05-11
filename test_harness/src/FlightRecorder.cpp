@@ -15,8 +15,11 @@ FlightRecorder::FlightRecorder() : mismatch_detected(false) {
 void FlightRecorder::record_instruction_cycle(int cycle, uint64_t pc, uint32_t opcode) {
     char buffer[256];
     snprintf(buffer, sizeof(buffer),
-             "[Cycle %05d] PC: 0x%04llX | Inst: 0x%08X",
-             cycle, (unsigned long long)pc, opcode);
+             "[Cycle %05d] PC: 0x%04llX | Inst: 0x%08X | VMCNT: %llu | VLQ: %llu | PLQ: %llu | DS_PENDING: %llu | VSCNT: %llu",
+             cycle, (unsigned long long)pc, opcode,
+             (unsigned long long)zVMCNT, (unsigned long long)zVLQ_COUNT,
+             (unsigned long long)zPLQ_COUNT, (unsigned long long)zDS_PENDING,
+             (unsigned long long)zVSCNT);
     trace_log.push_back(std::string(buffer));
 }
 

@@ -1,0 +1,7 @@
+hazard_fired,bare_metal,count,meaning
+yes,diverge,4,true_positive
+yes,match,204,contract_violation_runtime_benign
+yes,skip,1059,undetermined_skip
+no,diverge,0,missed_hazard
+no,match,0,true_negative
+no,skip,0,undetermined_skip

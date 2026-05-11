@@ -1,0 +1,190 @@
+payload_size,cache_pressure,fill_type,crossover_n
+b32,0,s_nop 0,23
+b32,0,v_nop,23
+b32,0,"s_add_u32 s4,s4,1",15
+b32,0,"s_and_b32 s4,s4,s4",15
+b32,0,"v_add_f32 v3,v3,v3",13
+b32,0,"v_add_u32 v3,v3,v3",13
+b32,0,"v_mul_f32 v3,v3,v3",13
+b32,0,"v_mov_b32 v3,v3",13
+b32,0,mixed(s_add+v_add_f32)/iter,12
+b32,64,s_nop 0,23
+b32,64,v_nop,23
+b32,64,"s_add_u32 s4,s4,1",15
+b32,64,"s_and_b32 s4,s4,s4",15
+b32,64,"v_add_f32 v3,v3,v3",13
+b32,64,"v_add_u32 v3,v3,v3",13
+b32,64,"v_mul_f32 v3,v3,v3",13
+b32,64,"v_mov_b32 v3,v3",13
+b32,64,mixed(s_add+v_add_f32)/iter,12
+b32,128,s_nop 0,23
+b32,128,v_nop,23
+b32,128,"s_add_u32 s4,s4,1",15
+b32,128,"s_and_b32 s4,s4,s4",15
+b32,128,"v_add_f32 v3,v3,v3",13
+b32,128,"v_add_u32 v3,v3,v3",13
+b32,128,"v_mul_f32 v3,v3,v3",13
+b32,128,"v_mov_b32 v3,v3",13
+b32,128,mixed(s_add+v_add_f32)/iter,12
+b32,256,s_nop 0,23
+b32,256,v_nop,23
+b32,256,"s_add_u32 s4,s4,1",15
+b32,256,"s_and_b32 s4,s4,s4",15
+b32,256,"v_add_f32 v3,v3,v3",13
+b32,256,"v_add_u32 v3,v3,v3",13
+b32,256,"v_mul_f32 v3,v3,v3",13
+b32,256,"v_mov_b32 v3,v3",13
+b32,256,mixed(s_add+v_add_f32)/iter,12
+b32,512,s_nop 0,23
+b32,512,v_nop,23
+b32,512,"s_add_u32 s4,s4,1",15
+b32,512,"s_and_b32 s4,s4,s4",15
+b32,512,"v_add_f32 v3,v3,v3",13
+b32,512,"v_add_u32 v3,v3,v3",13
+b32,512,"v_mul_f32 v3,v3,v3",13
+b32,512,"v_mov_b32 v3,v3",13
+b32,512,mixed(s_add+v_add_f32)/iter,12
+b32,1024,s_nop 0,97
+b32,1024,v_nop,97
+b32,1024,"s_add_u32 s4,s4,1",52
+b32,1024,"s_and_b32 s4,s4,s4",52
+b32,1024,"v_add_f32 v3,v3,v3",28
+b32,1024,"v_add_u32 v3,v3,v3",28
+b32,1024,"v_mul_f32 v3,v3,v3",28
+b32,1024,"v_mov_b32 v3,v3",28
+b32,1024,mixed(s_add+v_add_f32)/iter,28
+b32,2048,s_nop 0,97
+b32,2048,v_nop,97
+b32,2048,"s_add_u32 s4,s4,1",52
+b32,2048,"s_and_b32 s4,s4,s4",52
+b32,2048,"v_add_f32 v3,v3,v3",28
+b32,2048,"v_add_u32 v3,v3,v3",28
+b32,2048,"v_mul_f32 v3,v3,v3",28
+b32,2048,"v_mov_b32 v3,v3",28
+b32,2048,mixed(s_add+v_add_f32)/iter,28
+b64,0,s_nop 0,23
+b64,0,v_nop,23
+b64,0,"s_add_u32 s4,s4,1",15
+b64,0,"s_and_b32 s4,s4,s4",15
+b64,0,"v_add_f32 v3,v3,v3",13
+b64,0,"v_add_u32 v3,v3,v3",13
+b64,0,"v_mul_f32 v3,v3,v3",13
+b64,0,"v_mov_b32 v3,v3",13
+b64,0,mixed(s_add+v_add_f32)/iter,12
+b64,64,s_nop 0,23
+b64,64,v_nop,23
+b64,64,"s_add_u32 s4,s4,1",15
+b64,64,"s_and_b32 s4,s4,s4",15
+b64,64,"v_add_f32 v3,v3,v3",13
+b64,64,"v_add_u32 v3,v3,v3",13
+b64,64,"v_mul_f32 v3,v3,v3",13
+b64,64,"v_mov_b32 v3,v3",13
+b64,64,mixed(s_add+v_add_f32)/iter,12
+b64,128,s_nop 0,23
+b64,128,v_nop,23
+b64,128,"s_add_u32 s4,s4,1",15
+b64,128,"s_and_b32 s4,s4,s4",15
+b64,128,"v_add_f32 v3,v3,v3",13
+b64,128,"v_add_u32 v3,v3,v3",13
+b64,128,"v_mul_f32 v3,v3,v3",13
+b64,128,"v_mov_b32 v3,v3",13
+b64,128,mixed(s_add+v_add_f32)/iter,12
+b64,256,s_nop 0,23
+b64,256,v_nop,23
+b64,256,"s_add_u32 s4,s4,1",15
+b64,256,"s_and_b32 s4,s4,s4",15
+b64,256,"v_add_f32 v3,v3,v3",13
+b64,256,"v_add_u32 v3,v3,v3",13
+b64,256,"v_mul_f32 v3,v3,v3",13
+b64,256,"v_mov_b32 v3,v3",13
+b64,256,mixed(s_add+v_add_f32)/iter,12
+b64,512,s_nop 0,23
+b64,512,v_nop,23
+b64,512,"s_add_u32 s4,s4,1",15
+b64,512,"s_and_b32 s4,s4,s4",15
+b64,512,"v_add_f32 v3,v3,v3",13
+b64,512,"v_add_u32 v3,v3,v3",13
+b64,512,"v_mul_f32 v3,v3,v3",13
+b64,512,"v_mov_b32 v3,v3",13
+b64,512,mixed(s_add+v_add_f32)/iter,12
+b64,1024,s_nop 0,97
+b64,1024,v_nop,97
+b64,1024,"s_add_u32 s4,s4,1",52
+b64,1024,"s_and_b32 s4,s4,s4",52
+b64,1024,"v_add_f32 v3,v3,v3",28
+b64,1024,"v_add_u32 v3,v3,v3",28
+b64,1024,"v_mul_f32 v3,v3,v3",28
+b64,1024,"v_mov_b32 v3,v3",28
+b64,1024,mixed(s_add+v_add_f32)/iter,28
+b64,2048,s_nop 0,97
+b64,2048,v_nop,97
+b64,2048,"s_add_u32 s4,s4,1",52
+b64,2048,"s_and_b32 s4,s4,s4",52
+b64,2048,"v_add_f32 v3,v3,v3",28
+b64,2048,"v_add_u32 v3,v3,v3",28
+b64,2048,"v_mul_f32 v3,v3,v3",28
+b64,2048,"v_mov_b32 v3,v3",28
+b64,2048,mixed(s_add+v_add_f32)/iter,28
+b128,0,s_nop 0,23
+b128,0,v_nop,23
+b128,0,"s_add_u32 s4,s4,1",15
+b128,0,"s_and_b32 s4,s4,s4",15
+b128,0,"v_add_f32 v3,v3,v3",13
+b128,0,"v_add_u32 v3,v3,v3",13
+b128,0,"v_mul_f32 v3,v3,v3",13
+b128,0,"v_mov_b32 v3,v3",13
+b128,0,mixed(s_add+v_add_f32)/iter,12
+b128,64,s_nop 0,23
+b128,64,v_nop,23
+b128,64,"s_add_u32 s4,s4,1",15
+b128,64,"s_and_b32 s4,s4,s4",15
+b128,64,"v_add_f32 v3,v3,v3",13
+b128,64,"v_add_u32 v3,v3,v3",13
+b128,64,"v_mul_f32 v3,v3,v3",13
+b128,64,"v_mov_b32 v3,v3",13
+b128,64,mixed(s_add+v_add_f32)/iter,12
+b128,128,s_nop 0,23
+b128,128,v_nop,23
+b128,128,"s_add_u32 s4,s4,1",15
+b128,128,"s_and_b32 s4,s4,s4",15
+b128,128,"v_add_f32 v3,v3,v3",13
+b128,128,"v_add_u32 v3,v3,v3",13
+b128,128,"v_mul_f32 v3,v3,v3",13
+b128,128,"v_mov_b32 v3,v3",13
+b128,128,mixed(s_add+v_add_f32)/iter,12
+b128,256,s_nop 0,23
+b128,256,v_nop,23
+b128,256,"s_add_u32 s4,s4,1",15
+b128,256,"s_and_b32 s4,s4,s4",15
+b128,256,"v_add_f32 v3,v3,v3",13
+b128,256,"v_add_u32 v3,v3,v3",13
+b128,256,"v_mul_f32 v3,v3,v3",13
+b128,256,"v_mov_b32 v3,v3",13
+b128,256,mixed(s_add+v_add_f32)/iter,12
+b128,512,s_nop 0,23
+b128,512,v_nop,23
+b128,512,"s_add_u32 s4,s4,1",15
+b128,512,"s_and_b32 s4,s4,s4",15
+b128,512,"v_add_f32 v3,v3,v3",13
+b128,512,"v_add_u32 v3,v3,v3",13
+b128,512,"v_mul_f32 v3,v3,v3",13
+b128,512,"v_mov_b32 v3,v3",13
+b128,512,mixed(s_add+v_add_f32)/iter,12
+b128,1024,s_nop 0,97
+b128,1024,v_nop,97
+b128,1024,"s_add_u32 s4,s4,1",52
+b128,1024,"s_and_b32 s4,s4,s4",52
+b128,1024,"v_add_f32 v3,v3,v3",28
+b128,1024,"v_add_u32 v3,v3,v3",28
+b128,1024,"v_mul_f32 v3,v3,v3",28
+b128,1024,"v_mov_b32 v3,v3",28
+b128,1024,mixed(s_add+v_add_f32)/iter,28
+b128,2048,s_nop 0,97
+b128,2048,v_nop,97
+b128,2048,"s_add_u32 s4,s4,1",52
+b128,2048,"s_and_b32 s4,s4,s4",52
+b128,2048,"v_add_f32 v3,v3,v3",28
+b128,2048,"v_add_u32 v3,v3,v3",28
+b128,2048,"v_mul_f32 v3,v3,v3",28
+b128,2048,"v_mov_b32 v3,v3",28
+b128,2048,mixed(s_add+v_add_f32)/iter,28

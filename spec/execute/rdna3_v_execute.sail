@@ -540,6 +540,50 @@ function v_mul_u32_u24(vdst, src0, src1) = {
     }
 }
 
+val v_mad_u32_u24 : (vgpr_idx, vop_src, vop_src, vop_src) -> unit
+function v_mad_u32_u24(vdst, src0, src1, src2) = {
+    let src0_u = unsigned(src0);
+    let src1_u = unsigned(src1);
+    let src2_u = unsigned(src2);
+
+    let op0_common : DWORD = if src0_u <= 255 then {
+        read_vector_source(src0, 0b00000)
+    } else { 0x00000000 };
+    let op1_common : DWORD = if src1_u <= 255 then {
+        read_vector_source(src1, 0b00000)
+    } else { 0x00000000 };
+    let op2_common : DWORD = if src2_u <= 255 then {
+        read_vector_source(src2, 0b00000)
+    } else { 0x00000000 };
+
+    var results : vector(32, dec, bits(32)) = undefined;
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        if EXEC_LO[lane..lane] == 0b1 then {
+            let op0 : DWORD = if src0_u <= 255 then { op0_common } else {
+                rVGPR(get_slice_int(8, src0_u - 256, 0), lane_bv)
+            };
+            let op1 : DWORD = if src1_u <= 255 then { op1_common } else {
+                rVGPR(get_slice_int(8, src1_u - 256, 0), lane_bv)
+            };
+            let op2 : DWORD = if src2_u <= 255 then { op2_common } else {
+                rVGPR(get_slice_int(8, src2_u - 256, 0), lane_bv)
+            };
+            let a24 : int = unsigned(op0[23..0]);
+            let b24 : int = unsigned(op1[23..0]);
+            results[lane] = get_slice_int(32, a24 * b24 + unsigned(op2), 0)
+        } else {
+            results[lane] = rVGPR(vdst, lane_bv)
+        }
+    };
+
+    foreach (lane from 0 to 31) {
+        let lane_bv = get_slice_int(5, lane, 0);
+        wVGPR(vdst, lane_bv, results[lane])
+    }
+}
+
 val v_add_co_ci_u32 : (vgpr_idx, vop_src, vop_src) -> unit
 function v_add_co_ci_u32(vdst, vsrc, src0) = {
     let src0_u = unsigned(src0);

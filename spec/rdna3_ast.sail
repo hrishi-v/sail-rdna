@@ -57,6 +57,7 @@ union ast = {
     Inst_V_OR_B32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_XOR_B32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_MUL_U32_U24 : (vgpr_idx, vop_src, vop_src),
+    Inst_V_MAD_U32_U24 : (vgpr_idx, vop_src, vop_src, vop_src),
     Inst_V_WRITELANE_B32 : (vgpr_idx, vop_src, vop_src),
     Inst_V_READLANE_B32 : (sgpr_idx, vop_src, vop_src),
 
