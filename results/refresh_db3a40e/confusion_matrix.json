@@ -1,0 +1,13 @@
+{
+  "tp": 283,
+  "fp": 879,
+  "fn": 0,
+  "tn": 0,
+  "skip": 105,
+  "precision": 0.24354561101549052,
+  "recall": 1.0,
+  "tested": 1162,
+  "mutants": 1267,
+  "false_alarm_rate_on_originals_num": 0,
+  "false_alarm_rate_on_originals_den": 112
+}

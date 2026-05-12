@@ -1,0 +1,692 @@
+loader: all-mutants
+kernels: 112
+total mutants: 1267
+[1/112] accum_add_16: 10 mutants
+[2/112] accum_add_32: 18 mutants
+[3/112] accum_add_4: 4 mutants
+[4/112] accum_add_64: 36 mutants
+[5/112] accum_add_8: 6 mutants
+[6/112] accum_add_96: 41 mutants
+[7/112] accum_and_16: 17 mutants
+[8/112] accum_and_32: 33 mutants
+[9/112] accum_and_4: 5 mutants
+[10/112] accum_and_64: 68 mutants
+[11/112] accum_and_8: 9 mutants
+[12/112] accum_and_96: 100 mutants
+[13/112] accum_or_16: 10 mutants
+[14/112] accum_or_32: 18 mutants
+[15/112] accum_or_4: 4 mutants
+[16/112] accum_or_64: 36 mutants
+[17/112] accum_or_8: 6 mutants
+[18/112] accum_or_96: 41 mutants
+[19/112] accum_sub_16: 10 mutants
+[20/112] accum_sub_32: 18 mutants
+[21/112] accum_sub_4: 4 mutants
+[22/112] accum_sub_64: 36 mutants
+[23/112] accum_sub_8: 6 mutants
+[24/112] accum_sub_96: 41 mutants
+[25/112] accum_xor_16: 10 mutants
+[26/112] accum_xor_32: 18 mutants
+[27/112] accum_xor_4: 4 mutants
+[28/112] accum_xor_64: 36 mutants
+[29/112] accum_xor_8: 6 mutants
+[30/112] accum_xor_96: 41 mutants
+[31/112] deep_chain_16: 18 mutants
+[32/112] deep_chain_32: 34 mutants
+[33/112] deep_chain_64: 66 mutants
+[34/112] load_compute_store_16: 20 mutants
+[35/112] load_compute_store_4: 6 mutants
+[36/112] load_compute_store_8: 10 mutants
+[37/112] load_overwrite: 1 mutants
+[38/112] loop_accum_add_128: 35 mutants
+[39/112] loop_accum_add_16: 9 mutants
+[40/112] loop_accum_add_32: 17 mutants
+[41/112] loop_accum_add_64: 33 mutants
+[42/112] loop_accum_add_8: 5 mutants
+[43/112] loop_accum_xor_128: 35 mutants
+[44/112] loop_accum_xor_16: 9 mutants
+[45/112] loop_accum_xor_32: 17 mutants
+[46/112] loop_accum_xor_64: 33 mutants
+[47/112] loop_accum_xor_8: 5 mutants
+[48/112] mixed_add_c0x2A_add_c1: 2 mutants
+[49/112] mixed_add_c0x2A_xor_c0x2A: 2 mutants
+[50/112] mixed_add_c0x2A_xor_c1: 2 mutants
+[51/112] mixed_add_c1_add_c0x2A: 2 mutants
+[52/112] mixed_add_c1_add_c1: 2 mutants
+[53/112] mixed_add_c1_xor_c0x2A: 2 mutants
+[54/112] mixed_add_c1_xor_c1: 2 mutants
+[55/112] mixed_xor_c0x2A_add_c0x2A: 2 mutants
+[56/112] mixed_xor_c0x2A_add_c1: 2 mutants
+[57/112] mixed_xor_c0x2A_xor_c0x2A: 2 mutants
+[58/112] mixed_xor_c0x2A_xor_c1: 2 mutants
+[59/112] mixed_xor_c1_add_c0x2A: 2 mutants
+[60/112] mixed_xor_c1_add_c1: 2 mutants
+[61/112] mixed_xor_c1_xor_c0x2A: 2 mutants
+[62/112] mixed_xor_c1_xor_c1: 2 mutants
+[63/112] regs_pressure_32: 32 mutants
+[64/112] regs_pressure_64: 63 mutants
+[65/112] rmw_add_c0x2A: 2 mutants
+[66/112] rmw_add_c1: 2 mutants
+[67/112] rmw_add_c7: 2 mutants
+[68/112] rmw_and_c0x2A: 2 mutants
+[69/112] rmw_and_c1: 2 mutants
+[70/112] rmw_and_c7: 2 mutants
+[71/112] rmw_idx_add_c0x2A_i0: 2 mutants
+[72/112] rmw_idx_add_c0x2A_i1: 2 mutants
+[73/112] rmw_idx_add_c0x2A_i8: 2 mutants
+[74/112] rmw_idx_add_c1_i0: 2 mutants
+[75/112] rmw_idx_add_c1_i1: 2 mutants
+[76/112] rmw_idx_add_c1_i8: 2 mutants
+[77/112] rmw_idx_xor_c0x2A_i0: 2 mutants
+[78/112] rmw_idx_xor_c0x2A_i1: 2 mutants
+[79/112] rmw_idx_xor_c0x2A_i8: 2 mutants
+[80/112] rmw_idx_xor_c1_i0: 2 mutants
+[81/112] rmw_idx_xor_c1_i1: 2 mutants
+[82/112] rmw_idx_xor_c1_i8: 2 mutants
+[83/112] rmw_mul_c0x2A: 2 mutants
+[84/112] rmw_mul_c0xDEAD: 2 mutants
+[85/112] rmw_mul_c1: 2 mutants
+[86/112] rmw_mul_c7: 2 mutants
+[87/112] rmw_or_c0x2A: 2 mutants
+[88/112] rmw_or_c1: 2 mutants
+[89/112] rmw_or_c7: 2 mutants
+[90/112] rmw_sub_c1: 2 mutants
+[91/112] rmw_sub_c7: 2 mutants
+[92/112] rmw_xor_c0x2A: 2 mutants
+[93/112] rmw_xor_c1: 2 mutants
+[94/112] rmw_xor_c7: 2 mutants
+[95/112] store_chain_16: 2 mutants
+[96/112] store_chain_32: 2 mutants
+[97/112] store_chain_4: 2 mutants
+[98/112] store_chain_64: 4 mutants
+[99/112] store_chain_8: 2 mutants
+[100/112] store_then_load: 1 mutants
+[101/112] storeload_c0x2A_c1: 1 mutants
+[102/112] storeload_c0x2A_c7: 1 mutants
+[103/112] storeload_c0xDEAD_c1: 1 mutants
+[104/112] storeload_c0xDEAD_c7: 1 mutants
+[105/112] storeload_c1_c1: 1 mutants
+[106/112] storeload_c1_c7: 1 mutants
+[107/112] two_buf_add: 3 mutants
+[108/112] two_buf_and: 3 mutants
+[109/112] two_buf_mul: 3 mutants
+[110/112] two_buf_or: 3 mutants
+[111/112] two_buf_sub: 3 mutants
+[112/112] two_buf_xor: 3 mutants
+
+Total mutants tested on BM : 1267
+Mutant == original (redundant waitcnt): 879
+Mutant != original (oracle gap)       : 283
+Skipped/error                         : 105
+Skipped kernels                       : 0
+
+--- DIVERGENCES ---
+  accum_add_16 L85:
+    v5 lane00 orig=ead01100 mut=34366fa0 (32 lanes differ)
+  accum_add_16 L90:
+    v5 lane00 orig=ead01100 mut=0c2313e0 (32 lanes differ)
+  accum_add_32 L169:
+    v5 lane00 orig=d5a04200 mut=f6f3b8d1 (32 lanes differ)
+  accum_add_4 L39:
+    v5 lane00 orig=7ab40140 mut=9c070100 (32 lanes differ)
+  accum_add_64 L85:
+    v5 lane00 orig=ab410400 mut=ab411480 (32 lanes differ)
+  accum_add_96 L193:
+    v5 lane00 orig=80e24600 mut=80e24080 (32 lanes differ)
+  accum_and_16 L92:
+    v5 lane00 orig=dead0000 mut=00010000 (32 lanes differ)
+  accum_and_16 L95:
+    v5 lane00 orig=dead0000 mut=1e800000 (32 lanes differ)
+  accum_and_16 L97:
+    v5 lane00 orig=dead0000 mut=00000000 (32 lanes differ)
+  accum_and_4 L39:
+    v5 lane00 orig=dead0000 mut=00000000 (32 lanes differ)
+  accum_or_16 L85:
+    v5 lane00 orig=dead03e0 mut=dfed63f1 (32 lanes differ)
+  accum_or_16 L90:
+    v5 lane00 orig=dead03e0 mut=dead43e0 (32 lanes differ)
+  accum_or_32 L169:
+    v5 lane00 orig=dead07e0 mut=dead73ea (32 lanes differ)
+  accum_or_64 L253:
+    v5 lane00 orig=dead0fe0 mut=dead07e0 (32 lanes differ)
+  accum_sub_16 L85:
+    v5 lane00 orig=152fef00 mut=e7e9905e (32 lanes differ)
+  accum_sub_16 L90:
+    v5 lane00 orig=152fef00 mut=aa68cc40 (32 lanes differ)
+  accum_sub_32 L169:
+    v5 lane00 orig=2a5fbe00 mut=090c4947 (32 lanes differ)
+  accum_sub_4 L39:
+    v5 lane00 orig=854bfec0 mut=63f8ff00 (32 lanes differ)
+  accum_sub_64 L85:
+    v5 lane00 orig=54befc00 mut=54beeb80 (32 lanes differ)
+  accum_sub_64 L253:
+    v5 lane00 orig=54befc00 mut=54bf0400 (32 lanes differ)
+  accum_sub_96 L193:
+    v5 lane00 orig=7f1dba00 mut=7f1dbf80 (32 lanes differ)
+  accum_xor_16 L85:
+    v5 lane00 orig=00000200 mut=81606260 (32 lanes differ)
+  accum_xor_16 L90:
+    v5 lane00 orig=00000200 mut=dead02a0 (32 lanes differ)
+  accum_xor_32 L169:
+    v5 lane00 orig=00000400 mut=dead7c1f (32 lanes differ)
+  accum_xor_4 L39:
+    v5 lane00 orig=00000080 mut=dead00c0 (32 lanes differ)
+  accum_xor_64 L85:
+    v5 lane00 orig=00000800 mut=00000d80 (32 lanes differ)
+  accum_xor_64 L253:
+    v5 lane00 orig=00000800 mut=00000000 (32 lanes differ)
+  accum_xor_96 L193:
+    v5 lane00 orig=00000c00 mut=00000680 (32 lanes differ)
+  deep_chain_16 L15:
+    v5 lane01 orig=dead0021 mut=dead003c (31 lanes differ)
+  deep_chain_16 L24:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L28:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L33:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L37:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L42:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L46:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L51:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L55:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L60:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L64:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L69:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L73:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L78:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L82:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L87:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_16 L97:
+    v5 lane00 orig=dead0020 mut=00100010 (32 lanes differ)
+  deep_chain_32 L15:
+    v5 lane01 orig=dead0021 mut=dead003f (31 lanes differ)
+  deep_chain_32 L24:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L28:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L33:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L37:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L42:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L46:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L51:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L55:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L60:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L64:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L69:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L73:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L78:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L82:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L87:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L91:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L96:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L100:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L105:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L109:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L114:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L118:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L123:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L127:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L132:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L136:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L141:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L145:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L150:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L154:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L159:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_32 L169:
+    v5 lane00 orig=dead0020 mut=c7c35000 (32 lanes differ)
+  deep_chain_64 L15:
+    v5 lane01 orig=dead0021 mut=dead0023 (30 lanes differ)
+  deep_chain_64 L24:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L28:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L33:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L37:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L42:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L46:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L51:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L55:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L60:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L64:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L69:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L73:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L78:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L82:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L87:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L91:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L96:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L100:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L105:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L109:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L114:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L118:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L123:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L127:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L132:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L136:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L141:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L145:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L150:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L154:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L159:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L163:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L168:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L172:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L177:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L181:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L186:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L190:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L195:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L199:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L204:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L208:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L213:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L217:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L222:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L226:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L231:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L235:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L240:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L244:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L249:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L253:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L258:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L262:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L267:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L271:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L276:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L280:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L285:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L289:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L294:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L298:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L303:
+    v5 lane01 orig=dead0021 mut=dead0024 (31 lanes differ)
+  deep_chain_64 L313:
+    v5 lane00 orig=dead0020 mut=3f800000 (32 lanes differ)
+  load_compute_store_16 L40:
+    v5 lane00 orig=00000210 mut=f3cd2270 (32 lanes differ)
+  load_compute_store_16 L135:
+    v5 lane00 orig=00000210 mut=ae8df010 (32 lanes differ)
+  load_compute_store_4 L49:
+    v5 lane00 orig=00000084 mut=92cd3004 (32 lanes differ)
+  load_compute_store_8 L77:
+    v5 lane00 orig=00000108 mut=fe8d7008 (32 lanes differ)
+  load_overwrite L15:
+    v5 lane00 orig=0000002a mut=dead0000 (32 lanes differ)
+  loop_accum_add_128 L15:
+    v5 lane00 orig=dead0020 mut=fc600000 (32 lanes differ)
+  loop_accum_add_16 L15:
+    v5 lane00 orig=dead0020 mut=91c00000 (32 lanes differ)
+  loop_accum_add_16 L44:
+    v5 lane00 orig=dead0020 mut=7f000000 (32 lanes differ)
+  loop_accum_add_16 L46:
+    v5 lane00 orig=dead0020 mut=dead0022 (32 lanes differ)
+  loop_accum_add_16 L49:
+    v5 lane00 orig=dead0020 mut=5dad0020 (16 lanes differ)
+  loop_accum_add_32 L15:
+    v5 lane00 orig=dead0020 mut=b4a00000 (32 lanes differ)
+  loop_accum_add_32 L60:
+    v5 lane00 orig=dead0020 mut=1e2d0020 (24 lanes differ)
+  loop_accum_add_32 L62:
+    v5 lane00 orig=dead0020 mut=1e2d0020 (24 lanes differ)
+  loop_accum_add_32 L82:
+    v5 lane00 orig=dead0020 mut=1e2d0020 (24 lanes differ)
+  loop_accum_add_32 L85:
+    v5 lane00 orig=dead0020 mut=dead0060 (32 lanes differ)
+  loop_accum_add_32 L87:
+    v5 lane00 orig=dead0020 mut=1e2d0020 (16 lanes differ)
+  loop_accum_add_32 L90:
+    v5 lane00 orig=dead0020 mut=dead0021 (32 lanes differ)
+  loop_accum_add_32 L95:
+    v5 lane00 orig=dead0020 mut=deae7ed6 (32 lanes differ)
+  loop_accum_add_64 L15:
+    v5 lane00 orig=dead0020 mut=6ec00000 (32 lanes differ)
+  loop_accum_add_8 L15:
+    v5 lane00 orig=dead0020 mut=29c00000 (32 lanes differ)
+  loop_accum_add_8 L36:
+    v5 lane00 orig=dead0020 mut=8b1d37b8 (32 lanes differ)
+  loop_accum_add_8 L38:
+    v5 lane00 orig=dead0020 mut=6d5713b3 (32 lanes differ)
+  loop_accum_xor_128 L15:
+    v5 lane00 orig=dead0020 mut=7d800000 (32 lanes differ)
+  loop_accum_xor_16 L15:
+    v5 lane00 orig=dead0020 mut=55000000 (32 lanes differ)
+  loop_accum_xor_16 L44:
+    v5 lane00 orig=dead0020 mut=00000000 (32 lanes differ)
+  loop_accum_xor_16 L46:
+    v5 lane00 orig=dead0020 mut=de4ea2c9 (24 lanes differ)
+  loop_accum_xor_32 L15:
+    v5 lane00 orig=dead0020 mut=a6200000 (32 lanes differ)
+  loop_accum_xor_32 L60:
+    v5 lane00 orig=dead0020 mut=00000000 (32 lanes differ)
+  loop_accum_xor_32 L80:
+    v5 lane00 orig=dead0020 mut=dfc80860 (32 lanes differ)
+  loop_accum_xor_32 L82:
+    v5 lane00 orig=dead0020 mut=dead1820 (32 lanes differ)
+  loop_accum_xor_32 L85:
+    v5 lane00 orig=dead0020 mut=e046d2b8 (32 lanes differ)
+  loop_accum_xor_64 L15:
+    v5 lane00 orig=dead0020 mut=31000000 (32 lanes differ)
+  loop_accum_xor_8 L15:
+    v5 lane00 orig=dead0020 mut=58e00000 (32 lanes differ)
+  loop_accum_xor_8 L36:
+    v5 lane00 orig=dead0020 mut=88fc36a0 (32 lanes differ)
+  loop_accum_xor_8 L38:
+    v5 lane00 orig=dead0020 mut=900c8a53 (32 lanes differ)
+  mixed_add_c0x2A_add_c1 L15:
+    v5 lane00 orig=dead004b mut=6560002b (32 lanes differ)
+  mixed_add_c0x2A_add_c1 L28:
+    v5 lane00 orig=dead004b mut=8e20102b (32 lanes differ)
+  mixed_add_c0x2A_xor_c0x2A L15:
+    v5 lane00 orig=dead0060 mut=c1600000 (32 lanes differ)
+  mixed_add_c0x2A_xor_c0x2A L28:
+    v5 lane00 orig=dead0060 mut=19201000 (32 lanes differ)
+  mixed_add_c0x2A_xor_c1 L15:
+    v5 lane00 orig=dead004b mut=ece0002b (32 lanes differ)
+  mixed_add_c0x2A_xor_c1 L28:
+    v5 lane00 orig=dead004b mut=1900102b (32 lanes differ)
+  mixed_add_c1_add_c0x2A L15:
+    v5 lane00 orig=dead004b mut=b240002b (32 lanes differ)
+  mixed_add_c1_add_c0x2A L28:
+    v5 lane00 orig=dead004b mut=0ec0102b (32 lanes differ)
+  mixed_add_c1_add_c1 L15:
+    v5 lane00 orig=dead0022 mut=60200002 (32 lanes differ)
+  mixed_add_c1_add_c1 L28:
+    v5 lane00 orig=dead0022 mut=65c01002 (32 lanes differ)
+  mixed_add_c1_xor_c0x2A L15:
+    v5 lane00 orig=dead000b mut=8960002b (32 lanes differ)
+  mixed_add_c1_xor_c0x2A L28:
+    v5 lane00 orig=dead000b mut=0040102b (32 lanes differ)
+  mixed_add_c1_xor_c1 L15:
+    v5 lane00 orig=dead0020 mut=d0200000 (32 lanes differ)
+  mixed_add_c1_xor_c1 L28:
+    v5 lane00 orig=dead0020 mut=89c01000 (32 lanes differ)
+  mixed_xor_c0x2A_add_c0x2A L15:
+    v5 lane00 orig=dead0034 mut=44400054 (32 lanes differ)
+  mixed_xor_c0x2A_add_c0x2A L28:
+    v5 lane00 orig=dead0034 mut=72801054 (32 lanes differ)
+  mixed_xor_c0x2A_add_c1 L15:
+    v5 lane00 orig=dead000b mut=baa0002b (32 lanes differ)
+  mixed_xor_c0x2A_add_c1 L28:
+    v5 lane00 orig=dead000b mut=eac0102b (32 lanes differ)
+  mixed_xor_c0x2A_xor_c0x2A L15:
+    v5 lane00 orig=dead0020 mut=78200000 (32 lanes differ)
+  mixed_xor_c0x2A_xor_c0x2A L28:
+    v5 lane00 orig=dead0020 mut=fa401000 (32 lanes differ)
+  mixed_xor_c0x2A_xor_c1 L15:
+    v5 lane00 orig=dead000b mut=65a0002b (32 lanes differ)
+  mixed_xor_c0x2A_xor_c1 L28:
+    v5 lane00 orig=dead000b mut=02c0102b (32 lanes differ)
+  mixed_xor_c1_add_c0x2A L15:
+    v5 lane00 orig=dead004b mut=19c0002b (32 lanes differ)
+  mixed_xor_c1_add_c0x2A L28:
+    v5 lane00 orig=dead004b mut=9d00102b (32 lanes differ)
+  mixed_xor_c1_add_c1 L15:
+    v5 lane00 orig=dead0022 mut=ae800002 (32 lanes differ)
+  mixed_xor_c1_add_c1 L28:
+    v5 lane00 orig=dead0022 mut=fa401002 (32 lanes differ)
+  mixed_xor_c1_xor_c0x2A L15:
+    v5 lane00 orig=dead000b mut=75c0002b (32 lanes differ)
+  mixed_xor_c1_xor_c0x2A L28:
+    v5 lane00 orig=dead000b mut=2aa0102b (32 lanes differ)
+  mixed_xor_c1_xor_c1 L15:
+    v5 lane00 orig=dead0020 mut=99c00000 (32 lanes differ)
+  mixed_xor_c1_xor_c1 L28:
+    v5 lane00 orig=dead0020 mut=44201000 (32 lanes differ)
+  regs_pressure_32 L15:
+    v5 lane00 orig=00000060 mut=00000020 (32 lanes differ)
+  regs_pressure_32 L64:
+    v5 lane00 orig=00000060 mut=00000061 (32 lanes differ)
+  rmw_add_c0x2A L15:
+    v5 lane00 orig=dead002a mut=00030b2c (32 lanes differ)
+  rmw_add_c0x2A L26:
+    v5 lane00 orig=dead002a mut=0000002a (32 lanes differ)
+  rmw_add_c1 L15:
+    v5 lane00 orig=dead0001 mut=00030b03 (32 lanes differ)
+  rmw_add_c1 L26:
+    v5 lane00 orig=dead0001 mut=00000001 (32 lanes differ)
+  rmw_add_c7 L15:
+    v5 lane00 orig=dead0007 mut=00030b09 (32 lanes differ)
+  rmw_add_c7 L26:
+    v5 lane00 orig=dead0007 mut=00000007 (32 lanes differ)
+  rmw_and_c0x2A L15:
+    v5 lane00 orig=00000000 mut=00000002 (27 lanes differ)
+  rmw_and_c0x2A L26:
+    v5 lane02 orig=00000002 mut=00000000 (24 lanes differ)
+  rmw_and_c1 L15:
+    v5 lane01 orig=00000001 mut=00000000 (18 lanes differ)
+  rmw_and_c1 L26:
+    v5 lane01 orig=00000001 mut=00000000 (16 lanes differ)
+  rmw_and_c7 L15:
+    v5 lane00 orig=00000000 mut=00000002 (29 lanes differ)
+  rmw_and_c7 L26:
+    v5 lane01 orig=00000001 mut=00000000 (28 lanes differ)
+  rmw_idx_add_c0x2A_i0 L15:
+    v5 lane00 orig=dead002a mut=32c0002a (32 lanes differ)
+  rmw_idx_add_c0x2A_i0 L17:
+    v5 lane00 orig=dead002a mut=0000006a (32 lanes differ)
+  rmw_idx_add_c0x2A_i1 L15:
+    v5 lane00 orig=dead002b mut=00007b02 (32 lanes differ)
+  rmw_idx_add_c0x2A_i1 L17:
+    v5 lane00 orig=dead002b mut=0000008a (32 lanes differ)
+  rmw_idx_add_c0x2A_i8 L15:
+    v5 lane00 orig=dead0032 mut=0000002a (32 lanes differ)
+  rmw_idx_add_c0x2A_i8 L17:
+    v5 lane00 orig=dead0032 mut=0000725f (32 lanes differ)
+  rmw_idx_add_c1_i0 L15:
+    v5 lane00 orig=dead0001 mut=b4400001 (32 lanes differ)
+  rmw_idx_add_c1_i0 L17:
+    v5 lane00 orig=dead0001 mut=0a410015 (32 lanes differ)
+  rmw_idx_add_c1_i1 L15:
+    v5 lane00 orig=dead0002 mut=000078a2 (32 lanes differ)
+  rmw_idx_add_c1_i1 L17:
+    v5 lane00 orig=dead0002 mut=3f27f462 (32 lanes differ)
+  rmw_idx_add_c1_i8 L15:
+    v5 lane00 orig=dead0009 mut=00000001 (32 lanes differ)
+  rmw_idx_add_c1_i8 L17:
+    v5 lane00 orig=dead0009 mut=31f11212 (32 lanes differ)
+  rmw_idx_xor_c0x2A_i0 L15:
+    v5 lane00 orig=dead002a mut=e860002a (32 lanes differ)
+  rmw_idx_xor_c0x2A_i0 L17:
+    v5 lane00 orig=dead002a mut=324d886f (32 lanes differ)
+  rmw_idx_xor_c0x2A_i1 L15:
+    v5 lane00 orig=dead002b mut=00007703 (32 lanes differ)
+  rmw_idx_xor_c0x2A_i1 L17:
+    v5 lane00 orig=dead002b mut=3655807b (32 lanes differ)
+  rmw_idx_xor_c0x2A_i8 L15:
+    v5 lane00 orig=dead0022 mut=0000002a (32 lanes differ)
+  rmw_idx_xor_c0x2A_i8 L17:
+    v5 lane00 orig=dead0022 mut=0a41002a (32 lanes differ)
+  rmw_idx_xor_c1_i0 L15:
+    v5 lane00 orig=dead0001 mut=72200001 (32 lanes differ)
+  rmw_idx_xor_c1_i0 L17:
+    v5 lane00 orig=dead0001 mut=dead0009 (32 lanes differ)
+  rmw_idx_xor_c1_i1 L15:
+    v5 lane00 orig=dead0000 mut=000076d8 (32 lanes differ)
+  rmw_idx_xor_c1_i1 L17:
+    v5 lane00 orig=dead0000 mut=0a410045 (32 lanes differ)
+  rmw_idx_xor_c1_i8 L15:
+    v5 lane00 orig=dead0009 mut=00000001 (32 lanes differ)
+  rmw_idx_xor_c1_i8 L17:
+    v5 lane00 orig=dead0009 mut=1f27f4e0 (32 lanes differ)
+  rmw_mul_c0x2A L15:
+    v5 lane00 orig=88620000 mut=007fce54 (32 lanes differ)
+  rmw_mul_c0x2A L26:
+    v5 lane00 orig=88620000 mut=00000000 (32 lanes differ)
+  rmw_mul_c0xDEAD L15:
+    v5 lane00 orig=80e90000 mut=a59a2c5a (32 lanes differ)
+  rmw_mul_c0xDEAD L26:
+    v5 lane00 orig=80e90000 mut=00000000 (32 lanes differ)
+  rmw_mul_c1 L15:
+    v5 lane00 orig=dead0000 mut=00030b02 (32 lanes differ)
+  rmw_mul_c1 L26:
+    v5 lane00 orig=dead0000 mut=5ca00000 (32 lanes differ)
+  rmw_mul_c7 L15:
+    v5 lane00 orig=16bb0000 mut=00154d0e (32 lanes differ)
+  rmw_mul_c7 L26:
+    v5 lane00 orig=16bb0000 mut=00000000 (32 lanes differ)
+  rmw_or_c0x2A L15:
+    v5 lane00 orig=dead002a mut=00030b2a (32 lanes differ)
+  rmw_or_c0x2A L26:
+    v5 lane00 orig=dead002a mut=0000002a (32 lanes differ)
+  rmw_or_c1 L15:
+    v5 lane00 orig=dead0001 mut=00030b03 (32 lanes differ)
+  rmw_or_c1 L26:
+    v5 lane00 orig=dead0001 mut=00000001 (32 lanes differ)
+  rmw_or_c7 L15:
+    v5 lane00 orig=dead0007 mut=00030b07 (32 lanes differ)
+  rmw_or_c7 L26:
+    v5 lane00 orig=dead0007 mut=00000007 (32 lanes differ)
+  rmw_sub_c1 L15:
+    v5 lane00 orig=deacffff mut=00030b01 (32 lanes differ)
+  rmw_sub_c1 L26:
+    v5 lane00 orig=deacffff mut=ffffffff (32 lanes differ)
+  rmw_sub_c7 L15:
+    v5 lane00 orig=deacfff9 mut=00030afb (32 lanes differ)
+  rmw_sub_c7 L26:
+    v5 lane00 orig=deacfff9 mut=fffffff9 (32 lanes differ)
+  rmw_xor_c0x2A L15:
+    v5 lane00 orig=dead002a mut=00030b28 (32 lanes differ)
+  rmw_xor_c0x2A L26:
+    v5 lane00 orig=dead002a mut=0000002a (32 lanes differ)
+  rmw_xor_c1 L15:
+    v5 lane00 orig=dead0001 mut=00030b03 (32 lanes differ)
+  rmw_xor_c1 L26:
+    v5 lane00 orig=dead0001 mut=00000001 (32 lanes differ)
+  rmw_xor_c7 L15:
+    v5 lane00 orig=dead0007 mut=00030b05 (32 lanes differ)
+  rmw_xor_c7 L26:
+    v5 lane00 orig=dead0007 mut=00000007 (32 lanes differ)
+  store_then_load L15:
+    v5 lane00 orig=0000002a mut=dead0000 (32 lanes differ)
+  storeload_c0x2A_c1 L15:
+    v5 lane00 orig=0000002b mut=dead0000 (32 lanes differ)
+  storeload_c0x2A_c7 L15:
+    v5 lane00 orig=00000031 mut=dead0000 (32 lanes differ)
+  storeload_c0xDEAD_c1 L15:
+    v5 lane00 orig=0000deae mut=dead0000 (32 lanes differ)
+  storeload_c0xDEAD_c7 L15:
+    v5 lane00 orig=0000deb4 mut=dead0000 (32 lanes differ)
+  storeload_c1_c1 L15:
+    v5 lane00 orig=00000002 mut=dead0000 (32 lanes differ)
+  storeload_c1_c7 L15:
+    v5 lane00 orig=00000008 mut=dead0000 (32 lanes differ)
+  two_buf_add L33:
+    v5 lane00 orig=bd5a0060 mut=d5408514 (32 lanes differ)
+  two_buf_and L33:
+    v5 lane00 orig=dead0000 mut=00001000 (32 lanes differ)
+  two_buf_mul L33:
+    v5 lane00 orig=80e00800 mut=260e2000 (32 lanes differ)
+  two_buf_or L33:
+    v5 lane00 orig=dead0060 mut=1ac07cf5 (32 lanes differ)
+  two_buf_sub L33:
+    v5 lane00 orig=ffffffe0 mut=b0df9911 (32 lanes differ)
+  two_buf_xor L33:
+    v5 lane00 orig=00000060 mut=b12063d6 (32 lanes differ)
+
+Results CSV: /home/hrishi/Documents/sail-rdna/tests/mutation/bare_metal_diff.csv
+Elapsed: 729s
