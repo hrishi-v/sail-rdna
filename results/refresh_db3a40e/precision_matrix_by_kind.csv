@@ -1,0 +1,13 @@
+waitcnt_kind,hazard_fired,bare_metal,count,meaning
+lgkmcnt,yes,diverge,76,true_positive
+lgkmcnt,yes,match,41,contract_violation_runtime_benign
+lgkmcnt,yes,skip,78,undetermined_skip
+lgkmcnt,no,diverge,0,missed_hazard
+lgkmcnt,no,match,0,true_negative
+lgkmcnt,no,skip,0,undetermined_skip
+vmcnt,yes,diverge,207,true_positive
+vmcnt,yes,match,838,contract_violation_runtime_benign
+vmcnt,yes,skip,27,undetermined_skip
+vmcnt,no,diverge,0,missed_hazard
+vmcnt,no,match,0,true_negative
+vmcnt,no,skip,0,undetermined_skip

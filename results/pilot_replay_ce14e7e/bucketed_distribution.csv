@@ -1,0 +1,9 @@
+bucket,kind,count
+0,lgkmcnt,2
+0,vmcnt,34
+"(0, 0.1]",lgkmcnt,0
+"(0, 0.1]",vmcnt,3
+"(0.1, 0.9]",lgkmcnt,0
+"(0.1, 0.9]",vmcnt,7
+"(0.9, 1]",lgkmcnt,3
+"(0.9, 1]",vmcnt,2

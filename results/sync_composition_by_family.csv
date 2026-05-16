@@ -1,0 +1,17 @@
+family,kernels,vmcnt_total,vmcnt_n0,vmcnt_partial,lgkmcnt_total,lgkmcnt_n0,lgkmcnt_partial,vscnt_total,vscnt_n0,vscnt_partial
+accum_n_distinct,30,627,60,567,125,125,0,60,60,0
+loop_accum,10,198,20,178,20,20,0,20,20,0
+deep_chain,3,118,118,0,6,6,0,6,6,0
+regs_pressure,3,159,6,153,6,6,0,6,6,0
+rmw,24,48,48,0,48,48,0,48,48,0
+rmw_idx,12,24,24,0,24,24,0,24,24,0
+two_buf,6,12,12,0,18,18,0,12,12,0
+mixed_const,16,32,32,0,32,32,0,32,32,0
+load_compute_store,3,31,31,0,11,11,0,6,6,0
+store_chain,5,5,5,0,17,17,0,10,10,0
+store_reload,6,6,6,0,12,12,0,12,12,0
+store_then_load,1,1,1,0,2,2,0,2,2,0
+load_overwrite,1,1,1,0,2,2,0,2,2,0
+fanout,1,2,2,0,2,2,0,2,2,0
+mixed_loads,3,56,6,50,62,12,50,6,6,0
+Total,124,1320,372,948,387,337,50,248,248,0

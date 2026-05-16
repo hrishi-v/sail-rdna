@@ -1,0 +1,15 @@
+family,n_kernels,n_mutants,mutants_caught,mutants_caught_pct,bm_tested,bm_diverged,bm_benign,bm_skip,n_unmodified,unmodified_clean_pct
+accum_n_distinct,30,692,692,100.0,639,28,611,53,30,100.0
+deep_chain,3,118,118,100.0,115,115,0,3,3,100.0
+load_compute_store,3,36,36,100.0,9,4,5,27,3,100.0
+load_overwrite,1,1,1,100.0,1,1,0,0,1,100.0
+loop_accum,10,198,198,100.0,198,30,168,0,10,100.0
+mixed_const,15,30,30,100.0,30,30,0,0,15,100.0
+regs_pressure,2,95,95,100.0,95,2,93,0,2,100.0
+rmw,18,36,36,100.0,36,36,0,0,18,100.0
+rmw_idx,12,24,24,100.0,24,24,0,0,12,100.0
+store_chain,5,12,12,100.0,2,0,2,10,5,100.0
+store_reload,6,6,6,100.0,6,6,0,0,6,100.0
+store_then_load,1,1,1,100.0,1,1,0,0,1,100.0
+two_buf,6,18,18,100.0,6,6,0,12,6,100.0
+TOTAL,112,1267,1267,100.0,1162,283,879,105,112,100.0

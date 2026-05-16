@@ -1,0 +1,11 @@
+mutant,variant,n_distinct,mean_launch_ms,max_launch_ms,median_divergent_lanes,projected_full_sweep_walltime_hours
+accum_add_16 L80,baseline,1,138.6,152.9,0,8.95
+accum_add_16 L80,B,1,138.5,145.2,0,8.94
+accum_add_16 L80,C,1,138.4,144.2,0,8.93
+accum_add_16 L80,D,1,138.3,143.1,0,8.93
+accum_add_16 L80,E,1,139.0,146.0,0,8.97
+accum_add_16 L85,baseline,20,138.5,144.9,32,8.94
+accum_add_16 L85,B,20,138.5,144.0,32,8.94
+accum_add_16 L85,C,20,137.6,144.0,32,8.89
+accum_add_16 L85,D,20,138.1,142.9,32,8.92
+accum_add_16 L85,E,20,138.7,148.2,32,8.95

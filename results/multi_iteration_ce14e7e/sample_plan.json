@@ -1,0 +1,261 @@
+{
+  "boundary_match_to_diverge": [
+    {
+      "kernel": "accum_or_64",
+      "line": 253,
+      "kind": "lgkmcnt"
+    },
+    {
+      "kernel": "accum_sub_64",
+      "line": 253,
+      "kind": "lgkmcnt"
+    },
+    {
+      "kernel": "accum_xor_64",
+      "line": 253,
+      "kind": "lgkmcnt"
+    },
+    {
+      "kernel": "deep_chain_32",
+      "line": 169,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "deep_chain_64",
+      "line": 168,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "loop_accum_add_16",
+      "line": 49,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "loop_accum_add_32",
+      "line": 60,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "loop_accum_add_32",
+      "line": 62,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "loop_accum_add_32",
+      "line": 90,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "loop_accum_xor_32",
+      "line": 80,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "loop_accum_xor_32",
+      "line": 82,
+      "kind": "vmcnt"
+    }
+  ],
+  "random_stable_match": [
+    {
+      "kernel": "accum_add_32",
+      "line": 157,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_add_96",
+      "line": 432,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_and_16",
+      "line": 110,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_and_32",
+      "line": 164,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_and_32",
+      "line": 182,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_and_4",
+      "line": 44,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_and_64",
+      "line": 323,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_and_64",
+      "line": 345,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_and_64",
+      "line": 375,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_and_64",
+      "line": 420,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_and_8",
+      "line": 63,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_and_96",
+      "line": 478,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_or_16",
+      "line": 95,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_or_32",
+      "line": 147,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_or_64",
+      "line": 295,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_or_64",
+      "line": 330,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_or_64",
+      "line": 337,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_sub_64",
+      "line": 265,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_sub_64",
+      "line": 307,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_sub_64",
+      "line": 310,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_sub_64",
+      "line": 320,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_sub_64",
+      "line": 322,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_sub_64",
+      "line": 335,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_sub_96",
+      "line": 151,
+      "kind": "lgkmcnt"
+    },
+    {
+      "kernel": "accum_sub_96",
+      "line": 477,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "accum_xor_96",
+      "line": 410,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "load_compute_store_4",
+      "line": 41,
+      "kind": "lgkmcnt"
+    },
+    {
+      "kernel": "loop_accum_add_128",
+      "line": 273,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "loop_accum_add_64",
+      "line": 123,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "loop_accum_add_64",
+      "line": 163,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "loop_accum_add_64",
+      "line": 166,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "loop_accum_xor_128",
+      "line": 238,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "loop_accum_xor_128",
+      "line": 281,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "loop_accum_xor_128",
+      "line": 286,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "loop_accum_xor_32",
+      "line": 62,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "regs_pressure_32",
+      "line": 99,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "regs_pressure_64",
+      "line": 136,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "regs_pressure_64",
+      "line": 151,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "regs_pressure_64",
+      "line": 166,
+      "kind": "vmcnt"
+    },
+    {
+      "kernel": "regs_pressure_64",
+      "line": 216,
+      "kind": "vmcnt"
+    }
+  ]
+}

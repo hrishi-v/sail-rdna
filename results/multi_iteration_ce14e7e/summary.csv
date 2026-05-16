@@ -1,0 +1,13 @@
+statistic,value
+n_boundary,11
+n_random_stable,40
+boundary_mean_flip,0.549091
+boundary_n_flip_pos,11
+random_stable_mean_flip,0.017750
+random_stable_n_flip_pos,3
+random_stable_pooled_rate,0.017750
+random_stable_pooled_ci_lo,0.014097
+random_stable_pooled_ci_hi,0.022329
+adjusted_long_run_divergence_point,0.257419
+adjusted_long_run_divergence_ci_lo,0.254657
+adjusted_long_run_divergence_ci_hi,0.260881
